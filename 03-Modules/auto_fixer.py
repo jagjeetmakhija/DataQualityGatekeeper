@@ -178,6 +178,22 @@ def auto_fix_data(input_file, output_file, audit_file):
     # Save audit log
     print(f"📝 Saving audit log to: {audit_file}")
     Path(audit_file).parent.mkdir(parents=True, exist_ok=True)
+    
+    # Convert numpy types to native Python types
+    def convert_types(obj):
+        import numpy as np
+        if isinstance(obj, dict):
+            return {k: convert_types(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_types(item) for item in obj]
+        elif isinstance(obj, (np.integer, np.int64)):
+            return int(obj)
+        elif isinstance(obj, (np.floating, np.float64)):
+            return float(obj)
+        return obj
+    
+    audit = convert_types(audit)
+    
     with open(audit_file, 'w') as f:
         json.dump(audit, f, indent=2)
     

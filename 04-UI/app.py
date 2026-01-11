@@ -146,7 +146,7 @@ def upload_file():
 
 @app.route('/run-pipeline', methods=['POST'])
 def run_pipeline():
-    """Execute the pipeline on selected file"""
+    """Execute the pipeline on selected file using Python modules directly"""
     filename = request.form.get('filename')
     
     if not filename:
@@ -160,22 +160,36 @@ def run_pipeline():
         return redirect(url_for('dashboard'))
     
     try:
-        # Run the pipeline script
-        script_path = os.path.abspath('../01-Scripts/RUN-ALL-CLEAN.ps1')
-        abs_filepath = os.path.abspath(filepath)
+        # Step 1: Auto-fix data
+        auto_fixer_script = os.path.abspath('../03-Modules/auto_fixer.py')
+        cleaned_file = os.path.abspath('../05-Outputs/cleaned-data.csv')
+        audit_file = os.path.abspath('../05-Outputs/autofix-audit/audit-log.json')
         
-        # Execute PowerShell script
-        result = subprocess.run(
-            ['powershell', '-ExecutionPolicy', 'Bypass', '-File', script_path, '-InputFile', abs_filepath],
+        result_autofix = subprocess.run(
+            ['python', auto_fixer_script, filepath, cleaned_file, audit_file],
             capture_output=True,
-            text=True,
-            cwd='../01-Scripts'
+            text=True
         )
         
-        if result.returncode == 0:
-            flash(f'Pipeline executed successfully on {filename}', 'success')
+        if result_autofix.returncode != 0:
+            flash(f'Auto-fix failed: {result_autofix.stderr}', 'error')
+            return redirect(url_for('dashboard'))
+        
+        # Step 2: Validate data
+        validator_script = os.path.abspath('../03-Modules/validator.py')
+        schema_file = os.path.abspath('../02-Schema/schema.json')
+        report_file = os.path.abspath('../05-Outputs/validation-reports/report.json')
+        
+        result_validate = subprocess.run(
+            ['python', validator_script, cleaned_file, schema_file, report_file],
+            capture_output=True,
+            text=True
+        )
+        
+        if result_validate.returncode == 0:
+            flash(f'Pipeline executed successfully on {filename}! ✅ Validation PASSED', 'success')
         else:
-            flash(f'Pipeline execution failed. Check console for errors.', 'error')
+            flash(f'Pipeline completed. ⚠️ Validation has warnings. Check report.', 'warning')
             
     except Exception as e:
         flash(f'Error executing pipeline: {str(e)}', 'error')
