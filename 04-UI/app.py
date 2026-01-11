@@ -160,31 +160,58 @@ def run_pipeline():
         return redirect(url_for('dashboard'))
     
     try:
+        # Get the parent directory (Phase1-LocalInsights or LocalAIAgent-Phase1)
+        app_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        
+        # Convert relative filepath to absolute
+        filepath = os.path.abspath(filepath)
+        
         # Step 1: Auto-fix data
-        auto_fixer_script = os.path.abspath('../03-Modules/auto_fixer.py')
-        cleaned_file = os.path.abspath('../05-Outputs/cleaned-data.csv')
-        audit_file = os.path.abspath('../05-Outputs/autofix-audit/audit-log.json')
+        auto_fixer_script = os.path.join(app_dir, '03-Modules', 'auto_fixer.py')
+        output_dir = os.path.join(app_dir, '05-Outputs')
+        os.makedirs(output_dir, exist_ok=True)
+        os.makedirs(os.path.join(output_dir, 'autofix-audit'), exist_ok=True)
+        os.makedirs(os.path.join(output_dir, 'validation-reports'), exist_ok=True)
+        
+        cleaned_file = os.path.join(output_dir, 'cleaned-data.csv')
+        audit_file = os.path.join(output_dir, 'autofix-audit', 'audit-log.json')
+        
+        print(f"[APP] Running auto-fixer on: {filepath}")
+        print(f"[APP] Script location: {auto_fixer_script}")
         
         result_autofix = subprocess.run(
             ['python', auto_fixer_script, filepath, cleaned_file, audit_file],
             capture_output=True,
-            text=True
+            text=True,
+            cwd=app_dir
         )
+        
+        print(f"[APP] Auto-fixer stdout: {result_autofix.stdout}")
+        print(f"[APP] Auto-fixer stderr: {result_autofix.stderr}")
+        print(f"[APP] Auto-fixer return code: {result_autofix.returncode}")
         
         if result_autofix.returncode != 0:
             flash(f'Auto-fix failed: {result_autofix.stderr}', 'error')
             return redirect(url_for('dashboard'))
         
         # Step 2: Validate data
-        validator_script = os.path.abspath('../03-Modules/validator.py')
-        schema_file = os.path.abspath('../02-Schema/schema.json')
-        report_file = os.path.abspath('../05-Outputs/validation-reports/report.json')
+        validator_script = os.path.join(app_dir, '03-Modules', 'validator.py')
+        schema_file = os.path.join(app_dir, '02-Schema', 'schema.json')
+        report_file = os.path.join(output_dir, 'validation-reports', 'report.json')
+        
+        print(f"[APP] Running validator on: {cleaned_file}")
+        print(f"[APP] Schema location: {schema_file}")
         
         result_validate = subprocess.run(
             ['python', validator_script, cleaned_file, schema_file, report_file],
             capture_output=True,
-            text=True
+            text=True,
+            cwd=app_dir
         )
+        
+        print(f"[APP] Validator stdout: {result_validate.stdout}")
+        print(f"[APP] Validator stderr: {result_validate.stderr}")
+        print(f"[APP] Validator return code: {result_validate.returncode}")
         
         if result_validate.returncode == 0:
             flash(f'Pipeline executed successfully on {filename}! ✅ Validation PASSED', 'success')
@@ -192,6 +219,7 @@ def run_pipeline():
             flash(f'Pipeline completed. ⚠️ Validation has warnings. Check report.', 'warning')
             
     except Exception as e:
+        print(f"[APP] Exception: {str(e)}")
         flash(f'Error executing pipeline: {str(e)}', 'error')
     
     return redirect(url_for('dashboard'))
