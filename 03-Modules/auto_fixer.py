@@ -107,8 +107,7 @@ def deduplicate(df, id_column='OpportunityID'):
 
 def auto_fix_data(input_file, output_file, audit_file):
     """Main auto-fix pipeline"""
-    
-    print(f"📂 Loading data from: {input_file}")
+    print(f"Loading data from: {input_file}")
     
     # Load data
     if input_file.endswith('.csv'):
@@ -119,7 +118,7 @@ def auto_fix_data(input_file, output_file, audit_file):
         raise ValueError("Unsupported file format. Use CSV or Excel.")
     
     original_rows = len(df)
-    print(f"📊 Input rows: {original_rows}")
+    print(f"Input rows: {original_rows}")
     
     # Initialize audit log
     audit = {
@@ -143,7 +142,7 @@ def auto_fix_data(input_file, output_file, audit_file):
     
     for rule_id, rule_name, func, kwargs in transformations:
         try:
-            print(f"⏳ Applying: {rule_name}...")
+            print(f"Applying: {rule_name}...")
             df, affected = func(df, **kwargs)
             
             audit["transformations"].append({
@@ -153,7 +152,7 @@ def auto_fix_data(input_file, output_file, audit_file):
                 "rowsAffected": affected,
                 "details": f"{affected} rows affected"
             })
-            print(f"✅ {rule_name}: {affected} rows affected")
+            print(f"{rule_name}: {affected} rows affected")
         
         except Exception as e:
             audit["transformations"].append({
@@ -163,7 +162,7 @@ def auto_fix_data(input_file, output_file, audit_file):
                 "rowsAffected": 0,
                 "details": str(e)
             })
-            print(f"⚠️  {rule_name}: FAILED - {e}")
+            print(f"{rule_name}: FAILED - {e}")
     
     # Final counts
     final_rows = len(df)
@@ -171,12 +170,12 @@ def auto_fix_data(input_file, output_file, audit_file):
     audit["rowsRemoved"] = original_rows - final_rows
     
     # Save cleaned data
-    print(f"💾 Saving cleaned data to: {output_file}")
+    print(f"Saving cleaned data to: {output_file}")
     Path(output_file).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_file, index=False)
     
     # Save audit log
-    print(f"📝 Saving audit log to: {audit_file}")
+    print(f"Saving audit log to: {audit_file}")
     Path(audit_file).parent.mkdir(parents=True, exist_ok=True)
     
     # Convert numpy types to native Python types
@@ -197,7 +196,7 @@ def auto_fix_data(input_file, output_file, audit_file):
     with open(audit_file, 'w') as f:
         json.dump(audit, f, indent=2)
     
-    print(f"✅ Auto-fix completed: {original_rows} → {final_rows} rows")
+    print(f"Auto-fix completed: {original_rows} -> {final_rows} rows")
     return 0
 
 if __name__ == "__main__":
@@ -213,5 +212,5 @@ if __name__ == "__main__":
         exit_code = auto_fix_data(input_file, output_file, audit_file)
         sys.exit(exit_code)
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         sys.exit(1)

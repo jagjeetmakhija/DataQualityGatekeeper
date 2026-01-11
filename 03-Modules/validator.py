@@ -108,15 +108,14 @@ def validate_allowed_values(df, schema_dir):
 
 def validate_data(input_file, schema_file, report_file):
     """Main validation pipeline"""
-    
-    print(f"📂 Loading data from: {input_file}")
+    print(f"Loading data from: {input_file}")
     df = pd.read_csv(input_file) if input_file.endswith('.csv') else pd.read_excel(input_file)
     
-    print(f"📋 Loading schema from: {schema_file}")
+    print(f"Loading schema from: {schema_file}")
     schema = load_schema(schema_file)
     schema_dir = Path(schema_file).parent
     
-    print(f"📊 Validating {len(df)} rows...")
+    print(f"Validating {len(df)} rows...")
     
     # Initialize report
     report = {
@@ -144,7 +143,7 @@ def validate_data(input_file, schema_file, report_file):
     
     for rule_id, rule_name, category, severity, func, args in validation_rules:
         try:
-            print(f"⏳ Validating: {rule_name}...")
+            print(f"Validating: {rule_name}...")
             passed, message, rows_checked, rows_passed, rows_failed = func(*args)
             
             rule_result = {
@@ -171,11 +170,11 @@ def validate_data(input_file, schema_file, report_file):
                 elif severity == "warning":
                     report["summary"]["warningCount"] += 1
             
-            icon = "✅" if passed else ("❌" if severity == "error" else "⚠️")
+            icon = "PASS" if passed else ("FAIL" if severity == "error" else "WARN")
             print(f"{icon} {rule_name}: {message}")
         
         except Exception as e:
-            print(f"❌ {rule_name}: ERROR - {e}")
+            print(f"ERROR {rule_name}: {e}")
             report["rules"].append({
                 "ruleID": rule_id,
                 "ruleName": rule_name,
@@ -186,12 +185,12 @@ def validate_data(input_file, schema_file, report_file):
             report["overallStatus"] = "FAIL"
     
     # Save report
-    print(f"📝 Saving validation report to: {report_file}")
+    print(f"Saving validation report to: {report_file}")
     Path(report_file).parent.mkdir(parents=True, exist_ok=True)
     with open(report_file, 'w') as f:
         json.dump(report, f, indent=2)
     
-    status_icon = "✅" if report["overallStatus"] == "PASS" else "❌"
+    status_icon = "PASS" if report["overallStatus"] == "PASS" else "FAIL"
     print(f"{status_icon} Validation {report['overallStatus']}: {report['summary']['errorCount']} errors, {report['summary']['warningCount']} warnings")
     
     return 0 if report["overallStatus"] == "PASS" else 1
@@ -209,5 +208,5 @@ if __name__ == "__main__":
         exit_code = validate_data(input_file, schema_file, report_file)
         sys.exit(exit_code)
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         sys.exit(1)
