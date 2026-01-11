@@ -1,0 +1,121 @@
+{
+  "description": "Custom validation rules for business logic enforcement",
+  "version": "1.0",
+  "lastUpdated": "2026-01-10",
+  
+  "rules": [
+    {
+      "ruleID": "VAL-001",
+      "category": "DateLogic",
+      "severity": "error",
+      "description": "LastActivityDate must be on or after CreatedDate",
+      "condition": "LastActivityDate >= CreatedDate",
+      "errorMessage": "Last activity cannot occur before opportunity creation",
+      "applicableWhen": "LastActivityDate IS NOT NULL AND CreatedDate IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-002",
+      "category": "DateLogic",
+      "severity": "warning",
+      "description": "CreatedDate should not be in the future",
+      "condition": "CreatedDate <= TODAY",
+      "errorMessage": "Creation date is in the future",
+      "applicableWhen": "CreatedDate IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-003",
+      "category": "BusinessLogic",
+      "severity": "warning",
+      "description": "Closed-Won opportunities should have high probability",
+      "condition": "IF Stage = 'Closed-Won' THEN Probability >= 90",
+      "errorMessage": "Closed-Won stage typically has 90-100% probability",
+      "applicableWhen": "Stage = 'Closed-Won' AND Probability IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-004",
+      "category": "BusinessLogic",
+      "severity": "warning",
+      "description": "Closed-Lost opportunities should have low probability",
+      "condition": "IF Stage = 'Closed-Lost' THEN Probability <= 10",
+      "errorMessage": "Closed-Lost stage typically has 0-10% probability",
+      "applicableWhen": "Stage = 'Closed-Lost' AND Probability IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-005",
+      "category": "DataQuality",
+      "severity": "error",
+      "description": "EstimatedValue must be positive",
+      "condition": "EstimatedValue > 0",
+      "errorMessage": "Estimated value must be greater than zero",
+      "applicableWhen": "EstimatedValue IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-006",
+      "category": "DataQuality",
+      "severity": "error",
+      "description": "Probability must be between 0 and 100",
+      "condition": "Probability >= 0 AND Probability <= 100",
+      "errorMessage": "Probability must be a percentage (0-100)",
+      "applicableWhen": "Probability IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-007",
+      "category": "BusinessLogic",
+      "severity": "warning",
+      "description": "Active opportunities should have positive estimated value",
+      "condition": "IF Status = 'Active' THEN EstimatedValue > 0",
+      "errorMessage": "Active opportunities typically have estimated value",
+      "applicableWhen": "Status = 'Active'"
+    },
+    {
+      "ruleID": "VAL-008",
+      "category": "DataQuality",
+      "severity": "warning",
+      "description": "Very old opportunities (>365 days) should be reviewed",
+      "condition": "DaysSinceCreated <= 365",
+      "errorMessage": "Opportunity is older than 1 year - may need status update",
+      "applicableWhen": "DaysSinceCreated IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-009",
+      "category": "DataQuality",
+      "severity": "info",
+      "description": "High-value opportunities (>$1M) flagged for attention",
+      "condition": "EstimatedValue > 1000000",
+      "errorMessage": "High-value opportunity - ensure proper tracking",
+      "applicableWhen": "EstimatedValue IS NOT NULL"
+    },
+    {
+      "ruleID": "VAL-010",
+      "category": "DataQuality",
+      "severity": "error",
+      "description": "OpportunityID must be unique",
+      "condition": "COUNT(OpportunityID) = 1",
+      "errorMessage": "Duplicate OpportunityID detected",
+      "applicableWhen": "ALWAYS"
+    }
+  ],
+  
+  "thresholds": {
+    "maxErrorsAllowed": 0,
+    "maxWarningsAllowed": 50,
+    "maxInfoAllowed": 999999,
+    "stopProcessingOnErrors": true,
+    "reportWarningsInOutput": true
+  },
+  
+  "nullThresholds": {
+    "description": "Maximum percentage of null values allowed per column",
+    "AccountName": 0,
+    "OpportunityID": 0,
+    "Stage": 0,
+    "CreatedDate": 0,
+    "EstimatedValue": 5,
+    "Status": 20,
+    "Probability": 30,
+    "LastActivityDate": 40,
+    "ContactCount": 50,
+    "Region": 50,
+    "_default": 50
+  }
+}

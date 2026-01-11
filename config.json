@@ -1,0 +1,55 @@
+{
+  "projectName": "Phase1-LocalInsights",
+  "version": "1.0.0",
+  "description": "Explainable predictive insights using local AI - fully offline",
+  
+  "paths": {
+    "scripts": "01-Scripts",
+    "schema": "02-Schema",
+    "modules": "03-Modules",
+    "ui": "04-UI",
+    "outputs": "05-Outputs",
+    "documentation": "06-Documentation"
+  },
+  
+  "pythonEnvironment": {
+    "venvPath": ".venv",
+    "pythonVersion": "3.10+",
+    "requiredPackages": [
+      "pandas",
+      "openpyxl",
+      "flask",
+      "jsonschema",
+      "python-dateutil"
+    ]
+  },
+  
+  "executionSettings": {
+    "defaultInputFile": null,
+    "maxRowsForSnippet": 100,
+    "autoFixEnabled": true,
+    "validationStrictMode": true,
+    "stopOnValidationFail": true
+  },
+  
+  "uiSettings": {
+    "host": "127.0.0.1",
+    "port": 5000,
+    "debug": false,
+    "allowExternalAccess": false
+  },
+  
+  "loggingSettings": {
+    "enableAuditLogs": true,
+    "enableTraceability": true,
+    "timestampFormat": "yyyy-MM-dd HH:mm:ss",
+    "logLevel": "INFO"
+  },
+  
+  "securitySettings": {
+    "offlineOnly": true,
+    "noTelemetry": true,
+    "noCloudAPIs": true,
+    "localhostOnly": true
+  }
+}

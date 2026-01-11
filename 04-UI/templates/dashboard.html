@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase-1 Local Insights Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .status-bar {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .status-badge {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-offline {
+            background: #10b981;
+            color: white;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .metric-value.success {
+            color: #10b981;
+        }
+        
+        .metric-value.error {
+            color: #ef4444;
+        }
+        
+        .metric-value.warning {
+            color: #f59e0b;
+        }
+        
+        .transformations-list {
+            margin-top: 15px;
+        }
+        
+        .transformation-item {
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .transformation-name {
+            font-weight: 500;
+        }
+        
+        .transformation-affected {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.9em;
+        }
+        
+        .validation-rules {
+            margin-top: 15px;
+        }
+        
+        .validation-rule {
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #d1d5db;
+        }
+        
+        .validation-rule.passed {
+            border-left-color: #10b981;
+        }
+        
+        .validation-rule.failed {
+            border-left-color: #ef4444;
+        }
+        
+        .validation-rule .rule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .validation-rule .rule-name {
+            font-weight: 600;
+        }
+        
+        .validation-rule .rule-status {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .rule-status.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .rule-status.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .rule-message {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .downloads-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .download-btn {
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn.disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .overall-status {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .overall-status.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .overall-status.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        /* File Upload Styles */
+        .upload-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .upload-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .file-input-wrapper {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .file-input {
+            padding: 12px;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .upload-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .files-list {
+            margin-top: 20px;
+        }
+        
+        .file-item {
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .file-meta {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .run-btn {
+            padding: 8px 20px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .run-btn:hover {
+            background: #059669;
+        }
+        
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        
+        .flash-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .flash-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        
+        .flash-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>🧠 Phase-1 Local Insights Dashboard</h1>
+            <p class="subtitle">Explainable Predictive Insights • Fully Offline • 100% Localhost</p>
+            <div class="status-bar">
+                <span class="status-badge status-offline">🔒 Localhost Only</span>
+                <span class="status-badge status-offline">📊 {{ data.timestamp }}</span>
+            </div>
+        </div>
+        
+        <!-- File Upload & Selection Section -->
+        <div class="upload-section">
+            <h2>📁 File Management & Pipeline Execution</h2>
+            
+            <!-- Upload Form -->
+            <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" class="file-input" accept=".csv,.xlsx,.xls" required>
+                </div>
+                <button type="submit" class="upload-btn">📤 Upload File</button>
+            </form>
+            
+            <!-- Uploaded Files List -->
+            {% if data.uploaded_files %}
+            <div class="files-list">
+                <h3 style="margin-bottom: 15px;">📋 Available Files for Testing</h3>
+                {% for file in data.uploaded_files %}
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">{{ file.name }}</div>
+                        <div class="file-meta">
+                            Size: {{ (file.size / 1024) | round(2) }} KB | 
+                            Modified: {{ file.modified }}
+                        </div>
+                    </div>
+                    <form action="/run-pipeline" method="POST" style="display: inline;">
+                        <input type="hidden" name="filename" value="{{ file.name }}">
+                        <button type="submit" class="run-btn">▶️ Run Pipeline</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-data" style="margin-top: 20px;">
+                <p>📂 No files uploaded yet. Upload a CSV or Excel file to begin testing.</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if data.autofix or data.validation %}
+        
+        <!-- Auto-Fix Section -->
+        {% if data.autofix %}
+        <div class="cards-grid">
+            <div class="card">
+                <h2>🧹 Auto-Fix Summary</h2>
+                <div class="metric">
+                    <span class="metric-label">📥 Input Rows</span>
+                    <span class="metric-value">{{ data.autofix.originalRowCount }}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">📤 Output Rows</span>
+                    <span class="metric-value success">{{ data.autofix.finalRowCount }}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">🗑️ Rows Removed</span>
+                    <span class="metric-value warning">{{ data.autofix.rowsRemoved }}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">🔧 Transformations</span>
+                    <span class="metric-value">{{ data.autofix.transformations|length }}</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🔧 Transformations Applied</h2>
+                <div class="transformations-list">
+                    {% for transform in data.autofix.transformations %}
+                    <div class="transformation-item">
+                        <span class="transformation-name">
+                            {% if transform.status == 'applied' %}✅{% else %}❌{% endif %}
+                            {{ transform.ruleName }}
+                        </span>
+                        <span class="transformation-affected">{{ transform.rowsAffected }} rows</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Validation Section -->
+        {% if data.validation %}
+        <div class="card">
+            <h2>✅ Schema Validation Results</h2>
+            
+            <div class="overall-status {% if data.validation.overallStatus == 'PASS' %}pass{% else %}fail{% endif %}">
+                {% if data.validation.overallStatus == 'PASS' %}
+                    ✅ VALIDATION PASSED
+                {% else %}
+                    ❌ VALIDATION FAILED
+                {% endif %}
+            </div>
+            
+            <div class="metric">
+                <span class="metric-label">❌ Errors</span>
+                <span class="metric-value error">{{ data.validation.summary.errorCount }}</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">⚠️ Warnings</span>
+                <span class="metric-value warning">{{ data.validation.summary.warningCount }}</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">📊 Rules Checked</span>
+                <span class="metric-value">{{ data.validation.rules|length }}</span>
+            </div>
+            
+            <div class="validation-rules">
+                <h3 style="margin-bottom: 15px; color: #667eea;">📋 Validation Rules</h3>
+                {% for rule in data.validation.rules %}
+                <div class="validation-rule {% if rule.passed %}passed{% else %}failed{% endif %}">
+                    <div class="rule-header">
+                        <span class="rule-name">{{ rule.ruleName }}</span>
+                        <span class="rule-status {% if rule.passed %}pass{% else %}fail{% endif %}">
+                            {% if rule.passed %}✅ PASS{% else %}❌ FAIL{% endif %}
+                        </span>
+                    </div>
+                    <div class="rule-message">
+                        {{ rule.message }}
+                    </div>
+                    <div class="metric" style="margin-top: 10px; border: none; font-size: 0.9em;">
+                        <span>Checked: {{ rule.rowsChecked }}</span>
+                        <span style="color: #10b981;">Passed: {{ rule.rowsPassed }}</span>
+                        <span style="color: #ef4444;">Failed: {{ rule.rowsFailed }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Downloads Section -->
+        <div class="downloads-section">
+            <h2 style="color: #667eea; margin-bottom: 20px;">📥 Download Outputs</h2>
+            <div class="downloads-grid">
+                {% if data.outputs.autofix.data %}
+                <a href="/download/autofix-audit/{{ data.outputs.autofix.data.split('\\')[-1] }}" class="download-btn">
+                    📄 Cleaned Data (CSV)
+                </a>
+                {% endif %}
+                
+                {% if data.outputs.autofix.audit %}
+                <a href="/download/autofix-audit/{{ data.outputs.autofix.audit.split('\\')[-1] }}" class="download-btn">
+                    📋 Auto-Fix Audit (JSON)
+                </a>
+                {% endif %}
+                
+                {% if data.outputs.autofix.traceability %}
+                <a href="/download/autofix-audit/{{ data.outputs.autofix.traceability.split('\\')[-1] }}" class="download-btn">
+                    📊 Auto-Fix Traceability (CSV)
+                </a>
+                {% endif %}
+                
+                {% if data.outputs.validation.report %}
+                <a href="/download/validation-reports/{{ data.outputs.validation.report.split('\\')[-1] }}" class="download-btn">
+                    ✅ Validation Report (JSON)
+                </a>
+                {% endif %}
+                
+                {% if data.outputs.validation.traceability %}
+                <a href="/download/validation-reports/{{ data.outputs.validation.traceability.split('\\')[-1] }}" class="download-btn">
+                    📊 Validation Traceability (CSV)
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% else %}
+        
+        <!-- No Data Message -->
+        <div class="card">
+            <div class="no-data">
+                <h2>📂 No Results Available</h2>
+                <p style="margin-top: 20px;">Run the pipeline to generate insights:</p>
+                <pre style="background: #f3f4f6; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: left;">
+cd 01-Scripts
+.\RUN-ALL.ps1 -InputFile "path\to\your\data.csv"
+                </pre>
+            </div>
+        </div>
+        
+        {% endif %}
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>🔒 <strong>100% Offline</strong> • No Cloud • No Telemetry • No External APIs</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Phase-1 Local Insights v1.0 • Secure • Explainable • Auditable</p>
+        </div>
+    </div>
+</body>
+</html>

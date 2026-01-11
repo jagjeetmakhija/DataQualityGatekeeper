@@ -1,0 +1,261 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Phase-1 Dataset Schema",
+  "description": "Schema definition for CX pursuit/opportunity data validation",
+  "type": "object",
+  "properties": {
+    "requiredColumns": {
+      "type": "array",
+      "description": "Columns that must exist in the dataset",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5,
+      "default": [
+        "AccountName",
+        "OpportunityID",
+        "Stage",
+        "CreatedDate",
+        "EstimatedValue"
+      ]
+    },
+    "columnDefinitions": {
+      "type": "object",
+      "description": "Data type and constraint definitions for each column",
+      "properties": {
+        "AccountName": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["string"]},
+            "required": {"type": "boolean", "default": true},
+            "minLength": {"type": "integer", "default": 2},
+            "maxLength": {"type": "integer", "default": 200},
+            "allowNull": {"type": "boolean", "default": false},
+            "description": "Name of the client account"
+          }
+        },
+        "OpportunityID": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["string", "integer"]},
+            "required": {"type": "boolean", "default": true},
+            "unique": {"type": "boolean", "default": true},
+            "allowNull": {"type": "boolean", "default": false},
+            "description": "Unique identifier for the opportunity"
+          }
+        },
+        "Stage": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["string", "categorical"]},
+            "required": {"type": "boolean", "default": true},
+            "allowedValues": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "Lead",
+                "Qualified",
+                "Proposal",
+                "Negotiation",
+                "Closed-Won",
+                "Closed-Lost",
+                "On-Hold"
+              ]
+            },
+            "allowNull": {"type": "boolean", "default": false},
+            "description": "Current stage of the opportunity"
+          }
+        },
+        "Status": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["string", "categorical"]},
+            "required": {"type": "boolean", "default": false},
+            "allowedValues": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "Active",
+                "Paused",
+                "Stalled",
+                "At-Risk",
+                "Healthy"
+              ]
+            },
+            "allowNull": {"type": "boolean", "default": true},
+            "description": "Health/status indicator"
+          }
+        },
+        "CreatedDate": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["date", "datetime"]},
+            "required": {"type": "boolean", "default": true},
+            "format": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "YYYY-MM-DD",
+                "MM/DD/YYYY",
+                "DD-MMM-YYYY"
+              ]
+            },
+            "allowNull": {"type": "boolean", "default": false},
+            "minDate": {"type": "string", "default": "2020-01-01"},
+            "maxDate": {"type": "string", "default": "2030-12-31"},
+            "description": "Date when opportunity was created"
+          }
+        },
+        "LastActivityDate": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["date", "datetime"]},
+            "required": {"type": "boolean", "default": false},
+            "format": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "YYYY-MM-DD",
+                "MM/DD/YYYY",
+                "DD-MMM-YYYY"
+              ]
+            },
+            "allowNull": {"type": "boolean", "default": true},
+            "description": "Date of last engagement activity"
+          }
+        },
+        "EstimatedValue": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["numeric", "float"]},
+            "required": {"type": "boolean", "default": true},
+            "min": {"type": "number", "default": 0},
+            "max": {"type": "number", "default": 100000000},
+            "allowNull": {"type": "boolean", "default": false},
+            "description": "Estimated deal value in USD"
+          }
+        },
+        "Probability": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["numeric", "integer"]},
+            "required": {"type": "boolean", "default": false},
+            "min": {"type": "number", "default": 0},
+            "max": {"type": "number", "default": 100},
+            "allowNull": {"type": "boolean", "default": true},
+            "description": "Win probability percentage (0-100)"
+          }
+        },
+        "DaysSinceCreated": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["numeric", "integer"]},
+            "required": {"type": "boolean", "default": false},
+            "min": {"type": "number", "default": 0},
+            "max": {"type": "number", "default": 3650},
+            "allowNull": {"type": "boolean", "default": true},
+            "description": "Number of days since opportunity was created"
+          }
+        },
+        "ContactCount": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["numeric", "integer"]},
+            "required": {"type": "boolean", "default": false},
+            "min": {"type": "number", "default": 0},
+            "max": {"type": "number", "default": 1000},
+            "allowNull": {"type": "boolean", "default": true},
+            "description": "Number of contact touchpoints"
+          }
+        },
+        "Region": {
+          "type": "object",
+          "properties": {
+            "dataType": {"type": "string", "enum": ["string", "categorical"]},
+            "required": {"type": "boolean", "default": false},
+            "allowedValues": {
+              "type": "array",
+              "items": {"type": "string"},
+              "default": [
+                "North America",
+                "EMEA",
+                "APAC",
+                "Latin America"
+              ]
+            },
+            "allowNull": {"type": "boolean", "default": true},
+            "description": "Geographic region"
+          }
+        }
+      }
+    },
+    "validationRules": {
+      "type": "object",
+      "description": "Custom business logic validation rules",
+      "properties": {
+        "nullThresholds": {
+          "type": "object",
+          "description": "Maximum allowed null percentage per column",
+          "properties": {
+            "AccountName": {"type": "number", "default": 0},
+            "OpportunityID": {"type": "number", "default": 0},
+            "Stage": {"type": "number", "default": 0},
+            "CreatedDate": {"type": "number", "default": 0},
+            "EstimatedValue": {"type": "number", "default": 5},
+            "Status": {"type": "number", "default": 20},
+            "Probability": {"type": "number", "default": 30},
+            "_default": {"type": "number", "default": 50}
+          }
+        },
+        "crossFieldRules": {
+          "type": "array",
+          "description": "Rules that validate relationships between fields",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ruleID": {"type": "string"},
+              "description": {"type": "string"},
+              "condition": {"type": "string"},
+              "severity": {"type": "string", "enum": ["error", "warning"]}
+            }
+          },
+          "default": [
+            {
+              "ruleID": "RULE-001",
+              "description": "LastActivityDate must be >= CreatedDate",
+              "condition": "LastActivityDate >= CreatedDate",
+              "severity": "error"
+            },
+            {
+              "ruleID": "RULE-002",
+              "description": "Closed-Won stage should have Probability >= 90",
+              "condition": "IF Stage = 'Closed-Won' THEN Probability >= 90",
+              "severity": "warning"
+            },
+            {
+              "ruleID": "RULE-003",
+              "description": "EstimatedValue should be > 0 for active opportunities",
+              "condition": "IF Status = 'Active' THEN EstimatedValue > 0",
+              "severity": "warning"
+            }
+          ]
+        },
+        "duplicateChecks": {
+          "type": "object",
+          "properties": {
+            "checkOpportunityID": {
+              "type": "boolean",
+              "default": true,
+              "description": "Flag duplicate OpportunityIDs"
+            },
+            "allowExactDuplicates": {
+              "type": "boolean",
+              "default": false,
+              "description": "Allow completely identical rows"
+            }
+          }
+        }
+      }
+    }
+  }
+}
