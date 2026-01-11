@@ -1,50 +1,51 @@
-# 📘 Phase-1 Local Insights: End-to-End User Guide
+# Phase-1 Local Insights: End-to-End Guide
 
-## 🎯 Overview
-Phase-1 Local Insights is a data quality automation solution that automatically cleans, validates, and generates governed insights from your CSV/Excel files. This guide provides complete instructions from scratch setup to final output validation.
-
----
-
-## 📋 Table of Contents
-1. [Prerequisites](#prerequisites)
-2. [Environment Setup from Scratch](#environment-setup-from-scratch)
-3. [Folder Structure & Purpose](#folder-structure--purpose)
-4. [Using the Web UI](#using-the-web-ui)
-5. [Loading & Processing Data](#loading--processing-data)
-6. [Understanding Outputs](#understanding-outputs)
-7. [Validation & Quality Gates](#validation--quality-gates)
-8. [Troubleshooting](#troubleshooting)
+## Purpose
+Phase-1 Local Insights cleans and validates CSV or Excel files so you can review governed outputs without writing code. This version is written for non-technical users and keeps all steps in plain ASCII to avoid console encoding errors.
 
 ---
 
-## 🔧 Prerequisites
+## Quick Start (about 90 seconds)
+1. Open a terminal in the Phase1-LocalInsights folder (the root of this guide).
+2. Create and activate a virtual environment:
+   - Windows: python -m venv .venv then .venv\Scripts\activate
+   - macOS/Linux: python3 -m venv .venv then source .venv/bin/activate
+3. Install dependencies:
+   ```bash
+   pip install --upgrade pip
+   pip install pandas==2.1.4 flask==3.0.0 jsonschema==4.20.0 openpyxl==3.1.2
+   ```
+4. Ensure output folders exist:
+   ```bash
+   # Windows PowerShell
+   if (-not (Test-Path "05-Outputs\autofix-audit")) { New-Item -ItemType Directory -Path "05-Outputs\autofix-audit" -Force }
+   if (-not (Test-Path "05-Outputs\validation-reports")) { New-Item -ItemType Directory -Path "05-Outputs\validation-reports" -Force }
 
-### System Requirements
-- **Operating System**: Windows 10/11 or macOS/Linux
-- **Python**: Version 3.11 or higher
-- **Memory**: Minimum 4 GB RAM
-- **Disk Space**: 500 MB free space
-
-### Required Software
-1. **Python 3.11+** - [Download from python.org](https://www.python.org/downloads/)
-2. **Git** (optional) - For cloning repository
-3. **Web Browser** - Chrome, Firefox, Edge, or Safari
+   # macOS/Linux
+   mkdir -p 05-Outputs/autofix-audit 05-Outputs/validation-reports
+   ```
+5. Start the UI:
+   ```bash
+   cd 04-UI
+   ..\..\.venv\Scripts\activate   # Windows
+   source ../../.venv/bin/activate   # macOS/Linux
+   python app.py
+   ```
+6. Open http://127.0.0.1:5000 in your browser, upload a CSV/Excel file, click Run Pipeline, and find results in [05-Outputs](05-Outputs).
 
 ---
 
-## 🚀 Environment Setup from Scratch
-
-### Step 1: Get the Code
+## Full Setup (from scratch)
+### 1) Get the code
 ```bash
-# Option A: Clone from GitHub
+# Clone
 git clone https://github.com/jagjeetmakhija/Local-AIAgent.git
 cd Local-AIAgent/Phase1-LocalInsights
 
-# Option B: Download ZIP and extract
-# Then navigate to Phase1-LocalInsights folder
+# Or unzip and open Phase1-LocalInsights
 ```
 
-### Step 2: Create Virtual Environment
+### 2) Create a virtual environment
 ```bash
 # Windows
 python -m venv .venv
@@ -55,417 +56,145 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### Step 3: Install Dependencies
+### 3) Install dependencies
 ```bash
 pip install --upgrade pip
 pip install pandas==2.1.4 flask==3.0.0 jsonschema==4.20.0 openpyxl==3.1.2
 ```
 
-### Step 4: Verify Installation
-```bash
-python --version  # Should show 3.11.x or higher
-pip list         # Should show pandas, flask, jsonschema, openpyxl
-```
-
-### Step 5: Create Output Directories
+### 4) Prepare output folders
 ```bash
 # Windows PowerShell
-cd Phase1-LocalInsights
 if (-not (Test-Path "05-Outputs\autofix-audit")) { New-Item -ItemType Directory -Path "05-Outputs\autofix-audit" -Force }
 if (-not (Test-Path "05-Outputs\validation-reports")) { New-Item -ItemType Directory -Path "05-Outputs\validation-reports" -Force }
 
 # macOS/Linux
-mkdir -p 05-Outputs/autofix-audit
-mkdir -p 05-Outputs/validation-reports
+mkdir -p 05-Outputs/autofix-audit 05-Outputs/validation-reports
 ```
 
----
-
-## 📁 Folder Structure & Purpose
-
-```
-Phase1-LocalInsights/
-│
-├── 01-Scripts/                    # PowerShell automation scripts (optional)
-│   ├── Step1-AutoFix.ps1         # Standalone data cleaning script
-│   ├── Step2-Validate.ps1        # Standalone validation script
-│   └── RUN-ALL-CLEAN.ps1         # Combined pipeline script
-│
-├── 02-Schema/                     # Configuration & rules (CRITICAL)
-│   ├── schema.json               # Defines expected data structure
-│   ├── allowed-values.json       # Valid values for categorical fields
-│   └── validation-rules.json     # Validation thresholds & rules
-│
-├── 03-Modules/                    # Python processing modules
-│   ├── auto_fixer.py             # Data cleaning engine (7 rules)
-│   └── validator.py              # Schema validation engine (4 checks)
-│
-├── 04-UI/                         # Web Interface
-│   ├── app.py                    # Flask web server
-│   └── templates/
-│       └── dashboard.html        # Web dashboard UI
-│
-├── 05-Outputs/                    # Generated results
-│   ├── cleaned-data.csv          # Cleaned output data
-│   ├── autofix-audit/
-│   │   └── audit-log.json        # Transformation audit trail
-│   └── validation-reports/
-│       └── report.json           # Validation results
-│
-├── 06-Documentation/              # Additional documentation
-│
-└── uploads/                       # Uploaded input files (auto-created)
-```
-
-### 🔑 Critical Configuration Files
-
-#### 1. `02-Schema/schema.json`
-**Purpose**: Defines expected columns, data types, and null thresholds  
-**Contains**:
-- Required column names
-- Expected data types (string, integer, float, date)
-- Maximum null percentage allowed per column
-- Column descriptions
-
-**Example**:
-```json
-{
-  "columns": {
-    "CustomerID": {
-      "type": "string",
-      "required": true,
-      "null_threshold": 0
-    },
-    "PurchaseAmount": {
-      "type": "float",
-      "required": true,
-      "null_threshold": 5
-    }
-  }
-}
-```
-
-#### 2. `02-Schema/allowed-values.json`
-**Purpose**: Defines valid values for categorical columns  
-**Contains**: Whitelist of acceptable values per column
-
-**Example**:
-```json
-{
-  "Status": ["Active", "Inactive", "Pending"],
-  "Region": ["North", "South", "East", "West"]
-}
-```
-
-#### 3. `02-Schema/validation-rules.json`
-**Purpose**: Defines validation gates and thresholds  
-**Contains**:
-- Required columns check: ON/OFF
-- Data type validation: ON/OFF
-- Null threshold enforcement: ON/OFF
-- Allowed values enforcement: ON/OFF
-
----
-
-## 🌐 Using the Web UI
-
-### Step 1: Start the Flask Server
+### 5) Sanity check
 ```bash
-# Navigate to UI folder
-cd Phase1-LocalInsights/04-UI
+python --version
+pip list | findstr pandas
+python -m py_compile 04-UI/app.py
+```
 
-# Activate virtual environment (if not already active)
-..\..\.venv\Scripts\activate  # Windows
-source ../../.venv/bin/activate  # macOS/Linux
-
-# Start server
+### 6) Start the UI
+```bash
+cd 04-UI
+..\..\.venv\Scripts\activate   # Windows
+source ../../.venv/bin/activate   # macOS/Linux
 python app.py
 ```
-
-**Expected Output**:
+Expected console lines (all ASCII):
 ```
-🚀 Starting Local Insights Dashboard...
-🌐 Running on: http://localhost:5000
-📊 Displaying results from: ../05-Outputs/
+Starting Local Insights Dashboard...
+Running on: http://localhost:5000
+Displaying results from: ../05-Outputs/
  * Running on http://127.0.0.1:5000
 ```
 
-### Step 2: Access the Dashboard
-1. Open your web browser
-2. Navigate to: `http://localhost:5000`
-3. You should see the **Local Insights Dashboard**
-
-### Step 3: Dashboard Features
-- **📤 File Upload Section**: Drag-and-drop or click to upload CSV/Excel files
-- **📂 Uploaded Files Table**: View all uploaded files with timestamps
-- **▶️ Run Pipeline Button**: Process selected file through cleaning + validation
-- **📊 Results Section**: View cleaned data, audit logs, and validation reports
-
 ---
 
-## 📥 Loading & Processing Data
-
-### Step 1: Prepare Your Data File
-**Supported Formats**:
-- CSV (`.csv`)
-- Excel (`.xlsx`, `.xls`)
-
-**Requirements**:
-- Must have header row with column names
-- Column names should match `02-Schema/schema.json`
-- Maximum file size: 16 MB
-
-**Sample Data Structure**:
-```csv
-CustomerID,CustomerName,PurchaseDate,PurchaseAmount,Status
-C001,John Doe,2024-01-15,150.50,Active
-C002,Jane Smith,2024-02-20,299.99,Inactive
+## Folder map (what lives where)
 ```
-
-### Step 2: Upload File via UI
-1. Click **"Choose File"** or **drag-and-drop** your file
-2. Click **"Upload"** button
-3. File appears in **"Uploaded Files"** table with timestamp
-
-### Step 3: Run Processing Pipeline
-1. Locate your file in the **Uploaded Files** table
-2. Click the **"Run Pipeline"** button next to your file
-3. Wait for processing (typically 1-3 seconds)
-4. View results in the **Results** section
-
-### Processing Workflow
-```
-Input File → Auto-Fix (7 Rules) → Validation (4 Checks) → Output Files
-```
-
-**Auto-Fix Transformations**:
-1. ✂️ Trim Headers and Values (remove whitespace)
-2. 🔤 Normalize Column Name Casing (consistent format)
-3. 📅 Standardize Date Formats (YYYY-MM-DD)
-4. 🔢 Coerce Numeric Types (string → number)
-5. 🏷️ Normalize Categorical Values (standardize spelling)
-6. 🗑️ Remove Empty Rows (all-null rows)
-7. 🔄 Deduplicate Rows (remove exact duplicates)
-
----
-
-## 📊 Understanding Outputs
-
-### Output 1: Cleaned Data
-**Location**: `05-Outputs/cleaned-data.csv`
-
-**Description**: Your input data after applying all 7 transformation rules
-
-**Use Case**: Production-ready dataset for analytics/reporting
-
-**Example**:
-```csv
-CustomerID,CustomerName,PurchaseDate,PurchaseAmount,Status
-C001,John Doe,2024-01-15,150.50,Active
-C002,Jane Smith,2024-02-20,299.99,Inactive
-```
-
-### Output 2: Audit Log
-**Location**: `05-Outputs/autofix-audit/audit-log.json`
-
-**Description**: Complete audit trail showing:
-- Which rules were applied
-- How many rows were affected
-- Before/after row counts
-- Processing timestamp
-
-**Example**:
-```json
-{
-  "timestamp": "2026-01-10T22:10:51",
-  "input_file": "sample-data.csv",
-  "input_rows": 9,
-  "output_rows": 9,
-  "transformations": [
-    {
-      "rule": "Trim Headers and Values",
-      "rows_affected": 9,
-      "status": "completed"
-    }
-  ]
-}
-```
-
-### Output 3: Validation Report
-**Location**: `05-Outputs/validation-reports/report.json`
-
-**Description**: Validation results with PASS/FAIL status
-
-**Structure**:
-- `overallStatus`: "PASS" or "FAIL"
-- `summary`: Error and warning counts
-- `validationRules`: Detailed results per rule
-
-**Example**:
-```json
-{
-  "overallStatus": "PASS",
-  "summary": {
-    "totalErrors": 0,
-    "totalWarnings": 1
-  },
-  "validationRules": [
-    {
-      "rule": "Required Columns",
-      "status": "PASS",
-      "errors": []
-    },
-    {
-      "rule": "Null Thresholds",
-      "status": "WARNING",
-      "warnings": ["PurchaseAmount has 11.1% nulls (threshold: 5%)"]
-    }
-  ]
-}
+Phase1-LocalInsights/
+ 01-Scripts/                 PowerShell helpers (optional)
+    Step1-AutoFix.ps1
+    Step2-Validate.ps1
+    RUN-ALL-CLEAN.ps1
+ 02-Schema/                  Configuration (critical)
+    schema.json             Required columns, types, null thresholds
+    allowed-values.json     Allowed categorical values
+    validation-rules.json   Switches and thresholds
+ 03-Modules/                 Python engines
+    auto_fixer.py           Cleans data (7 rules)
+    validator.py            Validates data (4 checks)
+ 04-UI/                      Flask app
+    app.py                  Server entry point
+    templates/dashboard.html
+ 05-Outputs/                 Results written here
+    cleaned-data.csv
+    autofix-audit/audit-log.json
+    validation-reports/report.json
+ uploads/                    Files you upload (created on first upload)
 ```
 
 ---
 
-## ✅ Validation & Quality Gates
-
-### 4 Validation Rules
-
-#### 1. Required Columns Check
-- **Purpose**: Ensures all mandatory columns are present
-- **Result**: ERROR if missing
-- **Configuration**: `02-Schema/schema.json` → `required: true`
-
-#### 2. Data Type Validation
-- **Purpose**: Verifies each column has correct data type
-- **Result**: ERROR if type mismatch
-- **Configuration**: `02-Schema/schema.json` → `type: "string|integer|float|date"`
-
-#### 3. Null Threshold Enforcement
-- **Purpose**: Ensures null percentages don't exceed limits
-- **Result**: WARNING if exceeded, ERROR if critical
-- **Configuration**: `02-Schema/schema.json` → `null_threshold: 5`
-
-#### 4. Allowed Values Check
-- **Purpose**: Validates categorical columns against whitelist
-- **Result**: ERROR if invalid values found
-- **Configuration**: `02-Schema/allowed-values.json`
-
-### PASS Criteria
-✅ **PASS**: 0 errors (warnings are acceptable)  
-❌ **FAIL**: 1 or more errors
+## Configuration essentials
+- [02-Schema/schema.json](02-Schema/schema.json): required columns, data types, and null thresholds.
+- [02-Schema/allowed-values.json](02-Schema/allowed-values.json): allowed values for categorical columns (update this if you see warnings like Region).
+- [02-Schema/validation-rules.json](02-Schema/validation-rules.json): toggles for each rule and thresholds.
+- Keep console/output text in ASCII to avoid Windows code page issues.
 
 ---
 
-## 🛠️ Troubleshooting
+## Using the Web UI
+1. Activate the virtual environment and run python app.py inside [04-UI/app.py](04-UI/app.py).
+2. Open http://127.0.0.1:5000.
+3. Upload a CSV or Excel file (16 MB or smaller).
+4. Click Run Pipeline next to your uploaded file.
+5. Review outputs in the UI or directly in [05-Outputs](05-Outputs).
 
-### Issue 1: Flask Server Won't Start
-**Symptom**: Error message when running `python app.py`
-
-**Solutions**:
-```bash
-# Check Python version
-python --version  # Must be 3.11+
-
-# Reinstall dependencies
-pip install --upgrade flask pandas jsonschema openpyxl
-
-# Check port availability
-netstat -ano | findstr :5000  # Windows
-lsof -i :5000  # macOS/Linux
-```
-
-### Issue 2: File Upload Fails
-**Symptom**: Upload button doesn't work or returns error
-
-**Solutions**:
-1. Check file size (must be < 16 MB)
-2. Verify file format (CSV or Excel only)
-3. Ensure file has header row
-4. Check browser console for JavaScript errors
-
-### Issue 3: Pipeline Execution Failed
-**Symptom**: "Pipeline Execution Failed" message in UI
-
-**Solutions**:
-```bash
-# Verify output directories exist
-ls 05-Outputs/autofix-audit
-ls 05-Outputs/validation-reports
-
-# Check Python modules
-python -c "import pandas, flask, jsonschema, openpyxl; print('OK')"
-
-# Run manual test
-cd 03-Modules
-python auto_fixer.py ../uploads/your-file.csv ../05-Outputs/cleaned-data.csv ../05-Outputs/autofix-audit/audit-log.json
-```
-
-### Issue 4: Validation Always Fails
-**Symptom**: `overallStatus: "FAIL"` in report.json
-
-**Solutions**:
-1. Check `02-Schema/schema.json` for column requirements
-2. Verify input file has all required columns
-3. Review `report.json` → `validationRules` for specific errors
-4. Adjust `null_threshold` values if needed
-5. Update `allowed-values.json` if new values should be accepted
-
-### Issue 5: Empty Output Files
-**Symptom**: `cleaned-data.csv` is empty or has fewer rows than input
-
-**Solutions**:
-1. Check `audit-log.json` → `transformations` for affected rows
-2. Verify input data isn't all duplicates
-3. Check for all-null rows (automatically removed)
-4. Review deduplication logic if needed
+If the page does not load, confirm the server log shows Running on: http://localhost:5000 and no other program is using port 5000.
 
 ---
 
-## 📧 Support & Additional Resources
-
-### Documentation
-- **Business Use Cases**: See `BUSINESS_USE_CASES.md`
-- **Production Readiness**: See `PRODUCTION_READY.md`
-- **Validation Report**: See `E2E_VALIDATION_REPORT.md`
-
-### GitHub Repository
-- **Local-AIAgent**: https://github.com/jagjeetmakhija/Local-AIAgent
-- **LocalAIAgent-Phase1**: https://github.com/jagjeetmakhija/LocalAIAgent-Phase1
-
-### Quick Command Reference
-```bash
-# Start UI
-cd Phase1-LocalInsights/04-UI
-python app.py
-
-# Run CLI pipeline (alternative)
-cd 01-Scripts
-.\RUN-ALL-CLEAN.ps1 -InputFile "..\sample-data.csv"
-
-# View outputs
-cd 05-Outputs
-cat cleaned-data.csv
-cat autofix-audit/audit-log.json
-cat validation-reports/report.json
-```
+## What you need to run a test
+- A file with a header row; column names must match [02-Schema/schema.json](02-Schema/schema.json).
+- Supported formats: .csv, .xlsx, .xls.
+- File size limit: 16 MB.
+- Output folders exist: [05-Outputs/autofix-audit](05-Outputs/autofix-audit) and [05-Outputs/validation-reports](05-Outputs/validation-reports).
 
 ---
 
-## 🎉 Success Indicators
+## Outputs cheat sheet
+- Cleaned data: [05-Outputs/cleaned-data.csv](05-Outputs/cleaned-data.csv)
+- Audit trail: [05-Outputs/autofix-audit/audit-log.json](05-Outputs/autofix-audit/audit-log.json)
+- Validation report: [05-Outputs/validation-reports/report.json](05-Outputs/validation-reports/report.json)
 
-You've successfully completed E2E setup when you see:
-1. ✅ Flask server running on `http://localhost:5000`
-2. ✅ Dashboard loads in browser
-3. ✅ File uploads successfully
-4. ✅ Pipeline executes without errors
-5. ✅ Three output files generated:
-   - `cleaned-data.csv`
-   - `audit-log.json`
-   - `report.json`
-6. ✅ Validation report shows `"overallStatus": "PASS"`
+overallStatus in the validation report is PASS when there are zero errors (warnings are fine).
 
 ---
 
-**Version**: 1.0  
-**Last Updated**: January 10, 2026  
-**Maintained By**: Local-AIAgent Team
+## One-minute smoke test
+1. Ensure the virtual environment is active and output folders exist.
+2. Start the UI (python app.py from 04-UI) and open http://127.0.0.1:5000.
+3. Upload a small CSV. You can use the sample below by saving it as sample-data.csv:
+   ```csv
+   CustomerID,CustomerName,PurchaseDate,PurchaseAmount,Status,Region
+   C001,John Doe,2024-01-15,150.50,Active,North
+   C002,Jane Smith,2024-02-20,299.99,Inactive,South
+   C003,Ada Lovelace,2024-03-10,425.00,Active,East
+   ```
+4. Click Run Pipeline and wait for the success message.
+5. Check outputs in [05-Outputs](05-Outputs). You should see cleaned-data.csv, autofix-audit/audit-log.json, and validation-reports/report.json updated with the current timestamp.
+
+---
+
+## Troubleshooting (plain-language fixes)
+- Server will not start: confirm Python 3.11+, reinstall dependencies, and make sure port 5000 is free (netstat -ano | findstr :5000 on Windows).
+- Upload fails: keep files under 16 MB, ensure a header row, and use CSV or Excel formats.
+- Pipeline fails in UI: verify the output folders exist, then run the modules manually:
+  ```bash
+  python 03-Modules/auto_fixer.py uploads/your-file.csv 05-Outputs/cleaned-data.csv 05-Outputs/autofix-audit/audit-log.json
+  python 03-Modules/validator.py 05-Outputs/cleaned-data.csv 02-Schema/schema.json 05-Outputs/validation-reports/report.json
+  ```
+- Validation fails often: align column names with [02-Schema/schema.json](02-Schema/schema.json), adjust null thresholds, or add missing allowed values in [02-Schema/allowed-values.json](02-Schema/allowed-values.json).
+- Empty outputs: check transformations in [05-Outputs/autofix-audit/audit-log.json](05-Outputs/autofix-audit/audit-log.json) to see which rows were dropped (all-null rows and exact duplicates are removed).
+
+---
+
+## Success checklist
+You are done when:
+- The UI loads at http://127.0.0.1:5000 and shows the dashboard.
+- Upload works and the Run Pipeline button finishes without errors.
+- The three output files in [05-Outputs](05-Outputs) refresh with the current timestamp.
+- The validation report shows "overallStatus": "PASS" (warnings are acceptable).
+
+---
+
+Version: 1.1
+Last Updated: January 10, 2026
+Maintained By: Local-AIAgent Team
