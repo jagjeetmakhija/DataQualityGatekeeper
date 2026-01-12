@@ -1,219 +1,132 @@
-"""
-═══════════════════════════════════════════════════════════════
-🧹 AUTO-FIXER MODULE
-═══════════════════════════════════════════════════════════════
-Purpose: Clean and normalize data before validation
-Version: 1.0
-No AI/ML - purely deterministic transformations
-═══════════════════════════════════════════════════════════════
-"""
-
-import sys
+import os
 import json
 import pandas as pd
 from datetime import datetime
-from pathlib import Path
 
-def trim_whitespace(df):
-    """Trim whitespace from headers and string values"""
-    # Trim column names
-    df.columns = df.columns.str.strip()
-    
-    # Trim string values
-    for col in df.select_dtypes(include=['object']).columns:
-        df[col] = df[col].str.strip() if df[col].dtype == 'object' else df[col]
-    
-    return df, len(df)
 
-def normalize_casing(df, categorical_columns=None):
-    """Normalize casing for categorical columns"""
-    if categorical_columns is None:
-        categorical_columns = ['Stage', 'Status', 'Region', 'Priority']
-    
-    affected = 0
-    for col in categorical_columns:
-        if col in df.columns:
-            df[col] = df[col].str.title()  # Convert to Title Case
-            affected += len(df)
-    
-    return df, affected
+# ------------------------------------------------------------------
+# Centralized Output Folder Resolution
+# ------------------------------------------------------------------
+def get_run_output_dir():
+    """
+    Priority:
+      1. OUTPUT_RUN_DIR  -> set by PowerShell pipeline
+      2. OUTPUT_PATH     -> base output path
+      3. ../05-Outputs   -> fallback
+    Always returns a run-specific folder.
+    """
+    run_dir = os.getenv("OUTPUT_RUN_DIR")
+    if run_dir:
+        return run_dir
 
-def standardize_dates(df, date_columns=None):
-    """Convert dates to ISO format (YYYY-MM-DD)"""
-    if date_columns is None:
-        date_columns = ['CreatedDate', 'LastActivityDate', 'ClosedDate']
-    
-    affected = 0
-    for col in date_columns:
-        if col in df.columns:
-            try:
-                df[col] = pd.to_datetime(df[col], errors='coerce').dt.strftime('%Y-%m-%d')
-                affected += df[col].notna().sum()
-            except Exception:
-                pass
-    
-    return df, affected
+    output_root = os.getenv("OUTPUT_PATH")
+    if not output_root:
+        output_root = os.path.join(os.getcwd(), "..", "05-Outputs")
 
-def coerce_numeric_fields(df, numeric_columns=None):
-    """Remove commas and convert to numeric"""
-    if numeric_columns is None:
-        numeric_columns = ['EstimatedValue', 'Probability', 'ContactCount']
-    
-    affected = 0
-    for col in numeric_columns:
-        if col in df.columns:
-            # Remove commas and convert to numeric
-            if df[col].dtype == 'object':
-                df[col] = df[col].str.replace(',', '').str.replace('$', '')
-                df[col] = pd.to_numeric(df[col], errors='coerce')
-                affected += len(df)
-    
-    return df, affected
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    return os.path.join(output_root, f"Output_{ts}")
 
-def normalize_categorical_values(df):
-    """Normalize known categorical values using synonyms"""
-    
-    # Stage synonyms
-    stage_mapping = {
-        'new': 'Lead', 'initial': 'Lead', 'prospecting': 'Lead',
-        'qualified lead': 'Qualified', 'sql': 'Qualified', 'mql': 'Qualified',
-        'proposed': 'Proposal', 'quote sent': 'Proposal',
-        'negotiating': 'Negotiation', 'contract review': 'Negotiation',
-        'won': 'Closed-Won', 'closed won': 'Closed-Won', 'success': 'Closed-Won',
-        'lost': 'Closed-Lost', 'closed lost': 'Closed-Lost', 'rejected': 'Closed-Lost',
-        'paused': 'On-Hold', 'deferred': 'On-Hold', 'postponed': 'On-Hold'
-    }
-    
-    affected = 0
-    if 'Stage' in df.columns:
-        df['Stage'] = df['Stage'].str.lower().map(lambda x: stage_mapping.get(x, x.title() if isinstance(x, str) else x))
-        affected += len(df)
-    
-    return df, affected
 
-def remove_empty_rows(df):
-    """Remove rows where all values are NaN"""
-    original_count = len(df)
-    df = df.dropna(how='all')
-    removed = original_count - len(df)
-    return df, removed
+# ------------------------------------------------------------------
+# Initialize output locations for this run
+# ------------------------------------------------------------------
+OUT_DIR = get_run_output_dir()
+os.makedirs(OUT_DIR, exist_ok=True)
 
-def deduplicate(df, id_column='OpportunityID'):
-    """Remove exact duplicate rows"""
-    original_count = len(df)
-    df = df.drop_duplicates(subset=[id_column], keep='first') if id_column in df.columns else df.drop_duplicates()
-    removed = original_count - len(df)
-    return df, removed
+AUDIT_DIR = os.path.join(OUT_DIR, "autofix-audit")
+os.makedirs(AUDIT_DIR, exist_ok=True)
 
-def auto_fix_data(input_file, output_file, audit_file):
-    """Main auto-fix pipeline"""
-    print(f"Loading data from: {input_file}")
-    
-    # Load data
-    if input_file.endswith('.csv'):
-        df = pd.read_csv(input_file)
-    elif input_file.endswith(('.xlsx', '.xls')):
-        df = pd.read_excel(input_file)
-    else:
-        raise ValueError("Unsupported file format. Use CSV or Excel.")
-    
-    original_rows = len(df)
-    print(f"Input rows: {original_rows}")
-    
-    # Initialize audit log
+CLEANED_DATA_PATH = os.path.join(OUT_DIR, "cleaned-data.csv")
+ERROR_LOG_PATH = os.path.join(OUT_DIR, "error.log")
+
+
+# ------------------------------------------------------------------
+# Logging Helper
+# ------------------------------------------------------------------
+def log_error(message: str):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(ERROR_LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(f"[{ts}] {message}\n")
+
+
+# ------------------------------------------------------------------
+# Main Auto-Fix Function
+# ------------------------------------------------------------------
+def run_auto_fix(input_csv_path: str):
+    """
+    Reads a CSV, applies cleaning rules, writes:
+      - cleaned-data.csv
+      - autofix-audit/autofix-audit-YYYYMMDD_HHMMSS.json
+      - error.log (if needed)
+    All inside the current run folder.
+    """
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    audit_file = os.path.join(AUDIT_DIR, f"autofix-audit-{timestamp}.json")
+
     audit = {
-        "timestamp": datetime.now().isoformat(),
-        "inputFile": input_file,
-        "outputFile": output_file,
-        "originalRowCount": original_rows,
+        "timestamp": timestamp,
+        "inputFile": input_csv_path,
+        "outputFile": CLEANED_DATA_PATH,
+        "originalRowCount": 0,
+        "finalRowCount": 0,
+        "rowsRemoved": 0,
         "transformations": []
     }
-    
-    # Apply transformations
-    transformations = [
-        ("AUTOFIX-001", "Trim Headers and Values", trim_whitespace, {}),
-        ("AUTOFIX-002", "Normalize Casing", normalize_casing, {}),
-        ("AUTOFIX-003", "Standardize Dates", standardize_dates, {}),
-        ("AUTOFIX-004", "Coerce Numeric Fields", coerce_numeric_fields, {}),
-        ("AUTOFIX-005", "Normalize Categorical Values", normalize_categorical_values, {}),
-        ("AUTOFIX-006", "Remove Empty Rows", remove_empty_rows, {}),
-        ("AUTOFIX-007", "De-duplicate Rows", deduplicate, {}),
-    ]
-    
-    for rule_id, rule_name, func, kwargs in transformations:
-        try:
-            print(f"Applying: {rule_name}...")
-            df, affected = func(df, **kwargs)
-            
-            audit["transformations"].append({
-                "ruleID": rule_id,
-                "ruleName": rule_name,
-                "status": "applied",
-                "rowsAffected": affected,
-                "details": f"{affected} rows affected"
-            })
-            print(f"{rule_name}: {affected} rows affected")
-        
-        except Exception as e:
-            audit["transformations"].append({
-                "ruleID": rule_id,
-                "ruleName": rule_name,
-                "status": "failed",
-                "rowsAffected": 0,
-                "details": str(e)
-            })
-            print(f"{rule_name}: FAILED - {e}")
-    
-    # Final counts
-    final_rows = len(df)
-    audit["finalRowCount"] = final_rows
-    audit["rowsRemoved"] = original_rows - final_rows
-    
-    # Save cleaned data
-    # Enforce output to autofix-audit subfolder for consistency
-    if 'autofix-audit' not in str(Path(output_file).parent):
-        print(f"[WARNING] Output path {output_file} is not in 'autofix-audit' subfolder. This may break the pipeline.")
-    print(f"Saving cleaned data to: {output_file}")
-    Path(output_file).parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(output_file, index=False)
-    
-    # Save audit log
-    print(f"Saving audit log to: {audit_file}")
-    Path(audit_file).parent.mkdir(parents=True, exist_ok=True)
-    
-    # Convert numpy types to native Python types
-    def convert_types(obj):
-        import numpy as np
-        if isinstance(obj, dict):
-            return {k: convert_types(v) for k, v in obj.items()}
-        elif isinstance(obj, list):
-            return [convert_types(item) for item in obj]
-        elif isinstance(obj, (np.integer, np.int64)):
-            return int(obj)
-        elif isinstance(obj, (np.floating, np.float64)):
-            return float(obj)
-        return obj
-    
-    audit = convert_types(audit)
-    
-    with open(audit_file, 'w') as f:
-        json.dump(audit, f, indent=2)
-    
-    print(f"Auto-fix completed: {original_rows} -> {final_rows} rows")
-    return 0
 
-if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: python auto_fixer.py <input_file> <output_file> <audit_file>")
-        sys.exit(1)
-    
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-    audit_file = sys.argv[3]
-    
     try:
-        exit_code = auto_fix_data(input_file, output_file, audit_file)
-        sys.exit(exit_code)
+        # Load CSV
+        df = pd.read_csv(input_csv_path)
+        audit["originalRowCount"] = len(df)
+
+        # -------------------------------
+        # PLACE YOUR REAL AUTO-FIX LOGIC HERE
+        # Examples:
+        #   - trim spaces
+        #   - normalize column names
+        #   - drop empty rows
+        #   - enforce schema rules
+        # -------------------------------
+        df = df.dropna(how="all")
+        df.columns = [c.strip() for c in df.columns]
+
+        audit["finalRowCount"] = len(df)
+        audit["rowsRemoved"] = audit["originalRowCount"] - audit["finalRowCount"]
+        audit["transformations"].append("Dropped empty rows")
+        audit["transformations"].append("Trimmed column names")
+
+        # Save cleaned data
+        df.to_csv(CLEANED_DATA_PATH, index=False)
+
+        # Save audit JSON
+        with open(audit_file, "w", encoding="utf-8") as f:
+            json.dump(audit, f, indent=2)
+
+        return {
+            "status": "success",
+            "output_dir": OUT_DIR,
+            "cleaned_data": CLEANED_DATA_PATH,
+            "audit_file": audit_file
+        }
+
     except Exception as e:
-        print(f"Error: {e}")
+        log_error(str(e))
+        return {
+            "status": "error",
+            "message": str(e),
+            "error_log": ERROR_LOG_PATH
+        }
+
+
+# ------------------------------------------------------------------
+# CLI Support (if you run this file directly)
+# ------------------------------------------------------------------
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage: python auto_fixer.py <input_csv_path>")
         sys.exit(1)
+
+    input_csv = sys.argv[1]
+    result = run_auto_fix(input_csv)
+    print(json.dumps(result, indent=2))

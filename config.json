@@ -1,55 +1,63 @@
 {
-  "projectName": "Phase1-LocalInsights",
-  "version": "1.0.0",
-  "description": "Explainable predictive insights using local AI - fully offline",
-  
+  "project": {
+    "name": "LocalAI-Agent-Phase1",
+    "description": "Fully local, deterministic data intake, autofix and validation pipeline",
+    "version": "1.0.0"
+  },
+
   "paths": {
-    "scripts": "01-Scripts",
-    "schema": "02-Schema",
-    "modules": "03-Modules",
-    "ui": "04-UI",
-    "outputs": "05-Outputs",
-    "documentation": "06-Documentation"
+    "base_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1",
+    "input_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/02-Inputs",
+    "data_files_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/02-Inputs",
+    "config_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/config.json",
+    "output_root": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/05-Outputs",
+    "schema_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/02-Schema",
+    "modules_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/03-Modules",
+    "scripts_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/01-Scripts",
+    "docs_path": "C:/MyCode/cx-ai-local/LocalAIAgent-Phase1/01-Docs"
   },
-  
-  "pythonEnvironment": {
-    "venvPath": ".venv",
-    "pythonVersion": "3.10+",
-    "requiredPackages": [
-      "pandas",
-      "openpyxl",
-      "flask",
-      "jsonschema",
-      "python-dateutil"
-    ]
+
+  "step1_autofix": {
+    "enabled": true,
+    "python_script": "auto_fixer.py",
+    "input_extension": [".csv", ".xlsx"],
+    "output_suffix": "_cleaned",
+    "log_file": "step1_autofix.log",
+    "encoding": "utf-8",
+    "delimiter": ",",
+    "null_values": ["", "NULL", "null", "N/A", "na"],
+    "trim_whitespace": true,
+    "normalize_headers": true,
+    "remove_duplicates": true,
+    "date_format": "auto",
+    "number_format": "auto"
   },
-  
-  "executionSettings": {
-    "defaultInputFile": null,
-    "maxRowsForSnippet": 100,
-    "autoFixEnabled": true,
-    "validationStrictMode": true,
-    "stopOnValidationFail": true
+
+  "step2_validate": {
+    "enabled": true,
+    "log_file": "step2_validate.log",
+    "fail_on_error": true,
+    "rules": {
+      "check_empty_file": true,
+      "check_column_names": true,
+      "check_required_columns": false,
+      "check_null_percentage": true,
+      "max_null_percentage": 10,
+      "check_duplicate_rows": true,
+      "check_data_types": false
+    }
   },
-  
-  "uiSettings": {
-    "host": "127.0.0.1",
-    "port": 5000,
-    "debug": false,
-    "allowExternalAccess": false
+
+  "logging": {
+    "level": "INFO",
+    "timestamp_format": "%Y-%m-%d %H:%M:%S",
+    "write_console": true,
+    "write_file": true
   },
-  
-  "loggingSettings": {
-    "enableAuditLogs": true,
-    "enableTraceability": true,
-    "timestampFormat": "yyyy-MM-dd HH:mm:ss",
-    "logLevel": "INFO"
-  },
-  
-  "securitySettings": {
-    "offlineOnly": true,
-    "noTelemetry": true,
-    "noCloudAPIs": true,
-    "localhostOnly": true
+
+  "runtime": {
+    "python_executable": "python",
+    "stop_on_failure": true,
+    "create_timestamped_output_dir": true
   }
 }

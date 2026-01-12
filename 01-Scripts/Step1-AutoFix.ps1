@@ -1,188 +1,53 @@
-
-# ==============================================================
-# STEP 1: AUTO-FIX DATA CLEANING
-# ==============================================================
-# Purpose: Clean and normalize input data before validation
-# Version: 1.0
-# Execution: .\Step1-AutoFix.ps1 -InputFile "DataFiles/sample-data.csv"
-# ==============================================================
-
+[CmdletBinding()]
 param(
-    [Parameter(Mandatory=$false)]
-    [string]$InputFile = "DataFiles/sample-data.csv",
-    
-    [Parameter(Mandatory=$false)]
-    [string]$OutputDirectory = "05-Outputs\autofix-audit",
-    
-    [Parameter(Mandatory=$false)]
-    [string]$VenvPath = ".venv311"
+  [Parameter(Mandatory=$false)]
+  [int]$StepNumber = 1,
+
+  [Parameter(Mandatory=$true)]
+  [ValidateNotNullOrEmpty()]
+  [string]$OutputDir,
+
+  [Parameter(Mandatory=$false)]
+  [string]$BasePath,
+
+  [Parameter(Mandatory=$false)]
+  [string]$DataPath,
+
+  [Parameter(Mandatory=$false)]
+  [string]$ConfigPath
 )
 
-# Load common functions
-. (Join-Path $PSScriptRoot "Common-Functions.ps1")
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+. "$PSScriptRoot\Common-Functions.ps1"
+
+# Resolve defaults
+$ProjectRoot = Get-ProjectRoot
+if (-not $BasePath)   { $BasePath = $ProjectRoot }
+if (-not $DataPath)   { $DataPath = Join-Path $BasePath "DataFiles" }
+if (-not $ConfigPath) { $ConfigPath = Join-Path $BasePath "config.json" }
+
+Ensure-Directory -Path $OutputDir
+
+# 🔑 Make Python write into THIS run folder
+$env:OUTPUT_RUN_DIR = $OutputDir
+$env:OUTPUT_PATH    = Join-Path $BasePath "05-Outputs"
+
+$stepLog = Join-Path $OutputDir "step1_autofix.log"
+"Step1-AutoFix started: $(Get-Date)" | Out-File -FilePath $stepLog -Encoding utf8
+"OutputDir: $OutputDir" | Out-File -FilePath $stepLog -Append -Encoding utf8
+"DataPath: $DataPath" | Out-File -FilePath $stepLog -Append -Encoding utf8
+"ConfigPath: $ConfigPath" | Out-File -FilePath $stepLog -Append -Encoding utf8
 
 
-# --------------------------------------------------------------
-# MAIN EXECUTION
-# --------------------------------------------------------------
+$python = "python"
+$inputCsv = Get-ChildItem -Path $DataPath -Filter *.csv | Select-Object -First 1
+if (-not $inputCsv) { throw "No CSV found in $DataPath" }
 
-Write-StepHeader -StepNumber "1" -StepName "AUTO-FIX DATA CLEANING"
+"Calling Python auto_fixer.py on $($inputCsv.FullName)" |
+    Out-File -FilePath $stepLog -Append -Encoding utf8
 
-# Initialize audit log
-$auditLog = Initialize-AuditLog -ScriptName "Step1-AutoFix" -InputFile $InputFile -OutputDirectory $OutputDirectory
+& $python (Join-Path $BasePath "03-Modules\auto_fixer.py") $inputCsv.FullName
 
-    # Removed stray try block
-    # ───────────────────────────────────────────────────────────
-    # 🔍 VALIDATE INPUT FILE
-    # ───────────────────────────────────────────────────────────
-    
-    if (-not (Test-FileExists -Path $InputFile -Description "Input file")) {
-        throw "Input file not found: $InputFile"
-    }
-    
-    $fileSize = (Get-Item $InputFile).Length
-    $fileSizeMB = [math]::Round($fileSize / 1MB, 2)
-    
-    Add-AuditMetric -AuditLog $auditLog -MetricName "InputFileSize_MB" -MetricValue $fileSizeMB
-    Add-AuditEvent -AuditLog $auditLog -EventType "FileValidation" -Message "Input file validated" -Severity "success"
-    
-    # ───────────────────────────────────────────────────────────
-    # 📊 COUNT INPUT ROWS
-    # ───────────────────────────────────────────────────────────
-    
-    Write-Progress "Counting input rows"
-    $inputRows = Get-FileRowCount -FilePath $InputFile
-    Add-AuditMetric -AuditLog $auditLog -MetricName "InputRowCount" -MetricValue $inputRows
-    
-    # ───────────────────────────────────────────────────────────
-    # 🐍 EXECUTE PYTHON AUTO-FIX MODULE
-    # ───────────────────────────────────────────────────────────
-    
-    Write-Progress "Running auto-fix transformations"
-    $outputFile = Join-Path $OutputDirectory "cleaned-data.csv"
-    $auditFile = Join-Path $OutputDirectory (Get-TimestampedFilename -BaseName "autofix-audit" -Extension "json")
-    New-Directory -Path $OutputDirectory
-
-    Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Starting Python auto-fix module" -Severity "info"
-
-    # --- Call Python auto_fixer.py ---
-    $pythonExe = Join-Path $VenvPath "Scripts/python.exe"
-    if (-not (Test-Path $pythonExe)) {
-        $pythonExe = "python"  # fallback to global python
-    }
-        # Check if Python environment exists and pandas is installed
-        if (-not (Test-Path $pythonExe)) {
-            throw ".venv311 Python environment not found. Please create it with: py -3.11 -m venv .venv311"
-        }
-        $pipList = & $pythonExe -m pip list 2>&1
-        if ($pipList -notmatch "pandas") {
-            Write-Host "Installing pandas in .venv311..." -ForegroundColor Yellow
-            & $pythonExe -m pip install pandas==2.1.4
-        }
-
-        # Check if a Python process is already running for this script in the current session
-        $existingPython = Get-Process python -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $pythonExe }
-        if ($existingPython) {
-            Write-Host "Reusing existing Python process (PID: $($existingPython.Id)) in this terminal." -ForegroundColor Green
-        } else {
-            $autoFixCmd = @(
-                $pythonExe,
-                "03-Modules/auto_fixer.py",
-                $InputFile,
-                $outputFile,
-                $auditFile
-            )
-            $process = Start-Process -FilePath $autoFixCmd[0] -ArgumentList $autoFixCmd[1..4] -NoNewWindow -Wait -PassThru
-            if ($process.ExitCode -ne 0) {
-                throw "Python auto_fixer.py failed with exit code $($process.ExitCode). Check your Python environment and input file."
-            }
-	    Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Auto-fix completed successfully" -Severity "success"
-        }
-
-    # --- Robust check for output file ---
-    if (-not (Test-Path $outputFile)) {
-        throw "Auto-fix failed: cleaned-data.csv was not created. Check input file and Python logs."
-    }
-
-    Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Auto-fix completed successfully" -Severity "success"
-    
-    # ───────────────────────────────────────────────────────────
-    # 📊 COUNT OUTPUT ROWS
-    # ───────────────────────────────────────────────────────────
-    
-    if (Test-Path $outputFile) {
-        $outputRows = Get-FileRowCount -FilePath $outputFile
-        Add-AuditMetric -AuditLog $auditLog -MetricName "OutputRowCount" -MetricValue $outputRows
-        Add-AuditMetric -AuditLog $auditLog -MetricName "RowsRemoved" -MetricValue ($inputRows - $outputRows)
-    }
-    
-    # ───────────────────────────────────────────────────────────
-    # 📋 PARSE AUTO-FIX AUDIT FILE
-    # ───────────────────────────────────────────────────────────
-    
-    if (Test-Path $auditFile) {
-        $autoFixAudit = Get-Content $auditFile | ConvertFrom-Json
-        
-        Write-Host ""
-        Write-Host "  Auto-Fix Transformations Applied:" -ForegroundColor Yellow
-        Write-Host ""
-        
-        $traceabilityEntries = @()
-        
-        foreach ($rule in $autoFixAudit.transformations) {
-            $icon = switch ($rule.status) {
-                "applied" { "[OK]" }
-                "skipped" { "[SKIP]" }
-                "failed" { "[FAIL]" }
-                default { "[INFO]" }
-            }
-            Write-Host "     $icon $($rule.ruleName)" -ForegroundColor White
-            Write-Host "        Rows Affected: $($rule.rowsAffected)" -ForegroundColor Cyan
-            if ($rule.details) {
-                Write-Host "        Details: $($rule.details)" -ForegroundColor Gray
-            }
-            # Create traceability entry
-            $entry = New-TraceabilityEntry `
-                -FileName (Split-Path $InputFile -Leaf) `
-                -RuleID $rule.ruleID `
-                -RuleName $rule.ruleName `
-                -RuleCategory "AutoFix" `
-                -RowsProcessed $inputRows `
-                -RowsPassed $rule.rowsAffected `
-                -RowsFailed 0 `
-                -RowsWarning 0 `
-                -Outcome $rule.status `
-                -Details $rule.details
-            $traceabilityEntries += $entry
-        }
-        
-        # Export traceability matrix
-        $traceabilityFile = Join-Path $OutputDirectory (Get-TimestampedFilename -BaseName "traceability" -Extension "csv")
-        Export-TraceabilityMatrix -Entries $traceabilityEntries -OutputPath $traceabilityFile
-        Add-AuditMetric -AuditLog $auditLog -MetricName "TransformationsApplied" -MetricValue $autoFixAudit.transformations.Count
-    }
-
-# ───────────────────────────────────────────────────────────
-# 📝 SAVE AUDIT LOG
-# ───────────────────────────────────────────────────────────
-
-$auditLogFile = Join-Path $OutputDirectory (Get-TimestampedFilename -BaseName "step1-audit" -Extension "json")
-Save-AuditLog -AuditLog $auditLog -OutputPath $auditLogFile
-
-# ───────────────────────────────────────────────────────────
-# 📊 SHOW SUMMARY
-# ───────────────────────────────────────────────────────────
-
-Show-ExecutionSummary -AuditLog $auditLog -TraceabilityEntries $traceabilityEntries
-
-Write-Success "STEP 1 COMPLETED SUCCESSFULLY"
-Write-Host ""
-Write-Host "  Output Files:" -ForegroundColor Yellow
-Write-Host "     - Cleaned Data: $outputFile" -ForegroundColor Cyan
-Write-Host "     - Auto-Fix Audit: $auditFile" -ForegroundColor Cyan
-Write-Host "     - Traceability Matrix: $traceabilityFile" -ForegroundColor Cyan
-Write-Host "     - Execution Log: $auditLogFile" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "  Next Step: Run Step2-Validate.ps1 to validate the cleaned data" -ForegroundColor Green
-Write-Host ""
-
+"Step1-AutoFix completed: $(Get-Date)" | Out-File -FilePath $stepLog -Append -Encoding utf8

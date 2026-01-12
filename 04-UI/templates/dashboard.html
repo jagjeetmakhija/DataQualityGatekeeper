@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phase-1 Local Insights Dashboard</title>
     <style>
-        /* Place only CSS here. Example: */
+        /* Unified, clean CSS for dashboard */
         body {
             font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
             background: #f3f4f6;
@@ -30,43 +30,6 @@
             margin-top: 0;
             color: #2563eb;
         }
-        .tab-container { margin-top: 24px; }
-        .tab-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-        .tab-btn {
-            background: linear-gradient(90deg, #2563eb 60%, #6366f1 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px 8px 0 0;
-            padding: 10px 22px;
-            font-size: 1.05em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            box-shadow: 0 2px 8px #e0e7ef;
-        }
-        .tab-btn.active, .tab-btn:hover {
-            background: linear-gradient(90deg, #6366f1 60%, #2563eb 100%);
-            color: #fff;
-        }
-        .tab-content {
-            background: #f9fafb;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 2px 8px #e0e7ef;
-            padding: 32px 24px;
-        }
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; }
-        .footer {
-            margin-top: 48px;
-            text-align: center;
-            color: #888;
-            font-size: 1.08em;
-        }
         .metric {
             margin-bottom: 10px;
             font-size: 1.08em;
@@ -77,6 +40,222 @@
         .metric-label {
             font-weight: 500;
             color: #374151;
+        }
+        .metric-value {
+            font-weight: 600;
+        }
+        .metric-value.error { color: #ef4444; }
+        .metric-value.warning { color: #f59e42; }
+        .metric-value.success { color: #10b981; }
+        .downloads-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+        .downloads-section h2 {
+            color: #667eea;
+        }
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .download-btn {
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .download-btn.disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1em;
+        }
+        .overall-status {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .overall-status.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .overall-status.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        /* File Upload Styles */
+        .upload-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .upload-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .file-input-wrapper {
+            flex: 1;
+            min-width: 300px;
+        }
+        .file-input {
+            padding: 12px;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .upload-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .files-list {
+            margin-top: 20px;
+        }
+        .file-item {
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-info {
+            flex: 1;
+        }
+        .file-name {
+            font-weight: 600;
+            color: #667eea;
+        }
+        .file-meta {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 3px;
+        }
+        .run-btn {
+            padding: 8px 20px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .run-btn:hover {
+            background: #059669;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .flash-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        .flash-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        .validation-rules {
+            margin-top: 18px;
+        }
+        .validation-rule {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 4px #e0e7ef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.08em;
+            font-weight: 500;
+        }
+        .rule-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .rule-name {
+            font-weight: 600;
+        }
+        .rule-status {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .rule-status.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .rule-status.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .rule-message {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        ul, ol {
+            margin-left: 24px;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 8px 2px 0 2px; }
+            .card, .downloads-section { padding: 16px 6px; }
         }
         .metric-value {
             font-weight: 600;
@@ -145,14 +324,7 @@
             padding: 16px 18px;
             margin-bottom: 14px;
             box-shadow: 0 1px 4px #e0e7ef;
-        }
-        .validation-rule.passed {
-            border-left: 6px solid #10b981;
-        }
-        .validation-rule.failed {
-            border-left: 6px solid #ef4444;
-        }
-        .rule-header {
+
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -178,32 +350,9 @@
             .card, .downloads-section { padding: 16px 6px; }
         }
     </style>
-    <!-- All CSS is now in this <style> block. No HTML or JS here. -->
-    <!-- All tab content, JS, and HTML is now outside of <style> and all Jinja2 blocks are properly closed. -->
-                                        <style>
-                                        .tab-container { margin-top: 30px; }
-                                        .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-                                        .tab-btn { padding: 10px 18px; border: none; border-radius: 8px 8px 0 0; background: #e0e7ff; color: #333; font-weight: bold; cursor: pointer; }
-                                        .tab-btn.active, .tab-btn:hover { background: #667eea; color: #fff; }
-                                        .tab-content { background: #fff; border-radius: 0 0 10px 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 30px; }
-                                        .tab-pane { display: none; }
-                                        .tab-pane.active { display: block; }
-                                        </style>
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
+
         
-        .validation-rule .rule-name {
-            font-weight: 600;
-        }
-        
-        .validation-rule .rule-status {
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
+        /* Navigation bar and related styles removed as requested */
         
         .rule-status.pass {
             background: #d1fae5;
@@ -407,57 +556,8 @@
     </style>
 </head>
 <body>
-    <!-- Modern Navigation Bar -->
-    <nav class="navbar">
-        <ul>
-            <li class="nav-item active"><span class="nav-icon">📊</span> Dashboard</li>
-            <li class="nav-item"><span class="nav-icon">🔍</span> Data Explorer</li>
-            <li class="nav-item"><span class="nav-icon">🗂️</span> Upload</li>
-            <li class="nav-item"><span class="nav-icon">🤖</span> AI Predictions</li>
-            <li class="nav-item"><span class="nav-icon">🔗</span> OData</li>
-            <li class="nav-item"><span class="nav-icon">🎮</span> Playground</li>
-        </ul>
-    </nav>
     <div class="container">
-                .navbar {
-                    background: #fff;
-                    border-bottom: 1px solid #e5e7eb;
-                    box-shadow: 0 2px 8px #f3f4f6;
-                    padding: 0 0 0 0;
-                    margin-bottom: 32px;
-                }
-                .navbar ul {
-                    display: flex;
-                    align-items: center;
-                    gap: 18px;
-                    list-style: none;
-                    margin: 0;
-                    padding: 0 32px;
-                    height: 56px;
-                }
-                .nav-item {
-                    color: #6366f1;
-                    font-size: 1.08em;
-                    font-weight: 500;
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    cursor: pointer;
-                    opacity: 0.7;
-                    transition: opacity 0.2s, color 0.2s;
-                }
-                .nav-item.active {
-                    color: #2563eb;
-                    opacity: 1;
-                    border-bottom: 3px solid #2563eb;
-                }
-                .nav-item:hover {
-                    opacity: 1;
-                    color: #2563eb;
-                }
-                .nav-icon {
-                    font-size: 1.18em;
-                }
+        <!-- ...existing code... -->
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -480,7 +580,102 @@
                 <span class="status-badge status-offline">📊 {{ data.timestamp }}</span>
             </div>
         </div>
-        
+
+        <!-- Data Quality Summary Section -->
+        {% if data.dq_summary %}
+        <div class="card">
+            <h2>📊 Data Quality Summary</h2>
+            <div class="metric">
+                <span class="metric-label">Rows Processed</span>
+                <span class="metric-value">{{ data.dq_summary.row_count }}</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Duplicates</span>
+                <span class="metric-value warning">{{ data.dq_summary.duplicates }}</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Missing Values</span>
+                <span class="metric-value">{{ data.dq_summary.missing_values }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Phase-1 Analysis Results Section (updated) -->
+        <div class="card" style="background: #f9fafb; border: 1px solid #e5e7eb; margin-bottom: 32px;">
+            <h2 style="color: #2563eb;">🧠 Phase-1 Analysis Results</h2>
+            <ul style="font-size: 1.13em; margin-top: 18px;">
+                <li><b>Priority Ranking:</b> <span style="color:#6366f1;">{{ data.top_opps|length > 0 and data.top_opps[0]['AccountPriority'] or 'N/A' }}</span></li>
+                <li><b>Risk Indicators:</b> <span style="color:#ef4444;">{{ data.top_risks|length > 0 and data.top_risks[0]['StallingRisk'] or 'N/A' }}</span></li>
+                <li><b>Opportunity List:</b> <span style="color:#10b981;">{{ data.top_opps|length }}</span></li>
+                <li><b>Drivers / Explanations:</b> <span style="color:#374151;">Directional, rule-based scoring (see below)</span></li>
+            </ul>
+            <h3>Top Opportunities</h3>
+            <table border="1" cellpadding="6" style="width:100%; background:#fff; border-radius:8px;">
+                <tr>
+                    {% for col in data.top_opps[0].keys() if data.top_opps|length > 0 %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in data.top_opps %}
+                <tr>
+                    {% for col in row.keys() %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            <h3>Top Risks</h3>
+            <table border="1" cellpadding="6" style="width:100%; background:#fff; border-radius:8px;">
+                <tr>
+                    {% for col in data.top_risks[0].keys() if data.top_risks|length > 0 %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+                {% for row in data.top_risks %}
+                <tr>
+                    {% for col in row.keys() %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Scoring Definitions Section -->
+        {% if data.scoring_defs %}
+        <div class="card">
+            <h2>📐 Draft Scoring Definitions</h2>
+            <ul>
+                {% for key, val in data.scoring_defs.items() %}
+                <li><b>{{ key }}:</b> {{ val }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Success Metrics Section -->
+        {% if data.success_metrics %}
+        <div class="card">
+            <h2>🎯 Proposed Success Metrics</h2>
+            <ul>
+                {% for key, val in data.success_metrics.items() %}
+                <li><b>{{ key }}:</b> {{ val }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Run Metadata Section -->
+        <div class="card">
+            <h2>🕒 Run Metadata</h2>
+            <ul>
+                <li><b>Timestamp:</b> {{ data.run_metadata.timestamp }}</li>
+                <li><b>Model Name:</b> {{ data.run_metadata.model_name }}</li>
+                <li><b>Device:</b> {{ data.run_metadata.device }}</li>
+                <li><b>Rows Processed:</b> Input: {{ data.run_metadata.row_counts.input }}, Output: {{ data.run_metadata.row_counts.output }}</li>
+            </ul>
+        </div>
+
         <!-- File Upload & Selection Section -->
         <div class="upload-section">
             <h2>📁 File Management & Pipeline Execution</h2>
@@ -664,25 +859,6 @@ cd 01-Scripts
         {% endif %}
         
         <!-- Footer -->
-        <!-- User-Friendly Output Summary Section -->
-        <div class="card" style="margin-top: 40px; background: #f9fafb; border: 1px solid #e5e7eb;">
-            <h2 style="color: #2563eb;">📝 What do these results mean?</h2>
-            <ul style="font-size: 1.1em; margin-top: 18px;">
-                <li><b>Cleaned Data (CSV):</b> This file contains your original data after automatic cleaning and corrections. Download and use this for further analysis or reporting.</li>
-                <li><b>Auto-Fix Audit (JSON):</b> A detailed log of all changes made to your data during the cleaning process. Useful for compliance and traceability.</li>
-                <li><b>Validation Report (JSON):</b> Shows if your data meets the required schema and business rules. <span style="color:green;">PASS</span> means your data is ready; <span style="color:red;">FAIL</span> means you should review errors and warnings below.</li>
-                <li><b>Traceability (CSV):</b> Maps each validation rule to the rows it checked, passed, or failed. Helps you pinpoint exactly where issues exist in your data.</li>
-            </ul>
-            <div style="margin-top: 18px; color: #374151;">
-                <b>How to use this dashboard:</b>
-                <ol style="margin-top: 8px;">
-                    <li>Review the <b>Validation Results</b> and <b>Rules</b> above for any errors or warnings.</li>
-                    <li>Download the <b>Cleaned Data</b> for your next steps.</li>
-                    <li>If there are issues, use the <b>Auto-Fix Audit</b> and <b>Traceability</b> files to understand and resolve them.</li>
-                    <li>All processing is <b>100% offline</b> for your privacy and security.</li>
-                </ol>
-            </div>
-        </div>
         <div class="footer">
             <p>🔒 <strong>100% Offline</strong> • No Cloud • No Telemetry • No External APIs</p>
             <p style="margin-top: 10px; font-size: 0.9em;">Phase-1 Local Insights v1.0 • Secure • Explainable • Auditable</p>
