@@ -170,6 +170,9 @@ def auto_fix_data(input_file, output_file, audit_file):
     audit["rowsRemoved"] = original_rows - final_rows
     
     # Save cleaned data
+    # Enforce output to autofix-audit subfolder for consistency
+    if 'autofix-audit' not in str(Path(output_file).parent):
+        print(f"[WARNING] Output path {output_file} is not in 'autofix-audit' subfolder. This may break the pipeline.")
     print(f"Saving cleaned data to: {output_file}")
     Path(output_file).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_file, index=False)

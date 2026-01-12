@@ -17,7 +17,7 @@ param(
     [string]$OutputDirectory = "05-Outputs\validation-reports",
     
     [Parameter(Mandatory=$false)]
-    [string]$VenvPath = ".venv"
+    [string]$VenvPath = ".venv311"
 )
 
 # Load common functions
@@ -62,8 +62,9 @@ try {
     
     $pythonScript = "03-Modules\validator.py"
     $validationReport = Join-Path $OutputDirectory (Get-TimestampedFilename -BaseName "validation-report" -Extension "json")
+    $staticReport = Join-Path $OutputDirectory "report.json"
     
-    Ensure-Directory -Path $OutputDirectory
+    New-Directory -Path $OutputDirectory
     
     $pythonArgs = @(
         $InputFile,
@@ -75,6 +76,8 @@ try {
     
     try {
         $pythonOutput = Invoke-PythonScript -ScriptPath $pythonScript -Arguments $pythonArgs -VenvPath $VenvPath
+        # Always copy the latest validation report to report.json for UI/pipeline
+        Copy-Item -Path $validationReport -Destination $staticReport -Force
         Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Validation module completed" -Severity "success"
     } catch {
         Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Validation module failed: $_" -Severity "error"
@@ -220,17 +223,4 @@ try {
     Write-Host ""
     Write-Host "  ▶️  Next Step: Run Step3-QualityCheck.ps1 for data quality analysis" -ForegroundColor Green
     Write-Host ""
-    
-} catch {
-    Add-AuditEvent -AuditLog $auditLog -EventType "Error" -Message $_.Exception.Message -Severity "error"
-    $auditLog.status = "failed"
-    
-    $auditLogFile = Join-Path $OutputDirectory (Get-TimestampedFilename -BaseName "step2-audit-ERROR" -Extension "json")
-    Save-AuditLog -AuditLog $auditLog -OutputPath $auditLogFile
-    
-    Write-Error "❌ STEP 2 FAILED WITH ERROR"
-    Write-Host "  Error: $($_.Exception.Message)" -ForegroundColor Red
-    Write-Host "  Audit log saved: $auditLogFile" -ForegroundColor Yellow
-    
-    exit 1
 }

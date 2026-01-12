@@ -18,10 +18,10 @@ Open PowerShell in the project directory:
 cd C:\MyCode\Local-AIAgent\Phase1-LocalInsights
 
 # Create virtual environment (OPTIONAL)
-python -m venv .venv
+py -3.11 -m venv .venv311
 
 # Activate it (OPTIONAL)
-.\.venv\Scripts\Activate.ps1
+.\.venv311\Scripts\Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
@@ -38,27 +38,17 @@ Successfully installed pandas-2.1.4 openpyxl-3.1.2 flask-3.0.0 ...
 
 ```powershell
 cd 01-Scripts
-.\RUN-ALL.ps1 -InputFile "..\sample-data.csv"
+.\RUN-ALL-AND-UI.ps1 -InputFile "..\DataFiles\sample-data.csv"
 ```
 
-**Expected output:**
-```
-═══════════════════════════════════════════════════════════════
-  🚀 PHASE-1 LOCAL INSIGHTS - COMPLETE PIPELINE
-═══════════════════════════════════════════════════════════════
+**What happens:**
+- Cleans and normalizes your data (auto-fix)
+- Validates schema and types
+- Launches the Flask UI for results
 
-🔍 STEP 0 : PRE-FLIGHT CHECKS
-✅ SUCCESS: Input file exists
-✅ SUCCESS: Python environment ready
-✅ SUCCESS: Schema files validated
-
-🧹 STEP 1 : AUTO-FIX DATA CLEANING
-📊 InputRowCount : 15
-✅ Trim Headers and Values: 15 rows affected
-✅ Normalize Casing: 15 rows affected
-...
-✅ STEP 1 COMPLETED SUCCESSFULLY
-
+**Troubleshooting:**
+- If you see an error about missing cleaned-data.csv, check that your input file exists and is readable.
+- The script now checks and throws a clear error if cleaned-data.csv is not created.
 ✅ STEP 2 : SCHEMA VALIDATION (GATE)
 ✅ Overall Status: PASS
 ✅ STEP 2 COMPLETED SUCCESSFULLY - VALIDATION PASSED

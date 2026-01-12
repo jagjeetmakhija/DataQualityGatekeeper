@@ -1,0 +1,118 @@
+
+table {
+th, td {
+th {
+ul { margin: 0; padding-left: 24px; }
+pre { background: #f3f4f6; padding: 14px; border-radius: 8px; font-size: 1.05em; }
+.fix-instructions { color: #b85c00; margin-top: 12px; font-size: 1.08em; }
+.card:not(:last-child)::after {
+.card:last-child {
+
+body {
+    background: #7c4dff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.header-card {
+    background: #fff;
+    border-radius: 18px;
+    margin: 32px auto 16px auto;
+    max-width: 700px;
+    padding: 32px 24px 18px 24px;
+    box-shadow: 0 2px 12px #6c47d1aa;
+    text-align: center;
+}
+.header-card h1 {
+    color: #7c4dff;
+    margin-bottom: 12px;
+    font-size: 2em;
+}
+.status-row {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+.status-badge {
+    background: #e0e0e0;
+    color: #333;
+    border-radius: 16px;
+    padding: 6px 18px;
+    font-weight: 600;
+    font-size: 1em;
+    display: inline-block;
+}
+.status-badge.green {
+    background: #43d675;
+    color: #fff;
+}
+.section-card {
+    background: #fff;
+    border-radius: 14px;
+    margin: 18px auto;
+    max-width: 700px;
+    padding: 24px 24px 18px 24px;
+    box-shadow: 0 2px 8px #6c47d133;
+}
+.section-card h2 {
+    color: #6c47d1;
+    margin-top: 0;
+    font-size: 1.2em;
+}
+.file-upload-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.file-list h3 {
+    margin: 0 0 8px 0;
+    font-size: 1em;
+    color: #7c4dff;
+}
+.file-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f6f6ff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+.file-name {
+    font-weight: 600;
+    color: #333;
+}
+.file-meta {
+    color: #888;
+    font-size: 0.95em;
+    margin-left: 12px;
+}
+.run-btn {
+    background: #43d675;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.run-btn:hover {
+    background: #2ea85c;
+}
+.no-results {
+    color: #bdbdbd;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.hint {
+    color: #888;
+    font-size: 1em;
+}
+.loading {
+    color: #7c4dff;
+    font-size: 1.1em;
+    font-weight: 600;
+}

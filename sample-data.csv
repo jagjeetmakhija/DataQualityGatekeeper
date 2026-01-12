@@ -1,0 +1,21 @@
+AccountName,OpportunityID,Stage,CreatedDate,EstimatedValue
+Acme Corp,OPP-1001,Prospecting,2026-01-01,50000
+Beta Inc,OPP-1002,Qualification,2026-01-02,75000
+Gamma LLC,OPP-1003,Proposal,2026-01-03,120000
+Delta Ltd,OPP-1004,Negotiation,2026-01-04,90000
+Epsilon AG,OPP-1005,Closed Won,2026-01-05,150000
+Zeta GmbH,OPP-1006,Closed Lost,2026-01-06,30000
+Eta SA,OPP-1007,Prospecting,2026-01-07,45000
+Theta Oy,OPP-1008,Qualification,2026-01-08,80000
+Iota BV,OPP-1009,Proposal,2026-01-09,110000
+Kappa AB,OPP-1010,Negotiation,2026-01-10,95000
+Lambda PLC,OPP-1011,Closed Won,2026-01-11,160000
+Mu Srl,OPP-1012,Closed Lost,2026-01-12,25000
+Nu SpA,OPP-1013,Prospecting,2026-01-13,60000
+Xi Co,OPP-1014,Qualification,2026-01-14,70000
+Omicron Ltd,OPP-1015,Proposal,2026-01-15,130000
+Pi Corp,OPP-1016,Negotiation,2026-01-16,85000
+Rho Inc,OPP-1017,Closed Won,2026-01-17,140000
+Sigma LLC,OPP-1018,Closed Lost,2026-01-18,40000
+Tau AG,OPP-1019,Prospecting,2026-01-19,55000
+Upsilon GmbH,OPP-1020,Qualification,2026-01-20,78000

@@ -6,32 +6,30 @@ Phase-1 Local Insights cleans and validates CSV or Excel files so you can review
 ---
 
 ## Quick Start (about 90 seconds)
-1. Open a terminal in the Phase1-LocalInsights folder (the root of this guide).
+
+1. Open a terminal in the LocalAIAgent-Phase1 folder (the root of this guide).
 2. Create and activate a virtual environment:
-   - Windows: python -m venv .venv then .venv\Scripts\activate
+   - Windows: py -3.11 -m venv .venv311 then .venv311\Scripts\activate
    - macOS/Linux: python3 -m venv .venv then source .venv/bin/activate
 3. Install dependencies:
-   ```bash
-   pip install --upgrade pip
-   pip install pandas==2.1.4 flask==3.0.0 jsonschema==4.20.0 openpyxl==3.1.2
+   ```powershell
+   pip install -r requirements.txt
    ```
-4. Ensure output folders exist:
-   ```bash
-   # Windows PowerShell
-   if (-not (Test-Path "05-Outputs\autofix-audit")) { New-Item -ItemType Directory -Path "05-Outputs\autofix-audit" -Force }
-   if (-not (Test-Path "05-Outputs\validation-reports")) { New-Item -ItemType Directory -Path "05-Outputs\validation-reports" -Force }
+4. Place your input file in DataFiles (e.g. DataFiles\sample-data.csv)
+5. Run the unified pipeline and UI launcher:
+   ```powershell
+   cd 01-Scripts
+   .\RUN-ALL-AND-UI.ps1 -InputFile "..\DataFiles\sample-data.csv"
+   ```
+6. The script will:
+   - Clean and normalize your data (auto-fix)
+   - Validate schema and types
+   - Launch the Flask UI for results
+7. Open http://127.0.0.1:5000 in your browser to view results.
 
-   # macOS/Linux
-   mkdir -p 05-Outputs/autofix-audit 05-Outputs/validation-reports
-   ```
-5. Start the UI:
-   ```bash
-   cd 04-UI
-   ..\..\.venv\Scripts\activate   # Windows
-   source ../../.venv/bin/activate   # macOS/Linux
-   python app.py
-   ```
-6. Open http://127.0.0.1:5000 in your browser, upload a CSV/Excel file, click Run Pipeline, and find results in [05-Outputs](05-Outputs).
+**Troubleshooting:**
+- If you see an error about missing cleaned-data.csv, check that your input file exists and is readable.
+- The script now checks and throws a clear error if cleaned-data.csv is not created.
 
 ---
 

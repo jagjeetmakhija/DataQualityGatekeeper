@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phase-1 Analytics Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+<div class="dashboard-header">
+    Phase-1 Executive Analytics Dashboard
+</div>
+<div class="container">
+    <!-- 1. Dataset Selection -->
+    <section class="card">
+        <h2>📂 Dataset Selection</h2>
+        <input type="file" id="datasetInput" />
+        <span id="selectedFile"></span>
+    </section>
+    <hr class="section-divider">
+    <!-- 2. Auto-fix Actions -->
+    <section class="card">
+        <h2>🧹 Auto-fix Actions</h2>
+        <div>
+            <strong>Before:</strong> {{ autofix_before }}<br>
+            <strong>After:</strong> {{ autofix_after }}
+            <pre>{{ autofix_audit }}</pre>
+        </div>
+    </section>
+    <hr class="section-divider">
+    <!-- 3. Schema Validation -->
+    <section class="card">
+        <h2>✅❌ Schema Validation</h2>
+        <div>
+            {% if schema_status == "PASS" %}
+                <span class="status-icon pass">✅ PASS</span>
+            {% else %}
+                <span class="status-icon fail">❌ FAIL</span>
+                <div class="fix-instructions">
+                    <strong>How to fix:</strong>
+                    <ul>
+                        {% for fix in fix_instructions %}
+                        <li>{{ fix }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <hr class="section-divider">
+    <!-- 4. Data Quality Summary -->
+    <section class="card">
+        <h2>📊 Data Quality Summary</h2>
+        <table>
+            <tr><th>Field</th><th>Nulls</th><th>Range</th><th>Anomalies</th></tr>
+            {% for row in data_quality %}
+            <tr>
+                <td>{{ row.field }}</td>
+                <td>{{ row.nulls }}</td>
+                <td>{{ row.range }}</td>
+                <td>{{ row.anomalies }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    <hr class="section-divider">
+    <!-- 5. Phase-1 Analysis Results -->
+    <section class="card">
+        <h2>🧠 Phase-1 Analysis Results</h2>
+        <h3>Priority Ranking</h3>
+        <table>
+            <tr><th>Account</th><th>Priority</th></tr>
+            {% for item in priority_ranking %}
+            <tr>
+                <td>{{ item.account }}</td>
+                <td>{{ item.priority }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3>Risk Indicators</h3>
+        <ul>
+            {% for risk in risks %}
+            <li>{{ risk }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Opportunities</h3>
+        <ul>
+            {% for opp in opportunities %}
+            <li>{{ opp }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Drivers / Explanations</h3>
+        <ul>
+            {% for driver in drivers %}
+            <li>{{ driver }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <hr class="section-divider">
+    <!-- 6. Draft Scoring Definitions -->
+    <section class="card">
+        <h2>📐 Draft Scoring Definitions</h2>
+        <pre>{{ scoring_definitions }}</pre>
+    </section>
+    <hr class="section-divider">
+    <!-- 7. Proposed Success Metrics -->
+    <section class="card">
+        <h2>🎯 Proposed Success Metrics</h2>
+        <ul>
+            {% for metric in success_metrics %}
+            <li>{{ metric }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <hr class="section-divider">
+    <!-- 8. Downloadable Outputs -->
+    <section class="card">
+        <h2>📥 Downloadable Outputs</h2>
+        <ul>
+            {% for file in output_files %}
+            <li><a href="{{ file.url }}" download>{{ file.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    <hr class="section-divider">
+    <!-- 9. Run Metadata -->
+    <section class="card">
+        <h2>🕒 Run Metadata</h2>
+        <ul>
+            <li><strong>Timestamp:</strong> {{ run_metadata.timestamp }}</li>
+            <li><strong>Model:</strong> {{ run_metadata.model }}</li>
+            <li><strong>Device:</strong> {{ run_metadata.device }}</li>
+            <li><strong>Rows Processed:</strong> {{ run_metadata.rows }}</li>
+        </ul>
+    </section>
+</div>
+</body>
+</html>

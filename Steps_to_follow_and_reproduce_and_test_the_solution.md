@@ -49,11 +49,22 @@
 **Summary:** A fully local, secure, auditable, and business-safe solution with zero cloud dependency and complete transparency.
 
 ## 📦 Artifacts & Outputs
+
 - `05-Outputs/cleaned-data.csv` - Cleaned and auto-fixed data
 - `05-Outputs/autofix-audit/audit-log.json` - Log of all auto-fix actions
 - `05-Outputs/validation-reports/report.json` - Schema validation results
 
 **How to download:** Download cleaned data and reports directly from the UI, or find them in the `05-Outputs` folder.
+
+**Unified E2E Workflow:**
+- Run the pipeline and UI together with:
+  ```powershell
+  cd 01-Scripts
+  .\RUN-ALL-AND-UI.ps1 -InputFile "..\DataFiles\sample-data.csv"
+  ```
+- The script will clean, validate, and launch the UI.
+- If you see an error about missing cleaned-data.csv, check that your input file exists and is readable.
+- The script now checks and throws a clear error if cleaned-data.csv is not created.
 
 **Auto-fix:** Trims headers/values, normalizes casing, standardizes dates, coerces numbers, normalizes categories, and removes empty/duplicate rows. All actions are logged in `audit-log.json`.
 
@@ -102,8 +113,8 @@ For each step, run the commands in the Visual Studio Code Terminal (bottom panel
 
 ### 2. Create and activate a Python virtual environment:
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+py -3.11 -m venv .venv311
+.venv311\Scripts\activate
 ```
 
 ### 3. Install required dependencies (If not there)

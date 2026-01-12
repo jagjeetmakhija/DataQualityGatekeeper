@@ -15,7 +15,7 @@ param(
     [string]$OutputDirectory = "05-Outputs\autofix-audit",
     
     [Parameter(Mandatory=$false)]
-    [string]$VenvPath = ".venv"
+    [string]$VenvPath = ".venv311"
 )
 
 # Load common functions
@@ -59,22 +59,51 @@ $auditLog = Initialize-AuditLog -ScriptName "Step1-AutoFix" -InputFile $InputFil
     # ───────────────────────────────────────────────────────────
     
     Write-Progress "Running auto-fix transformations"
-    
-    # $pythonScript = "03-Modules\auto_fixer.py"  # Removed unused variable
     $outputFile = Join-Path $OutputDirectory "cleaned-data.csv"
     $auditFile = Join-Path $OutputDirectory (Get-TimestampedFilename -BaseName "autofix-audit" -Extension "json")
-    
     New-Directory -Path $OutputDirectory
-    
-    # $pythonArgs = @(
-    #     $InputFile,
-    #     $outputFile,
-    #     $auditFile
-    # )  # Removed unused variable
-    
+
     Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Starting Python auto-fix module" -Severity "info"
-    
-    # Removed all try/catch blocks for PowerShell compatibility
+
+    # --- Call Python auto_fixer.py ---
+    $pythonExe = Join-Path $VenvPath "Scripts/python.exe"
+    if (-not (Test-Path $pythonExe)) {
+        $pythonExe = "python"  # fallback to global python
+    }
+        # Check if Python environment exists and pandas is installed
+        if (-not (Test-Path $pythonExe)) {
+            throw ".venv311 Python environment not found. Please create it with: py -3.11 -m venv .venv311"
+        }
+        $pipList = & $pythonExe -m pip list 2>&1
+        if ($pipList -notmatch "pandas") {
+            Write-Host "Installing pandas in .venv311..." -ForegroundColor Yellow
+            & $pythonExe -m pip install pandas==2.1.4
+        }
+
+        # Check if a Python process is already running for this script in the current session
+        $existingPython = Get-Process python -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $pythonExe }
+        if ($existingPython) {
+            Write-Host "Reusing existing Python process (PID: $($existingPython.Id)) in this terminal." -ForegroundColor Green
+        } else {
+            $autoFixCmd = @(
+                $pythonExe,
+                "03-Modules/auto_fixer.py",
+                $InputFile,
+                $outputFile,
+                $auditFile
+            )
+            $process = Start-Process -FilePath $autoFixCmd[0] -ArgumentList $autoFixCmd[1..4] -NoNewWindow -Wait -PassThru
+            if ($process.ExitCode -ne 0) {
+                throw "Python auto_fixer.py failed with exit code $($process.ExitCode). Check your Python environment and input file."
+            }
+	    Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Auto-fix completed successfully" -Severity "success"
+        }
+
+    # --- Robust check for output file ---
+    if (-not (Test-Path $outputFile)) {
+        throw "Auto-fix failed: cleaned-data.csv was not created. Check input file and Python logs."
+    }
+
     Add-AuditEvent -AuditLog $auditLog -EventType "Processing" -Message "Auto-fix completed successfully" -Severity "success"
     
     # ───────────────────────────────────────────────────────────

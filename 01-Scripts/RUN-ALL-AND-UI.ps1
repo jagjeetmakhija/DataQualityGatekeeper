@@ -9,7 +9,7 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$InputFile = "DataFiles/sample-data.csv",
     [Parameter(Mandatory=$false)]
-    [string]$VenvPath = ".venv"
+    [string]$VenvPath = ".venv311"
 )
 
 # 1. Run the E2E pipeline

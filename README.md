@@ -12,48 +12,45 @@
 ---
 
 ## 🚀 Quick Start (5 Minutes)
-
 ### Step 1: Setup Environment (One-Time)
 
 ```powershell
 # Navigate to project directory
-cd Phase1-LocalInsights
+cd LocalAIAgent-Phase1
 
-# Create virtual environment (optional but recommended)
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+# Create virtual environment (recommended)
+py -3.11 -m venv .venv311
+.\.venv311\Scripts\Activate.ps1
 
 # Install dependencies
-pip install pandas openpyxl flask jsonschema python-dateutil
+pip install -r requirements.txt
 ```
 
 ### Step 2: Prepare Your Data
 
-Place your CSV/Excel file anywhere, e.g.:
+Place your CSV/Excel file in the DataFiles folder:
 ```
-C:\Data\pursuit-data.csv
+DataFiles\sample-data.csv
 ```
 
 **Minimum columns required:**
 - AccountName, OpportunityID, Stage, CreatedDate, EstimatedValue
 
-### Step 3: Run the Pipeline
+### Step 3: Run the Unified Pipeline & UI
 
 ```powershell
 cd 01-Scripts
-.\RUN-ALL.ps1 -InputFile "C:\Data\pursuit-data.csv"
+.\RUN-ALL-AND-UI.ps1 -InputFile "..\DataFiles\sample-data.csv"
 ```
 
-**Expected output:**
-```
-═══════════════════════════════════════════════════════════════
-  🚀 PHASE-1 LOCAL INSIGHTS - COMPLETE PIPELINE
-═══════════════════════════════════════════════════════════════
+**What happens:**
+- Step 1: Cleans and normalizes your data (auto-fix)
+- Step 2: Validates schema and types
+- Step 3: Launches the Flask UI for results
 
-✅ STEP 1: AUTO-FIX COMPLETED
-✅ STEP 2: VALIDATION PASSED
-📊 All outputs saved to: 05-Outputs\
-```
+**Troubleshooting:**
+- If you see an error about missing cleaned-data.csv, check that your input file exists and is readable.
+- The script now checks and throws a clear error if cleaned-data.csv is not created.
 
 ### Step 4: View Results
 
@@ -257,7 +254,7 @@ Timestamp,FileName,RuleID,RuleName,RowsProcessed,RowsPassed,RowsFailed,Outcome
 ### "Python not found"
 ```powershell
 # Activate virtual environment
-.\.venv\Scripts\Activate.ps1
+.\.venv311\Scripts\Activate.ps1
 
 # Or install Python 3.10+
 # Download from: https://www.python.org/downloads/
@@ -336,7 +333,7 @@ Timestamp,FileName,RuleID,RuleName,RowsProcessed,RowsPassed,RowsFailed,Outcome
 ```powershell
 # Run complete pipeline
 cd 01-Scripts
-.\RUN-ALL.ps1 -InputFile "C:\Data\data.csv"
+.\RUN-ALL.ps1 -InputFile "C:\Data\data.csv"  # Uses .venv311
 
 # Run individual steps
 .\Step1-AutoFix.ps1 -InputFile "C:\Data\data.csv"

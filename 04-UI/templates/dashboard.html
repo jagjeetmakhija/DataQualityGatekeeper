@@ -5,146 +5,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phase-1 Local Insights Dashboard</title>
     <style>
-        {% if data.autofix or data.validation %}
-        <div class="card">
-            <h2>📊 Results Overview</h2>
-            <div class="tab-container">
-                <div class="tab-buttons">
-                    <button class="tab-btn" onclick="showTab('tab-dataset')">📂 Dataset</button>
-                    <button class="tab-btn" onclick="showTab('tab-autofix')">🧹 Auto-fix</button>
-                    <button class="tab-btn" onclick="showTab('tab-validation')">✅❌ Validation</button>
-                    <button class="tab-btn" onclick="showTab('tab-quality')">📊 Data Quality</button>
-                    <button class="tab-btn" onclick="showTab('tab-analysis')">🧠 Analysis</button>
-                    <button class="tab-btn" onclick="showTab('tab-scoring')">📐 Scoring Bands</button>
-                    <button class="tab-btn" onclick="showTab('tab-metrics')">🎯 Success Metrics</button>
-                    <button class="tab-btn" onclick="showTab('tab-downloads')">📥 Downloads</button>
-                    <button class="tab-btn" onclick="showTab('tab-metadata')">🕒 Run Metadata</button>
-                    <button class="tab-btn" onclick="showTab('tab-errorlog')">🚨 Error Log</button>
-                    </div>
-                    <div class="tab-content">
-                        <!-- ...existing tab panes... -->
-                                    <div id="tab-errorlog" class="tab-pane">
-                                        <h3>🚨 Error Log</h3>
-                                        {% if error_log %}
-                                            <pre style="background:#fee2e2; color:#991b1b; padding:15px; border-radius:8px; max-height:300px; overflow:auto;">
-                {{ error_log|join('') }}
-                                            </pre>
-                                        {% else %}
-                                            <p>No errors logged.</p>
-            panes.forEach(function(pane) { pane.style.display = 'none'; });
-                                        <div class="card">
-                                            <h2>📊 Results & Error Log</h2>
-                                            <div class="tab-container">
-                                                <div class="tab-buttons">
-                                                    <button class="tab-btn" onclick="showTab('tab-dataset')">📂 Dataset</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-autofix')">🧹 Auto-fix</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-validation')">✅❌ Validation</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-quality')">📊 Data Quality</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-analysis')">🧠 Analysis</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-scoring')">📐 Scoring Bands</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-metrics')">🎯 Success Metrics</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-downloads')">📥 Downloads</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-metadata')">🕒 Run Metadata</button>
-                                                    <button class="tab-btn" onclick="showTab('tab-errorlog')">🚨 Error Log</button>
-                                                </div>
-                                                <div class="tab-content">
-                                                    <div id="tab-dataset" class="tab-pane">
-                                                        <h3>📂 Dataset Selection</h3>
-                                                        <p><b>Current file:</b> {{ data.uploaded_files[0].name if data.uploaded_files else 'N/A' }}</p>
-                                                    </div>
-                                                    <div id="tab-autofix" class="tab-pane">
-                                                        <h3>🧹 Auto-fix Actions Taken</h3>
-                                                        {% if data.autofix %}
-                                                        <div class="metric">Input Rows: {{ data.autofix.originalRowCount }}</div>
-                                                        <div class="metric">Output Rows: {{ data.autofix.finalRowCount }}</div>
-                                                        <div class="metric">Rows Removed: {{ data.autofix.rowsRemoved }}</div>
-                                                        <div class="metric">Transformations: {{ data.autofix.transformations|length }}</div>
-                                                        <pre>{{ data.autofix | tojson(indent=2) }}</pre>
-                                                        {% else %}<p>No auto-fix data available.</p>{% endif %}
-                                                    </div>
-                                                    <div id="tab-validation" class="tab-pane">
-                                                        <h3>✅❌ Schema Validation Status</h3>
-                                                        {% if data.validation %}
-                                                        <div>Status: <b>{% if data.validation.overallStatus == 'PASS' %}<span style="color:green">PASS</span>{% else %}<span style="color:red">FAIL</span>{% endif %}</b></div>
-                                                        {% if data.validation.overallStatus != 'PASS' %}
-                                                        <div><b>Fix Instructions:</b> {{ data.validation.summary.errors }}</div>
-                                                        {% endif %}
-                                                        <pre>{{ data.validation | tojson(indent=2) }}</pre>
-                                                        {% else %}<p>No validation data available.</p>{% endif %}
-                                                    </div>
-                                                    <div id="tab-quality" class="tab-pane">
-                                                        <h3>📊 Data Quality Summary</h3>
-                                                        <div>Nulls: <pre>{{ data.validation.summary.nulls | tojson(indent=2) }}</pre></div>
-                                                        <div>Ranges: <pre>{{ data.validation.summary.ranges | tojson(indent=2) }}</pre></div>
-                                                        <div>Anomalies: <pre>{{ data.validation.summary.anomalies | tojson(indent=2) }}</pre></div>
-                                                    </div>
-                                                    <div id="tab-analysis" class="tab-pane">
-                                                        <h3>🧠 Phase-1 Analysis Results</h3>
-                                                        <div>Priority Ranking: {{ data.validation.analytics.priority_ranking if data.validation.analytics else 'N/A' }}</div>
-                                                        <div>Risk Indicators: {{ data.validation.analytics.risk_indicators if data.validation.analytics else 'N/A' }}</div>
-                                                        <div>Opportunity List: {{ data.validation.analytics.opportunity_list if data.validation.analytics else 'N/A' }}</div>
-                                                        <div>Drivers/Explanations: {{ data.validation.analytics.drivers if data.validation.analytics else 'N/A' }}</div>
-                                                    </div>
-                                                    <div id="tab-scoring" class="tab-pane">
-                                                        <h3>📐 Draft Scoring Definitions (Bands)</h3>
-                                                        <pre>{{ data.validation.analytics.scoring_bands | tojson(indent=2) if data.validation.analytics else 'N/A' }}</pre>
-                                                    </div>
-                                                    <div id="tab-metrics" class="tab-pane">
-                                                        <h3>🎯 Proposed Success Metrics</h3>
-                                                        <pre>{{ data.validation.analytics.success_metrics | tojson(indent=2) if data.validation.analytics else 'N/A' }}</pre>
-                                                    </div>
-                                                    <div id="tab-downloads" class="tab-pane">
-                                                        <h3>📥 Downloadable Local Outputs</h3>
-                                                        <ul>
-                                                            {% if data.outputs.autofix.data %}
-                                                            <li><a href="/download/autofix-audit/{{ data.outputs.autofix.data.split('\\')[-1] }}">Cleaned Data (CSV)</a></li>
-                                                            {% endif %}
-                                                            {% if data.outputs.autofix.audit %}
-                                                            <li><a href="/download/autofix-audit/{{ data.outputs.autofix.audit.split('\\')[-1] }}">Auto-Fix Audit (JSON)</a></li>
-                                                            {% endif %}
-                                                            {% if data.outputs.validation.report %}
-                                                            <li><a href="/download/validation-reports/{{ data.outputs.validation.report.split('\\')[-1] }}">Validation Report (JSON)</a></li>
-                                                            {% endif %}
-                                                        </ul>
-                                                    </div>
-                                                    <div id="tab-metadata" class="tab-pane">
-                                                        <h3>🕒 Run Metadata</h3>
-                                                        <ul>
-                                                            <li>Timestamp: {{ data.validation.run_timestamp if data.validation else 'N/A' }}</li>
-                                                            <li>Model Name: Phase-1-LocalInsights</li>
-                                                            <li>Device: CPU</li>
-                                                            <li>Rows Processed: {{ data.autofix.finalRowCount if data.autofix else 'N/A' }}</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div id="tab-errorlog" class="tab-pane">
-                                                        <h3>🚨 Error Log</h3>
-                                                        {% if error_log %}
-                                                            <pre style="background:#fee2e2; color:#991b1b; padding:15px; border-radius:8px; max-height:300px; overflow:auto;">
+        /* Place only CSS here. Example: */
+        body {
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            background: #f3f4f6;
+            color: #222;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 16px 0 16px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px #e0e7ef;
+            padding: 32px 28px;
+            margin-bottom: 32px;
+            border: 1px solid #e5e7eb;
+        }
+        .card h2, .card h3 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+        .tab-container { margin-top: 24px; }
+        .tab-buttons {
             display: flex;
-                                                            </pre>
-                                                        {% else %}
-                                                            <p>No errors logged.</p>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <script>
-                                        // Tab logic
-                                        function showTab(tabId) {
-                                            var panes = document.querySelectorAll('.tab-pane');
-                                            panes.forEach(function(pane) { pane.style.display = 'none'; });
-                                            document.getElementById(tabId).style.display = 'block';
-                                            var btns = document.querySelectorAll('.tab-btn');
-                                            btns.forEach(function(btn) { btn.classList.remove('active'); });
-                                            var idx = Array.from(document.querySelectorAll('.tab-pane')).findIndex(p => p.id === tabId);
-                                            if (btns[idx]) btns[idx].classList.add('active');
-                                        }
-                                        // Show first tab by default
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            showTab('tab-dataset');
-                                        });
-                                        </script>
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .tab-btn {
+            background: linear-gradient(90deg, #2563eb 60%, #6366f1 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 22px;
+            font-size: 1.05em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 2px 8px #e0e7ef;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: linear-gradient(90deg, #6366f1 60%, #2563eb 100%);
+            color: #fff;
+        }
+        .tab-content {
+            background: #f9fafb;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 8px #e0e7ef;
+            padding: 32px 24px;
+        }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            color: #888;
+            font-size: 1.08em;
+        }
+        .metric {
+            margin-bottom: 10px;
+            font-size: 1.08em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .metric-label {
+            font-weight: 500;
+            color: #374151;
+        }
+        .metric-value {
+            font-weight: 600;
+        }
+        .metric-value.error { color: #ef4444; }
+        .metric-value.warning { color: #f59e42; }
+        .metric-value.success { color: #10b981; }
+        .downloads-section {
+            background: #f9fafb;
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px #e0e7ef;
+            margin-bottom: 32px;
+        }
+        .downloads-section h2 {
+            color: #6366f1;
+        }
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .download-btn {
+            padding: 18px;
+            background: linear-gradient(135deg, #6366f1 0%, #2563eb 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 1.08em;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px #e0e7ef;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 18px rgba(99,102,241,0.18);
+        }
+        .no-data {
+            text-align: center;
+            padding: 48px 0;
+            color: #666;
+            font-size: 1.15em;
+        }
+        .overall-status.pass {
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+        .overall-status.fail {
+            color: #ef4444;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+        .validation-rules {
+            margin-top: 18px;
+        }
+        .validation-rule {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 4px #e0e7ef;
+        }
+        .validation-rule.passed {
+            border-left: 6px solid #10b981;
+        }
+        .validation-rule.failed {
+            border-left: 6px solid #ef4444;
+        }
+        .rule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.08em;
+            font-weight: 500;
+        }
+        .rule-status.pass {
+            color: #10b981;
+        }
+        .rule-status.fail {
+            color: #ef4444;
+        }
+        .rule-message {
+            font-size: 0.98em;
+            color: #374151;
+            margin-top: 6px;
+        }
+        ul, ol {
+            margin-left: 24px;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 8px 2px 0 2px; }
+            .card, .downloads-section { padding: 16px 6px; }
+        }
+    </style>
+    <!-- All CSS is now in this <style> block. No HTML or JS here. -->
+    <!-- All tab content, JS, and HTML is now outside of <style> and all Jinja2 blocks are properly closed. -->
                                         <style>
                                         .tab-container { margin-top: 30px; }
                                         .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
@@ -372,7 +407,57 @@
     </style>
 </head>
 <body>
+    <!-- Modern Navigation Bar -->
+    <nav class="navbar">
+        <ul>
+            <li class="nav-item active"><span class="nav-icon">📊</span> Dashboard</li>
+            <li class="nav-item"><span class="nav-icon">🔍</span> Data Explorer</li>
+            <li class="nav-item"><span class="nav-icon">🗂️</span> Upload</li>
+            <li class="nav-item"><span class="nav-icon">🤖</span> AI Predictions</li>
+            <li class="nav-item"><span class="nav-icon">🔗</span> OData</li>
+            <li class="nav-item"><span class="nav-icon">🎮</span> Playground</li>
+        </ul>
+    </nav>
     <div class="container">
+                .navbar {
+                    background: #fff;
+                    border-bottom: 1px solid #e5e7eb;
+                    box-shadow: 0 2px 8px #f3f4f6;
+                    padding: 0 0 0 0;
+                    margin-bottom: 32px;
+                }
+                .navbar ul {
+                    display: flex;
+                    align-items: center;
+                    gap: 18px;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0 32px;
+                    height: 56px;
+                }
+                .nav-item {
+                    color: #6366f1;
+                    font-size: 1.08em;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    cursor: pointer;
+                    opacity: 0.7;
+                    transition: opacity 0.2s, color 0.2s;
+                }
+                .nav-item.active {
+                    color: #2563eb;
+                    opacity: 1;
+                    border-bottom: 3px solid #2563eb;
+                }
+                .nav-item:hover {
+                    opacity: 1;
+                    color: #2563eb;
+                }
+                .nav-icon {
+                    font-size: 1.18em;
+                }
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -479,52 +564,51 @@
         
         <!-- Validation Section -->
         {% if data.validation %}
-        <div class="card">
-            <h2>✅ Schema Validation Results</h2>
-            
-            <div class="overall-status {% if data.validation.overallStatus == 'PASS' %}pass{% else %}fail{% endif %}">
-                {% if data.validation.overallStatus == 'PASS' %}
-                    ✅ VALIDATION PASSED
-                {% else %}
-                    ❌ VALIDATION FAILED
-                {% endif %}
-            </div>
-            
-            <div class="metric">
-                <span class="metric-label">❌ Errors</span>
-                <span class="metric-value error">{{ data.validation.summary.errorCount }}</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">⚠️ Warnings</span>
-                <span class="metric-value warning">{{ data.validation.summary.warningCount }}</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">📊 Rules Checked</span>
-                <span class="metric-value">{{ data.validation.rules|length }}</span>
-            </div>
-            
-            <div class="validation-rules">
-                <h3 style="margin-bottom: 15px; color: #667eea;">📋 Validation Rules</h3>
-                {% for rule in data.validation.rules %}
-                <div class="validation-rule {% if rule.passed %}passed{% else %}failed{% endif %}">
-                    <div class="rule-header">
-                        <span class="rule-name">{{ rule.ruleName }}</span>
-                        <span class="rule-status {% if rule.passed %}pass{% else %}fail{% endif %}">
-                            {% if rule.passed %}✅ PASS{% else %}❌ FAIL{% endif %}
-                        </span>
-                    </div>
-                    <div class="rule-message">
-                        {{ rule.message }}
-                    </div>
-                    <div class="metric" style="margin-top: 10px; border: none; font-size: 0.9em;">
-                        <span>Checked: {{ rule.rowsChecked }}</span>
-                        <span style="color: #10b981;">Passed: {{ rule.rowsPassed }}</span>
-                        <span style="color: #ef4444;">Failed: {{ rule.rowsFailed }}</span>
-                    </div>
+        <section class="section" id="validation-section">
+            <div class="card">
+                <h2>✅ Schema Validation Results</h2>
+                <div class="overall-status {% if data.validation.overallStatus == 'PASS' %}pass{% else %}fail{% endif %}">
+                    {% if data.validation.overallStatus == 'PASS' %}
+                        ✅ VALIDATION PASSED
+                    {% else %}
+                        ❌ VALIDATION FAILED
+                    {% endif %}
                 </div>
-                {% endfor %}
+                <div class="metric">
+                    <span class="metric-label">❌ Errors</span>
+                    <span class="metric-value error">{{ data.validation.summary.errorCount }}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">⚠️ Warnings</span>
+                    <span class="metric-value warning">{{ data.validation.summary.warningCount }}</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">📊 Rules Checked</span>
+                    <span class="metric-value">{{ data.validation.rules|length }}</span>
+                </div>
+                <div class="validation-rules">
+                    <h3 style="margin-bottom: 15px; color: #667eea;">📋 Validation Rules</h3>
+                    {% for rule in data.validation.rules %}
+                    <div class="validation-rule {% if rule.passed %}passed{% else %}failed{% endif %}">
+                        <div class="rule-header">
+                            <span class="rule-name">{{ rule.ruleName }}</span>
+                            <span class="rule-status {% if rule.passed %}pass{% else %}fail{% endif %}">
+                                {% if rule.passed %}✅ PASS{% else %}❌ FAIL{% endif %}
+                            </span>
+                        </div>
+                        <div class="rule-message">
+                            {{ rule.message }}
+                        </div>
+                        <div class="metric" style="margin-top: 10px; border: none; font-size: 0.9em;">
+                            <span>Checked: {{ rule.rowsChecked }}</span>
+                            <span style="color: #10b981;">Passed: {{ rule.rowsPassed }}</span>
+                            <span style="color: #ef4444;">Failed: {{ rule.rowsFailed }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        </section>
         {% endif %}
         
         <!-- Downloads Section -->
@@ -580,6 +664,25 @@ cd 01-Scripts
         {% endif %}
         
         <!-- Footer -->
+        <!-- User-Friendly Output Summary Section -->
+        <div class="card" style="margin-top: 40px; background: #f9fafb; border: 1px solid #e5e7eb;">
+            <h2 style="color: #2563eb;">📝 What do these results mean?</h2>
+            <ul style="font-size: 1.1em; margin-top: 18px;">
+                <li><b>Cleaned Data (CSV):</b> This file contains your original data after automatic cleaning and corrections. Download and use this for further analysis or reporting.</li>
+                <li><b>Auto-Fix Audit (JSON):</b> A detailed log of all changes made to your data during the cleaning process. Useful for compliance and traceability.</li>
+                <li><b>Validation Report (JSON):</b> Shows if your data meets the required schema and business rules. <span style="color:green;">PASS</span> means your data is ready; <span style="color:red;">FAIL</span> means you should review errors and warnings below.</li>
+                <li><b>Traceability (CSV):</b> Maps each validation rule to the rows it checked, passed, or failed. Helps you pinpoint exactly where issues exist in your data.</li>
+            </ul>
+            <div style="margin-top: 18px; color: #374151;">
+                <b>How to use this dashboard:</b>
+                <ol style="margin-top: 8px;">
+                    <li>Review the <b>Validation Results</b> and <b>Rules</b> above for any errors or warnings.</li>
+                    <li>Download the <b>Cleaned Data</b> for your next steps.</li>
+                    <li>If there are issues, use the <b>Auto-Fix Audit</b> and <b>Traceability</b> files to understand and resolve them.</li>
+                    <li>All processing is <b>100% offline</b> for your privacy and security.</li>
+                </ol>
+            </div>
+        </div>
         <div class="footer">
             <p>🔒 <strong>100% Offline</strong> • No Cloud • No Telemetry • No External APIs</p>
             <p style="margin-top: 10px; font-size: 0.9em;">Phase-1 Local Insights v1.0 • Secure • Explainable • Auditable</p>

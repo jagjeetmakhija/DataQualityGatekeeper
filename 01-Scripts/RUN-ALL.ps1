@@ -9,9 +9,9 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [string]$InputFile = "DataFiles/sample-data.csv",
+    [string]$InputFile = "sample-data.csv",
     [Parameter(Mandatory=$false)]
-    [string]$VenvPath = ".venv",
+    [string]$VenvPath = ".venv311",
     [Parameter(Mandatory=$false)]
     [switch]$SkipValidation,
     [Parameter(Mandatory=$false)]
@@ -33,6 +33,14 @@ Write-Host "══════════════════════�
 Write-Host ""
 
 $startTime = Get-Date
+
+
+# Clean old validation reports for a fresh run
+Write-Host "[i] INFO: Cleaning old validation reports..." -ForegroundColor Gray
+if (Test-Path "05-Outputs/validation-reports/report.json") {
+    Remove-Item "05-Outputs/validation-reports/report.json" -Force
+}
+# Optionally clean other outputs if needed
 
 # Master audit log
 $masterAudit = Initialize-AuditLog -ScriptName "RUN-ALL" -InputFile $InputFile -OutputDirectory "05-Outputs"
@@ -86,7 +94,14 @@ $masterAudit = Initialize-AuditLog -ScriptName "RUN-ALL" -InputFile $InputFile -
         Get-ChildItem -Path "05-Outputs/autofix-audit/" | ForEach-Object { Write-Host $_.FullName }
     
     if (-not (Test-Path $cleanedFile)) {
-        throw "❌ Cleaned data file not found: $cleanedFile"
+        # Fallback: check if file exists in root output folder and move it
+        $fallbackCleaned = "05-Outputs\cleaned-data.csv"
+        if (Test-Path $fallbackCleaned) {
+            Write-Warning "Cleaned data file found in root output folder. Moving to autofix-audit subfolder for consistency."
+            Move-Item -Path $fallbackCleaned -Destination $cleanedFile -Force
+        } else {
+            throw "❌ Cleaned data file not found: $cleanedFile or $fallbackCleaned"
+        }
     }
     
     # ───────────────────────────────────────────────────────────
@@ -157,8 +172,12 @@ $masterAudit = Initialize-AuditLog -ScriptName "RUN-ALL" -InputFile $InputFile -
     Write-Host "     ✅ Traceability Matrix" -ForegroundColor Green
     Write-Host ""
     
-    Write-Host "  🖥️  Next Step: Start the UI to view results" -ForegroundColor Cyan
-    Write-Host "     Command: cd 04-UI ; python app.py" -ForegroundColor Gray
+    Write-Host "  🖥️  Next Step: To view results, manually start the UI in a separate terminal." -ForegroundColor Cyan
+    <#
+    For user reference only (do NOT execute automatically):
+        cd 04-UI
+        python app.py
+    #>
     Write-Host ""
     
     # Save master audit log
