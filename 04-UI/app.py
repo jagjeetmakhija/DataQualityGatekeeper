@@ -8,6 +8,8 @@ Runs on: http://localhost:5000
 ═══════════════════════════════════════════════════════════════
 """
 
+
+import logging
 from flask import Flask, render_template, send_file, jsonify, request, redirect, url_for, flash
 import json
 import os
@@ -16,6 +18,17 @@ from datetime import datetime
 import glob
 import subprocess
 from werkzeug.utils import secure_filename
+
+
+# Setup error logging
+LOG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "05-Outputs"))
+os.makedirs(LOG_DIR, exist_ok=True)
+ERROR_LOG_FILE = os.path.join(LOG_DIR, "error.log")
+logging.basicConfig(
+    filename=ERROR_LOG_FILE,
+    level=logging.ERROR,
+    format='%(asctime)s %(levelname)s %(message)s'
+)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'phase1-local-insights-secure-key'
@@ -92,18 +105,23 @@ def get_all_outputs():
 # ROUTES
 # ═══════════════════════════════════════════════════════════════
 
+
+def read_error_log():
+    log_path = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "05-Outputs")), "error.log")
+    if os.path.exists(log_path):
+        with open(log_path, "r", encoding="utf-8") as f:
+            return f.readlines()[-20:]
+    return []
+
 @app.route('/')
 def dashboard():
     """Main dashboard"""
     outputs = get_all_outputs()
-    
     # Load reports
     autofix_audit = load_json_report(outputs["autofix"]["audit"])
     validation_report = load_json_report(outputs["validation"]["report"])
-    
     # Get uploaded files
     uploaded_files = get_uploaded_files()
-    
     # Prepare dashboard data
     data = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -112,8 +130,8 @@ def dashboard():
         "outputs": outputs,
         "uploaded_files": uploaded_files
     }
-    
-    return render_template('dashboard.html', data=data)
+    error_log = read_error_log()
+    return render_template('dashboard.html', data=data, error_log=error_log)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -162,66 +180,57 @@ def run_pipeline():
     try:
         # Get the parent directory (Phase1-LocalInsights or LocalAIAgent-Phase1)
         app_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        
         # Convert relative filepath to absolute
         filepath = os.path.abspath(filepath)
-        
         # Step 1: Auto-fix data
         auto_fixer_script = os.path.join(app_dir, '03-Modules', 'auto_fixer.py')
         output_dir = os.path.join(app_dir, '05-Outputs')
         os.makedirs(output_dir, exist_ok=True)
         os.makedirs(os.path.join(output_dir, 'autofix-audit'), exist_ok=True)
         os.makedirs(os.path.join(output_dir, 'validation-reports'), exist_ok=True)
-        
         cleaned_file = os.path.join(output_dir, 'cleaned-data.csv')
         audit_file = os.path.join(output_dir, 'autofix-audit', 'audit-log.json')
-        
         print(f"[APP] Running auto-fixer on: {filepath}")
         print(f"[APP] Script location: {auto_fixer_script}")
-        
         result_autofix = subprocess.run(
             ['python', auto_fixer_script, filepath, cleaned_file, audit_file],
             capture_output=True,
             text=True,
             cwd=app_dir
         )
-        
         print(f"[APP] Auto-fixer stdout: {result_autofix.stdout}")
         print(f"[APP] Auto-fixer stderr: {result_autofix.stderr}")
         print(f"[APP] Auto-fixer return code: {result_autofix.returncode}")
-        
         if result_autofix.returncode != 0:
-            flash(f'Auto-fix failed: {result_autofix.stderr}', 'error')
+            error_msg = f'Auto-fix failed: {result_autofix.stderr}'
+            flash(error_msg, 'error')
+            logging.error(f"Auto-fix failed | File: {filename} | Error: {result_autofix.stderr} | Stdout: {result_autofix.stdout}")
             return redirect(url_for('dashboard'))
-        
         # Step 2: Validate data
         validator_script = os.path.join(app_dir, '03-Modules', 'validator.py')
         schema_file = os.path.join(app_dir, '02-Schema', 'schema.json')
         report_file = os.path.join(output_dir, 'validation-reports', 'report.json')
-        
         print(f"[APP] Running validator on: {cleaned_file}")
         print(f"[APP] Schema location: {schema_file}")
-        
         result_validate = subprocess.run(
             ['python', validator_script, cleaned_file, schema_file, report_file],
             capture_output=True,
             text=True,
             cwd=app_dir
         )
-        
         print(f"[APP] Validator stdout: {result_validate.stdout}")
         print(f"[APP] Validator stderr: {result_validate.stderr}")
         print(f"[APP] Validator return code: {result_validate.returncode}")
-        
         if result_validate.returncode == 0:
             flash(f'Pipeline executed successfully on {filename}! ✅ Validation PASSED', 'success')
         else:
-            flash(f'Pipeline completed. ⚠️ Validation has warnings. Check report.', 'warning')
-            
+            warn_msg = f'Pipeline completed. ⚠️ Validation has warnings. Check report.'
+            flash(warn_msg, 'warning')
+            logging.error(f"Validation warning | File: {filename} | Error: {result_validate.stderr} | Stdout: {result_validate.stdout}")
     except Exception as e:
         print(f"[APP] Exception: {str(e)}")
         flash(f'Error executing pipeline: {str(e)}', 'error')
-    
+        logging.error(f"Pipeline exception | File: {filename if 'filename' in locals() else 'N/A'} | Exception: {str(e)}", exc_info=True)
     return redirect(url_for('dashboard'))
 
 @app.route('/api/status')

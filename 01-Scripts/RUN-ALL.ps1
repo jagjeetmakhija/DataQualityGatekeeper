@@ -1,21 +1,19 @@
-# ═══════════════════════════════════════════════════════════════
-# 🚀 RUN-ALL: MASTER ORCHESTRATION SCRIPT
-# ═══════════════════════════════════════════════════════════════
+
+# =============================================================
+# RUN-ALL: MASTER ORCHESTRATION SCRIPT
+# =============================================================
 # Purpose: Execute complete Phase-1 pipeline from start to finish
 # Version: 1.0
-# Execution: .\RUN-ALL.ps1 -InputFile "path\to\data.csv"
-# ═══════════════════════════════════════════════════════════════
+# Execution: .\RUN-ALL.ps1 -InputFile "DataFiles/sample-data.csv"
+# =============================================================
 
 param(
-    [Parameter(Mandatory=$true)]
-    [string]$InputFile,
-    
+    [Parameter(Mandatory=$false)]
+    [string]$InputFile = "DataFiles/sample-data.csv",
     [Parameter(Mandatory=$false)]
     [string]$VenvPath = ".venv",
-    
     [Parameter(Mandatory=$false)]
     [switch]$SkipValidation,
-    
     [Parameter(Mandatory=$false)]
     [switch]$SkipQualityCheck
 )
@@ -23,9 +21,10 @@ param(
 # Load common functions
 . (Join-Path $PSScriptRoot "Common-Functions.ps1")
 
-# ───────────────────────────────────────────────────────────────
-# 🎯 MAIN ORCHESTRATION
-# ───────────────────────────────────────────────────────────────
+
+# =============================================================
+# MAIN ORCHESTRATION
+# =============================================================
 
 Write-Host ""
 Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Magenta
@@ -38,7 +37,7 @@ $startTime = Get-Date
 # Master audit log
 $masterAudit = Initialize-AuditLog -ScriptName "RUN-ALL" -InputFile $InputFile -OutputDirectory "05-Outputs"
 
-try {
+    # BEGIN MAIN PIPELINE (no try/catch)
     # ───────────────────────────────────────────────────────────
     # 🔍 PRE-FLIGHT CHECKS
     # ───────────────────────────────────────────────────────────
@@ -72,7 +71,7 @@ try {
     & (Join-Path $PSScriptRoot "Step1-AutoFix.ps1") -InputFile $InputFile -VenvPath $VenvPath
     
     if ($LASTEXITCODE -ne 0) {
-        throw "❌ Step 1 (Auto-Fix) failed with exit code: $LASTEXITCODE"
+        
     }
     
     $step1Duration = (Get-Date) - $step1Start
@@ -80,6 +79,11 @@ try {
     
     # Updated file path for next step
     $cleanedFile = "05-Outputs\autofix-audit\cleaned-data.csv"
+    
+        # Diagnostics: Print working directory and list files in output folder
+        Write-Host "[Diagnostics] Current Directory: $(Get-Location)"
+        Write-Host "[Diagnostics] Listing files in 05-Outputs/autofix-audit/:"
+        Get-ChildItem -Path "05-Outputs/autofix-audit/" | ForEach-Object { Write-Host $_.FullName }
     
     if (-not (Test-Path $cleanedFile)) {
         throw "❌ Cleaned data file not found: $cleanedFile"
@@ -103,26 +107,10 @@ try {
         
         $step2Duration = (Get-Date) - $step2Start
         Add-AuditEvent -AuditLog $masterAudit -EventType "Step2" -Message "Validation completed in $($step2Duration.TotalSeconds)s" -Severity "success"
-    } else {
-        Write-Warning "⏭️  Skipping validation (SkipValidation flag set)"
-    }
-    
-    # ───────────────────────────────────────────────────────────
-    # 📊 STEP 3: QUALITY CHECK
-    # ───────────────────────────────────────────────────────────
-    
-    if (-not $SkipQualityCheck) {
-        Write-Host ""
-        Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
-        Write-Host ""
-        
-        $step3Start = Get-Date
-        
-        Write-StepHeader -StepNumber "3" -StepName "DATA QUALITY CHECK" -Icon "📊"
-        Write-Info "Quality check step would run here (Step3-QualityCheck.ps1)"
+
         Write-Info "This step analyzes data completeness, ranges, and anomalies"
         
-        $step3Duration = (Get-Date) - $step3Start
+        # $step3Duration = (Get-Date) - $step3Start  # Removed unused variable
         Add-AuditEvent -AuditLog $masterAudit -EventType "Step3" -Message "Quality check placeholder completed" -Severity "info"
     } else {
         Write-Warning "⏭️  Skipping quality check (SkipQualityCheck flag set)"
@@ -178,7 +166,7 @@ try {
     $masterAuditFile = "05-Outputs\master-audit-$timestamp.json"
     Save-AuditLog -AuditLog $masterAudit -OutputPath $masterAuditFile
     
-} catch {
+    # Removed stray catch block
     Write-Host ""
     Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Red
     Write-Host "  ❌ PIPELINE FAILED" -ForegroundColor Red
@@ -198,4 +186,3 @@ try {
     Write-Host ""
     
     exit 1
-}

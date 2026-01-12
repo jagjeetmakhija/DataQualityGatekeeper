@@ -5,167 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phase-1 Local Insights Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .header .subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
-        
-        .status-bar {
+        {% if data.autofix or data.validation %}
+        <div class="card">
+            <h2>📊 Results Overview</h2>
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn" onclick="showTab('tab-dataset')">📂 Dataset</button>
+                    <button class="tab-btn" onclick="showTab('tab-autofix')">🧹 Auto-fix</button>
+                    <button class="tab-btn" onclick="showTab('tab-validation')">✅❌ Validation</button>
+                    <button class="tab-btn" onclick="showTab('tab-quality')">📊 Data Quality</button>
+                    <button class="tab-btn" onclick="showTab('tab-analysis')">🧠 Analysis</button>
+                    <button class="tab-btn" onclick="showTab('tab-scoring')">📐 Scoring Bands</button>
+                    <button class="tab-btn" onclick="showTab('tab-metrics')">🎯 Success Metrics</button>
+                    <button class="tab-btn" onclick="showTab('tab-downloads')">📥 Downloads</button>
+                    <button class="tab-btn" onclick="showTab('tab-metadata')">🕒 Run Metadata</button>
+                    <button class="tab-btn" onclick="showTab('tab-errorlog')">🚨 Error Log</button>
+                    </div>
+                    <div class="tab-content">
+                        <!-- ...existing tab panes... -->
+                                    <div id="tab-errorlog" class="tab-pane">
+                                        <h3>🚨 Error Log</h3>
+                                        {% if error_log %}
+                                            <pre style="background:#fee2e2; color:#991b1b; padding:15px; border-radius:8px; max-height:300px; overflow:auto;">
+                {{ error_log|join('') }}
+                                            </pre>
+                                        {% else %}
+                                            <p>No errors logged.</p>
+            panes.forEach(function(pane) { pane.style.display = 'none'; });
+                                        <div class="card">
+                                            <h2>📊 Results & Error Log</h2>
+                                            <div class="tab-container">
+                                                <div class="tab-buttons">
+                                                    <button class="tab-btn" onclick="showTab('tab-dataset')">📂 Dataset</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-autofix')">🧹 Auto-fix</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-validation')">✅❌ Validation</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-quality')">📊 Data Quality</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-analysis')">🧠 Analysis</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-scoring')">📐 Scoring Bands</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-metrics')">🎯 Success Metrics</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-downloads')">📥 Downloads</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-metadata')">🕒 Run Metadata</button>
+                                                    <button class="tab-btn" onclick="showTab('tab-errorlog')">🚨 Error Log</button>
+                                                </div>
+                                                <div class="tab-content">
+                                                    <div id="tab-dataset" class="tab-pane">
+                                                        <h3>📂 Dataset Selection</h3>
+                                                        <p><b>Current file:</b> {{ data.uploaded_files[0].name if data.uploaded_files else 'N/A' }}</p>
+                                                    </div>
+                                                    <div id="tab-autofix" class="tab-pane">
+                                                        <h3>🧹 Auto-fix Actions Taken</h3>
+                                                        {% if data.autofix %}
+                                                        <div class="metric">Input Rows: {{ data.autofix.originalRowCount }}</div>
+                                                        <div class="metric">Output Rows: {{ data.autofix.finalRowCount }}</div>
+                                                        <div class="metric">Rows Removed: {{ data.autofix.rowsRemoved }}</div>
+                                                        <div class="metric">Transformations: {{ data.autofix.transformations|length }}</div>
+                                                        <pre>{{ data.autofix | tojson(indent=2) }}</pre>
+                                                        {% else %}<p>No auto-fix data available.</p>{% endif %}
+                                                    </div>
+                                                    <div id="tab-validation" class="tab-pane">
+                                                        <h3>✅❌ Schema Validation Status</h3>
+                                                        {% if data.validation %}
+                                                        <div>Status: <b>{% if data.validation.overallStatus == 'PASS' %}<span style="color:green">PASS</span>{% else %}<span style="color:red">FAIL</span>{% endif %}</b></div>
+                                                        {% if data.validation.overallStatus != 'PASS' %}
+                                                        <div><b>Fix Instructions:</b> {{ data.validation.summary.errors }}</div>
+                                                        {% endif %}
+                                                        <pre>{{ data.validation | tojson(indent=2) }}</pre>
+                                                        {% else %}<p>No validation data available.</p>{% endif %}
+                                                    </div>
+                                                    <div id="tab-quality" class="tab-pane">
+                                                        <h3>📊 Data Quality Summary</h3>
+                                                        <div>Nulls: <pre>{{ data.validation.summary.nulls | tojson(indent=2) }}</pre></div>
+                                                        <div>Ranges: <pre>{{ data.validation.summary.ranges | tojson(indent=2) }}</pre></div>
+                                                        <div>Anomalies: <pre>{{ data.validation.summary.anomalies | tojson(indent=2) }}</pre></div>
+                                                    </div>
+                                                    <div id="tab-analysis" class="tab-pane">
+                                                        <h3>🧠 Phase-1 Analysis Results</h3>
+                                                        <div>Priority Ranking: {{ data.validation.analytics.priority_ranking if data.validation.analytics else 'N/A' }}</div>
+                                                        <div>Risk Indicators: {{ data.validation.analytics.risk_indicators if data.validation.analytics else 'N/A' }}</div>
+                                                        <div>Opportunity List: {{ data.validation.analytics.opportunity_list if data.validation.analytics else 'N/A' }}</div>
+                                                        <div>Drivers/Explanations: {{ data.validation.analytics.drivers if data.validation.analytics else 'N/A' }}</div>
+                                                    </div>
+                                                    <div id="tab-scoring" class="tab-pane">
+                                                        <h3>📐 Draft Scoring Definitions (Bands)</h3>
+                                                        <pre>{{ data.validation.analytics.scoring_bands | tojson(indent=2) if data.validation.analytics else 'N/A' }}</pre>
+                                                    </div>
+                                                    <div id="tab-metrics" class="tab-pane">
+                                                        <h3>🎯 Proposed Success Metrics</h3>
+                                                        <pre>{{ data.validation.analytics.success_metrics | tojson(indent=2) if data.validation.analytics else 'N/A' }}</pre>
+                                                    </div>
+                                                    <div id="tab-downloads" class="tab-pane">
+                                                        <h3>📥 Downloadable Local Outputs</h3>
+                                                        <ul>
+                                                            {% if data.outputs.autofix.data %}
+                                                            <li><a href="/download/autofix-audit/{{ data.outputs.autofix.data.split('\\')[-1] }}">Cleaned Data (CSV)</a></li>
+                                                            {% endif %}
+                                                            {% if data.outputs.autofix.audit %}
+                                                            <li><a href="/download/autofix-audit/{{ data.outputs.autofix.audit.split('\\')[-1] }}">Auto-Fix Audit (JSON)</a></li>
+                                                            {% endif %}
+                                                            {% if data.outputs.validation.report %}
+                                                            <li><a href="/download/validation-reports/{{ data.outputs.validation.report.split('\\')[-1] }}">Validation Report (JSON)</a></li>
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                    <div id="tab-metadata" class="tab-pane">
+                                                        <h3>🕒 Run Metadata</h3>
+                                                        <ul>
+                                                            <li>Timestamp: {{ data.validation.run_timestamp if data.validation else 'N/A' }}</li>
+                                                            <li>Model Name: Phase-1-LocalInsights</li>
+                                                            <li>Device: CPU</li>
+                                                            <li>Rows Processed: {{ data.autofix.finalRowCount if data.autofix else 'N/A' }}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div id="tab-errorlog" class="tab-pane">
+                                                        <h3>🚨 Error Log</h3>
+                                                        {% if error_log %}
+                                                            <pre style="background:#fee2e2; color:#991b1b; padding:15px; border-radius:8px; max-height:300px; overflow:auto;">
             display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .status-badge {
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .status-offline {
-            background: #10b981;
-            color: white;
-        }
-        
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
-        .card h2 {
-            color: #667eea;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .metric:last-child {
-            border-bottom: none;
-        }
-        
-        .metric-label {
-            font-weight: 500;
-            color: #666;
-        }
-        
-        .metric-value {
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .metric-value.success {
-            color: #10b981;
-        }
-        
-        .metric-value.error {
-            color: #ef4444;
-        }
-        
-        .metric-value.warning {
-            color: #f59e0b;
-        }
-        
-        .transformations-list {
-            margin-top: 15px;
-        }
-        
-        .transformation-item {
-            padding: 10px;
-            background: #f9fafb;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .transformation-name {
-            font-weight: 500;
-        }
-        
-        .transformation-affected {
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.9em;
-        }
-        
-        .validation-rules {
-            margin-top: 15px;
-        }
-        
-        .validation-rule {
-            padding: 12px;
-            background: #f9fafb;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #d1d5db;
-        }
-        
-        .validation-rule.passed {
-            border-left-color: #10b981;
-        }
-        
-        .validation-rule.failed {
-            border-left-color: #ef4444;
-        }
-        
-        .validation-rule .rule-header {
-            display: flex;
+                                                            </pre>
+                                                        {% else %}
+                                                            <p>No errors logged.</p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                        // Tab logic
+                                        function showTab(tabId) {
+                                            var panes = document.querySelectorAll('.tab-pane');
+                                            panes.forEach(function(pane) { pane.style.display = 'none'; });
+                                            document.getElementById(tabId).style.display = 'block';
+                                            var btns = document.querySelectorAll('.tab-btn');
+                                            btns.forEach(function(btn) { btn.classList.remove('active'); });
+                                            var idx = Array.from(document.querySelectorAll('.tab-pane')).findIndex(p => p.id === tabId);
+                                            if (btns[idx]) btns[idx].classList.add('active');
+                                        }
+                                        // Show first tab by default
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            showTab('tab-dataset');
+                                        });
+                                        </script>
+                                        <style>
+                                        .tab-container { margin-top: 30px; }
+                                        .tab-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+                                        .tab-btn { padding: 10px 18px; border: none; border-radius: 8px 8px 0 0; background: #e0e7ff; color: #333; font-weight: bold; cursor: pointer; }
+                                        .tab-btn.active, .tab-btn:hover { background: #667eea; color: #fff; }
+                                        .tab-content { background: #fff; border-radius: 0 0 10px 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 30px; }
+                                        .tab-pane { display: none; }
+                                        .tab-pane.active { display: block; }
+                                        </style>
             justify-content: space-between;
             align-items: center;
             margin-bottom: 5px;

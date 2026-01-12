@@ -63,7 +63,7 @@ function Write-Metric {
 # 📁 FILE & DIRECTORY OPERATIONS
 # ───────────────────────────────────────────────────────────────
 
-function Ensure-Directory {
+function New-Directory {
     param([string]$Path)
     
     if (-not (Test-Path $Path)) {
@@ -94,7 +94,7 @@ function Get-SafeFilePath {
         [string]$Filename
     )
     
-    Ensure-Directory -Path $Directory
+    New-Directory -Path $Directory
     return Join-Path $Directory $Filename
 }
 
@@ -136,7 +136,7 @@ function Add-AuditEvent {
         [hashtable]$Details = @{}
     )
     
-    $event = @{
+    $auditEvent = @{
         timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         eventType = $EventType
         message = $Message
@@ -144,7 +144,7 @@ function Add-AuditEvent {
         details = $Details
     }
     
-    $AuditLog.events += $event
+    $AuditLog.events += $auditEvent
     
     # Also display to console
     switch ($Severity) {
