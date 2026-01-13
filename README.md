@@ -3,6 +3,7 @@
 ## 📐 Architecture & Flow Diagram
 
 ```
+**Purpose:** Visualizes the entire E2E process, showing how data flows and is transformed at each step. Each box represents a phase in the workflow, with a brief description of what happens and why it's important.
 ┌─────────────────────────────────────────────────────────────┐
 │                  📂 DATA INPUT (Local Files)                 │
 │              CSV / XLSX / TXT (Stakeholder-Shared)           │
@@ -97,50 +98,37 @@
 │  • Run metadata display                                      │
 │  • NO EXTERNAL CONNECTIONS                                   │
 └─────────────────────────────────────────────────────────────┘
-```
 
 ---
+**Purpose:** Lists all folders and files involved in the workflow, and the exact order to run scripts. Ensures users know where to find logic and how to execute the process correctly.
 ## 📁 Folder, File Locations & Script Execution Order
 
 Follow this sequence for a successful E2E run:
 
-### 1. Input Data Preparation
-- **Folder:** `02-Inputs/`
 - **Files:** Place your input CSV (e.g., `sample-data_ui_edgecases.csv`)
 
-### 2. Main Orchestration Script
-- **Folder:** `01-Scripts/`
-- **File:** `RUN-ALL.ps1`
 - **Command to run:**
   ```powershell
   powershell -ExecutionPolicy Bypass -File 01-Scripts/RUN-ALL.ps1
   ```
 
-### 3. Stepwise Execution (Automated by RUN-ALL.ps1)
 - **Step 1:**
   - **Script:** `Step1-AutoFix.ps1` (calls `auto_fixer.py`)
-  - **Location:** `01-Scripts/Step1-AutoFix.ps1`, `03-Modules/auto_fixer.py`
 - **Step 2:**
   - **Script:** `Step2-Validate.ps1` (calls `validator.py`)
-  - **Location:** `01-Scripts/Step2-Validate.ps1`, `03-Modules/validator.py`
 - **Step 3:**
   - **Script:** Analytics and scoring logic
   - **Location:** `03-Modules/phase1_analytics.py`
 
-### 4. Output Review
-- **Folder:** `05-Outputs/Output_<timestamp>/`
 - **Files:**
   - `cleaned-data.csv` (final processed data)
   - `autofix-audit/` (audit logs)
   - `traceability-*.csv` (traceability reports)
-
 ---
 
+**Purpose:** Guides users through the full process, from input preparation to output review.
 ---
 
-## 📝 E2E Execution Guide
-
-### Prerequisites
 - Windows OS
 - PowerShell 5.1 or later
 - Python (for module scripts)
@@ -151,24 +139,17 @@ Follow this sequence for a successful E2E run:
      ```powershell
      powershell -ExecutionPolicy Bypass -File 01-Scripts/RUN-ALL.ps1
      ```
-   - Runs auto-fix, validation, and generates outputs/audits.
-     - `traceability-*.csv`
-
 ### Detailed Flow
 - Step 1: Auto-fix input data using rules from `03-Modules/auto_fixer.py` and config files in `02-Schema/`.
-- Step 2: Validate fixed data using `03-Modules/validator.py` and schema definitions.
 - Step 3: Save cleaned/validated data, audit, and traceability reports in output folders.
 
 ### Output Structure
 - `05-Outputs/Output_<timestamp>/`
   - `cleaned-data.csv` — Final processed data
-  - `autofix-audit/` — Audit logs (JSON)
-  - `traceability-*.csv` — Traceability matrix
-
 ### Additional Notes
-- Troubleshooting: See logs in `autofix-audit/`
 - Module details: See scripts in `03-Modules/`
 - Schema/rules: See `02-Schema/`
+**Purpose:** Shows where logic and outputs are stored, helping users locate scripts, modules, and results.
 
 ---
 
@@ -206,15 +187,11 @@ Phase1-LocalInsights/
 │   ├── insights/                  # Ranked insights and scores
 │   ├── traceability/              # Audit trails
 │   └── run-metadata/              # Execution logs
-│
 ├── 06-Documentation/              # All documentation
 ```
+**Purpose:** Links to supporting documentation for deeper understanding and traceability.
 
----
-
-## 📚 References
 - ARCHITECTURE.md
-- EXECUTION-FLOW.md
 - TRACEABILITY-MATRIX.md
 
 ---
