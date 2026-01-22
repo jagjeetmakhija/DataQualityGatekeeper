@@ -1,4 +1,4 @@
-# All-in-One README: Local AI Agent Phase 1
+# All-in-One README: Data Quality Gatekeeper
 
 ## 📐 Architecture & Flow Diagram
 
