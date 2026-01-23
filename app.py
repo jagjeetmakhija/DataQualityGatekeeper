@@ -62,9 +62,10 @@ def run_e2e_pipeline(input_file):
     # Determine cause if data has missing values or anomalies, and specify columns with missing values
     cause = []
     # Only check and report missing value columns once
-    missing_cols = [col for col, val in col_missing.items() if val > 0]
+    missing_cols = [(col, val) for col, val in col_missing.items() if val > 0]
     if missing > 0:
-        cause.append(f"missing values present ({missing}) in columns: {', '.join(missing_cols)}")
+        missing_details = ', '.join([f"{col} ({val})" for col, val in missing_cols])
+        cause.append(f"missing values present ({missing}) in columns: {missing_details}")
     if anomalies > 0:
         cause.append(f"anomalies present ({anomalies})")
     cause_str = f"\nCause: {', '.join(cause)}." if cause else "\nData is clean."
