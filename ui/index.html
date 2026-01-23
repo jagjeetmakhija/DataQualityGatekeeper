@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 1 Local AI Validation UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', Arial, sans-serif; margin: 0; background: linear-gradient(120deg, #2a5d9f 0%, #6dd5ed 100%); min-height: 100vh; }
+        .container { background: #fff; padding: 2.5rem 2rem; border-radius: 16px; box-shadow: 0 4px 24px #0002; max-width: 520px; margin: 48px auto; }
+        h1 { color: #2a5d9f; text-align: center; margin-bottom: 1.5rem; }
+        .input-group { margin-bottom: 1.5rem; }
+        label { font-weight: 700; color: #17406a; display: block; margin-bottom: 0.5rem; }
+        input[type="file"] { display: block; margin-bottom: 0.5rem; }
+        select, button { width: 100%; padding: 0.75rem; border-radius: 6px; border: 1px solid #2a5d9f; margin-top: 0.5rem; font-size: 1rem; }
+        button { background: #2a5d9f; color: #fff; border: none; font-weight: 700; cursor: pointer; transition: background 0.2s; margin-top: 1.5rem; }
+        button:hover { background: #17406a; }
+        .result { margin-top: 2rem; padding: 1.25rem; background: #eaf6ff; border-radius: 8px; box-shadow: 0 2px 8px #2a5d9f22; }
+        .error { color: #b00; font-weight: 700; }
+        .output-option { margin-top: 1rem; }
+        .output-label { font-weight: 700; color: #17406a; margin-bottom: 0.5rem; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Phase 1 Local AI Validation</h1>
+        <form id="uploadForm">
+            <div class="input-group">
+                <label for="fileInput">Upload CSV file for validation:</label>
+                <input type="file" id="fileInput" accept=".csv" required />
+            </div>
+            <div class="input-group">
+                <label for="outputOption">Select Output Type:</label>
+                <select id="outputOption">
+                    <option value="summary">Summary Report</option>
+                    <option value="full">Full Validation Details</option>
+                    <option value="json">JSON Output</option>
+                </select>
+            </div>
+            <button type="submit">Validate</button>
+        </form>
+        <div id="output" class="result" style="display:none;"></div>
+    </div>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const outputOption = document.getElementById('outputOption').value;
+            const output = document.getElementById('output');
+            if (!fileInput.files.length) {
+                output.style.display = 'block';
+                output.innerHTML = '<span class="error">Please select a CSV file.</span>';
+                return;
+            }
+            output.style.display = 'block';
+            output.innerHTML = `<strong>Validation started...</strong><br><br>Selected Output: <em>${outputOption}</em><br><br><span style='color:#888'>UI is a placeholder, backend integration needed for real results.</span>`;
+        });
+    </script>
+</body>
+</html>

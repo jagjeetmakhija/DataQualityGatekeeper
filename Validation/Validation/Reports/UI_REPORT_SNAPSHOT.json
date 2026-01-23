@@ -1,0 +1,61 @@
+﻿{
+    "DataQuality":  {
+                        "Assessment":  "Fair",
+                        "Score":  68
+                    },
+    "Timestamp":  "2026-01-09 20:27:25",
+    "AnomaliesDetected":  0,
+    "DescriptiveAnalytics":  {
+                                 "TotalColumns":  10,
+                                 "TotalRecords":  250,
+                                 "FieldAnalysis":  {
+                                                       "INITIATION DATE":  {
+                                                                               "MissingCount":  250,
+                                                                               "CompletionRate":  "0%"
+                                                                           },
+                                                       "SITE":  {
+                                                                    "MissingCount":  250,
+                                                                    "CompletionRate":  "0%"
+                                                                },
+                                                       "TYPE":  {
+                                                                    "MissingCount":  0,
+                                                                    "CompletionRate":  "100%"
+                                                                },
+                                                       "CLIENT":  {
+                                                                      "MissingCount":  17,
+                                                                      "CompletionRate":  "93.2%"
+                                                                  },
+                                                       "CAPACITY (MW)":  {
+                                                                             "MissingCount":  0,
+                                                                             "CompletionRate":  "100%"
+                                                                         },
+                                                       "EXPECTED CLOSE":  {
+                                                                              "MissingCount":  15,
+                                                                              "CompletionRate":  "94%"
+                                                                          },
+                                                       "PRICING DATE":  {
+                                                                            "MissingCount":  250,
+                                                                            "CompletionRate":  "0%"
+                                                                        },
+                                                       "PRICING":  {
+                                                                       "MissingCount":  0,
+                                                                       "CompletionRate":  "100%"
+                                                                   },
+                                                       "MARKET":  {
+                                                                      "MissingCount":  0,
+                                                                      "CompletionRate":  "100%"
+                                                                  },
+                                                       "STAGE":  {
+                                                                     "MissingCount":  10,
+                                                                     "CompletionRate":  "96%"
+                                                                 }
+                                                   }
+                             },
+    "DataResidency":  {
+                          "LocalBoundary":  "C:\\MyCode\\Local-AIAgent",
+                          "Status":  "COMPLIANT",
+                          "CloudCalls":  0
+                      },
+    "Phase":  "Phase-1: Local Validation",
+    "Status":  "REQUIRES_REVIEW"
+}

@@ -1,0 +1,265 @@
+﻿{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 18:03:17",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 18:31:38",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:14:58",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:21:56",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:26:00",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:37:01",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:45:50",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:45:53",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:47:17",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "SUCCESS",
+    "Timestamp":  "2026-01-09 19:47:17",
+    "Action":  "TEST_ENTRY"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:47:37",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "SUCCESS",
+    "Timestamp":  "2026-01-09 19:47:37",
+    "Action":  "TEST_ENTRY"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:49:36",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 19:50:17",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "SUCCESS",
+    "Timestamp":  "2026-01-09 19:50:17",
+    "Action":  "TEST_ENTRY"
+}
+{
+    "Status":  "REQUIRES_REVIEW",
+    "Timestamp":  "2026-01-09 19:53:01",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "REQUIRES_REVIEW",
+    "Timestamp":  "2026-01-09 19:54:08",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "REQUIRES_REVIEW",
+    "Timestamp":  "2026-01-09 19:55:16",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "REQUIRES_REVIEW",
+    "Timestamp":  "2026-01-09 19:59:37",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "REQUIRES_REVIEW",
+    "Timestamp":  "2026-01-09 20:27:25",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 20:59:09",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 21:35:03",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 21:35:25",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "SUCCESS",
+    "Timestamp":  "2026-01-09 21:35:25",
+    "Action":  "TEST_ENTRY"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-09 22:03:44",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 14:44:09",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:19:04",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:20:16",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:23:01",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:23:48",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:24:29",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:27:00",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:31:49",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:49:13",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-14 15:49:15",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-19 14:58:29",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-19 15:04:11",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-19 16:39:13",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}
+{
+    "Status":  "APPROVED",
+    "Timestamp":  "2026-01-21 17:56:14",
+    "CloudCalls":  0,
+    "DataResidency":  "LOCAL",
+    "Action":  "VALIDATION_COMPLETE"
+}

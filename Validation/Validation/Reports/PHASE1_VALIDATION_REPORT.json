@@ -1,0 +1,72 @@
+﻿{
+    "DataQuality":  {
+                        "Assessment":  [
+                                           "Excellent",
+                                           "Good"
+                                       ],
+                        "Score":  98
+                    },
+    "Timestamp":  "2026-01-21 17:56:14",
+    "AnomaliesDetected":  6,
+    "DescriptiveAnalytics":  {
+                                 "TotalColumns":  12,
+                                 "TotalRecords":  250,
+                                 "FieldAnalysis":  {
+                                                       "GridConnection":  {
+                                                                              "MissingCount":  0,
+                                                                              "CompletionRate":  "100%"
+                                                                          },
+                                                       "DevelopmentPhase":  {
+                                                                                "MissingCount":  14,
+                                                                                "CompletionRate":  "94.4%"
+                                                                            },
+                                                       "ProjectLocation":  {
+                                                                               "MissingCount":  0,
+                                                                               "CompletionRate":  "100%"
+                                                                           },
+                                                       "LeadEngineer":  {
+                                                                            "MissingCount":  5,
+                                                                            "CompletionRate":  "98%"
+                                                                        },
+                                                       "ProjectType":  {
+                                                                           "MissingCount":  0,
+                                                                           "CompletionRate":  "100%"
+                                                                       },
+                                                       "CompanyName":  {
+                                                                           "MissingCount":  18,
+                                                                           "CompletionRate":  "92.8%"
+                                                                       },
+                                                       "ProbabilityPercent":  {
+                                                                                  "MissingCount":  0,
+                                                                                  "CompletionRate":  "100%"
+                                                                              },
+                                                       "EstimatedCloseDate":  {
+                                                                                  "MissingCount":  20,
+                                                                                  "CompletionRate":  "92%"
+                                                                              },
+                                                       "InvestmentValue_USD":  {
+                                                                                   "MissingCount":  0,
+                                                                                   "CompletionRate":  "100%"
+                                                                               },
+                                                       "TechnologyType":  {
+                                                                              "MissingCount":  0,
+                                                                              "CompletionRate":  "100%"
+                                                                          },
+                                                       "PowerCapacity_MW":  {
+                                                                                "MissingCount":  0,
+                                                                                "CompletionRate":  "100%"
+                                                                            },
+                                                       "PermitStatus":  {
+                                                                            "MissingCount":  0,
+                                                                            "CompletionRate":  "100%"
+                                                                        }
+                                                   }
+                             },
+    "DataResidency":  {
+                          "LocalBoundary":  "C:\\MyCode\\Local-AIAgent",
+                          "Status":  "COMPLIANT",
+                          "CloudCalls":  0
+                      },
+    "Phase":  "Phase-1: Local Validation",
+    "Status":  "APPROVED"
+}

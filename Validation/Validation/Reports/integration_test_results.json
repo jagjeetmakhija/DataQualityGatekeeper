@@ -1,0 +1,108 @@
+﻿{
+    "Phase":  "Integration Tests (E2E)",
+    "Timestamp":  "2026-01-09 21:35:25",
+    "Summary":  {
+                    "Failed":  0,
+                    "Warnings":  0,
+                    "Total":  16,
+                    "Passed":  16
+                },
+    "Tests":  [
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Sample data at C:\\MyCode\\Local-AIAgent\\CONFIG\\data\\sample_data.csv",
+                      "Name":  "CSV-File-Exists",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Validation reports path ok",
+                      "Name":  "Output-Directory-Accessible",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Pipeline script present",
+                      "Name":  "Pipeline-Script-Exists",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "E2E pipeline executed",
+                      "Name":  "Pipeline-Starts-Successfully",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "CSV should load with correct structure",
+                      "Name":  "CSV-Data-Loading",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "CSV rows should parse correctly",
+                      "Name":  "Data-Parsing-Accuracy",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Validation report should be generated",
+                      "Name":  "Report-File-Generation",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Audit log should be created and readable",
+                      "Name":  "Audit-Log-Creation",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Report should contain valid JSON",
+                      "Name":  "Report-JSON-Validity",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Report must contain required fields",
+                      "Name":  "Report-Required-Fields",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Pipeline should not make external network calls (except local model)",
+                      "Name":  "No-External-Network-Calls",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "All processed files must stay within local directory",
+                      "Name":  "Data-Stays-Within-Boundary",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Audit log should track all operations",
+                      "Name":  "Audit-Trail-Completeness",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Pipeline should handle missing CSV gracefully",
+                      "Name":  "Missing-CSV-Handling",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Pipeline should handle JSON parsing errors",
+                      "Name":  "Invalid-JSON-Handling",
+                      "Error":  ""
+                  },
+                  {
+                      "Status":  "PASSED",
+                      "Description":  "Pipeline should handle permission errors",
+                      "Name":  "Permission-Error-Handling",
+                      "Error":  ""
+                  }
+              ]
+}

@@ -1,0 +1,251 @@
+﻿CompanyName,ProjectType,PowerCapacity_MW,ProjectLocation,DevelopmentPhase,EstimatedCloseDate,ProbabilityPercent,LeadEngineer,TechnologyType,GridConnection,PermitStatus,InvestmentValue_USD
+GreenPower Corp,Solar PV,241,Utah,Proposal,2026-05-11,56,James Wilson,Tesla Megapack,69kV Distribution,Under Review,199721520
+Acme Energy,Wind Farm,277,Nevada,Pre-Qualification,2026-10-11,24,Robert Thompson,Vestas V150,138kV Substation,Under Review,422762386
+Acme Energy,Hybrid Solar+Storage,198,Washington,Pre-Qualification,2026-10-06,10,Emily Watson,Siemens Gamesa 5.X,69kV Distribution,Under Review,207052362
+RenewableFirst,Solar PV,300,Nevada,Qualification,2026-09-09,33,James Wilson,Monocrystalline Si,138kV Substation,Pending EIS,297130200
+CleanGrid Solutions,Battery Storage,195,Utah,Proposal,2026-05-16,42,Jessica Martinez,Bifacial Modules,500kV Backbone,Applied,127506405
+EcoWatt Systems,Hybrid Solar+Storage,148,Texas,Pre-Qualification,2026-11-11,17,Sarah Chen,Siemens Gamesa 5.X,500kV Backbone,Under Review,187915600
+RenewableFirst,Solar PV,235,Utah,Qualification,2026-09-14,25,Robert Thompson,Vestas V150,500kV Backbone,Under Review,248328730
+EcoWatt Systems,Hybrid Solar+Storage,342,New Mexico,Negotiation,2026-04-10,69,Robert Thompson,GE Haliade-X,500kV Backbone,Conditional Approval,352362600
+EcoWatt Systems,Solar PV,367,California,Proposal,2026-05-09,56,Robert Thompson,Bifacial Modules,500kV Backbone,Under Review,324117885
+Acme Energy,Battery Storage,198,Oregon,Qualification,,37,Jessica Martinez,Siemens Gamesa 5.X,500kV Backbone,Approved,80326026
+FutureGen Energy,Wind Farm,211,Washington,Pre-Qualification,,26,Lisa Anderson,Vestas V150,138kV Substation,Approved,301114091
+EcoWatt Systems,Battery Storage,102,Colorado,Negotiation,2026-03-22,70,Sarah Chen,Bifacial Modules,69kV Distribution,Applied,78855282
+BrightEnergy Co,Offshore Wind,623,Washington,Proposal,2026-04-14,46,Jessica Martinez,GE Haliade-X,138kV Substation,Approved,1940180865
+FutureGen Energy,Solar PV,330,Florida,,2026-05-24,55,Lisa Anderson,GE Haliade-X,69kV Distribution,Conditional Approval,314315430
+EcoWatt Systems,Solar PV,227,Utah,,2026-06-05,43,Michael Rodriguez,GE Haliade-X,500kV Backbone,Approved,219511497
+EcoWatt Systems,Battery Storage,101,Oregon,Proposal,2026-06-06,46,James Wilson,Monocrystalline Si,500kV Backbone,Applied,66794633
+BrightEnergy Co,Solar PV,350,California,Negotiation,2026-03-22,71,David Kim,Siemens Gamesa 5.X,138kV Substation,Approved,397671750
+WindForce LLC,Solar PV,243,New Mexico,Qualification,2026-08-17,36,David Kim,Bifacial Modules,69kV Distribution,Applied,217625454
+Acme Energy,Wind Farm,136,California,Negotiation,2026-03-08,77,James Wilson,Monocrystalline Si,500kV Backbone,Conditional Approval,170740384
+PowerNow Industries,Wind Farm,323,California,Pre-Qualification,2026-08-06,15,Michael Rodriguez,Vestas V150,230kV Transmission,Approved,457792422
+PowerNow Industries,Solar PV,286,Oregon,Pre-Qualification,2027-01-01,18,Robert Thompson,Bifacial Modules,230kV Transmission,Approved,263888196
+FutureGen Energy,Wind Farm,495,Utah,Negotiation,2026-03-10,68,Jessica Martinez,GE Haliade-X,138kV Substation,Conditional Approval,790620930
+GreenPower Corp,Solar PV,229,Texas,Qualification,2026-06-09,34,David Kim,Bifacial Modules,500kV Backbone,Applied,189270790
+EcoWatt Systems,Hybrid Solar+Storage,147,Washington,,2026-03-04,56,David Kim,Vestas V150,230kV Transmission,Conditional Approval,163158681
+,Wind Farm,239,New Mexico,Proposal,2026-06-04,47,Michael Rodriguez,Vestas V150,69kV Distribution,Approved,406831775
+CleanGrid Solutions,Battery Storage,105,Oregon,Pre-Qualification,2026-07-21,27,Sarah Chen,Siemens Gamesa 5.X,138kV Substation,Approved,43494465
+BrightEnergy Co,Solar PV,412,Arizona,Negotiation,2026-03-26,59,Robert Thompson,Siemens Gamesa 5.X,69kV Distribution,Under Review,418946320
+Acme Energy,Hybrid Solar+Storage,293,Colorado,Proposal,2026-05-03,52,Sarah Chen,Siemens Gamesa 5.X,500kV Backbone,Under Review,384236098
+PowerNow Industries,Wind Farm,171,California,Pre-Qualification,2026-10-04,21,Robert Thompson,GE Haliade-X,500kV Backbone,Pending EIS,278361666
+WindForce LLC,Offshore Wind,723,Washington,Contract Signed,2026-02-10,94,Michael Rodriguez,Monocrystalline Si,138kV Substation,Applied,2279296542
+FutureGen Energy,Hybrid Solar+Storage,111,New Mexico,Pre-Qualification,2026-11-28,28,David Kim,GE Haliade-X,138kV Substation,Applied,115048725
+RenewableFirst,Battery Storage,139,Oregon,Contract Signed,2026-02-15,97,James Wilson,Monocrystalline Si,138kV Substation,Applied,88921358
+FutureGen Energy,Battery Storage,147,New Mexico,Negotiation,2026-04-02,67,Jessica Martinez,Bifacial Modules,230kV Transmission,Applied,65955666
+WindForce LLC,Solar PV,336,Florida,Negotiation,2026-03-18,68,Sarah Chen,Monocrystalline Si,69kV Distribution,Applied,387656976
+SolarTech Inc,Hybrid Solar+Storage,245,Florida,Contract Signed,2026-02-17,92,Lisa Anderson,GE Haliade-X,138kV Substation,Applied,362956720
+RenewableFirst,Offshore Wind,310,Utah,Negotiation,,73,Robert Thompson,Siemens Gamesa 5.X,230kV Transmission,Pending EIS,1272101120
+Acme Energy,Wind Farm,177,Oregon,Proposal,2026-05-03,57,Emily Watson,Siemens Gamesa 5.X,500kV Backbone,Approved,296278353
+FutureGen Energy,Battery Storage,112,Washington,Qualification,2026-08-20,27,Michael Rodriguez,Vestas V150,230kV Transmission,Conditional Approval,61948656
+Acme Energy,Offshore Wind,263,Nevada,,2026-01-22,94,Sarah Chen,Tesla Megapack,230kV Transmission,Applied,1179793015
+GreenPower Corp,Wind Farm,409,California,Proposal,2026-05-31,52,Robert Thompson,Bifacial Modules,500kV Backbone,Pending EIS,575877317
+SolarTech Inc,Hybrid Solar+Storage,150,Arizona,Negotiation,2026-03-22,77,Jessica Martinez,Vestas V150,138kV Substation,Conditional Approval,213342750
+RenewableFirst,Solar PV,305,California,Proposal,2026-05-22,53,Jessica Martinez,Siemens Gamesa 5.X,500kV Backbone,Pending EIS,344618585
+BrightEnergy Co,Solar PV,183,Texas,Qualification,,44,David Kim,Bifacial Modules,230kV Transmission,Approved,197505129
+PowerNow Industries,Solar PV,497,New Mexico,Negotiation,2026-04-16,71,Jessica Martinez,Vestas V150,230kV Transmission,Applied,557344746
+CleanGrid Solutions,Battery Storage,74,Florida,Qualification,2026-08-12,34,James Wilson,GE Haliade-X,230kV Transmission,Conditional Approval,53382416
+RenewableFirst,Battery Storage,121,Texas,Contract Signed,,94,Robert Thompson,Monocrystalline Si,69kV Distribution,Conditional Approval,93047185
+GreenPower Corp,Battery Storage,83,Washington,Pre-Qualification,2026-08-24,15,Sarah Chen,Vestas V150,138kV Substation,Under Review,58739930
+FutureGen Energy,Wind Farm,359,Nevada,Proposal,2026-05-02,47,Robert Thompson,Bifacial Modules,69kV Distribution,Approved,546765616
+RenewableFirst,Solar PV,352,Utah,Proposal,2026-03-22,51,Michael Rodriguez,Bifacial Modules,138kV Substation,Applied,309611808
+SolarTech Inc,Wind Farm,159,Texas,Contract Signed,2026-02-01,90,Emily Watson,GE Haliade-X,138kV Substation,Under Review,199870314
+WindForce LLC,Solar PV,430,Nevada,Contract Signed,2026-01-21,88,Lisa Anderson,Vestas V150,500kV Backbone,Approved,485808840
+,Battery Storage,122,Colorado,Contract Signed,2026-02-03,89,Emily Watson,Bifacial Modules,138kV Substation,Applied,82531902
+FutureGen Energy,Offshore Wind,214,Arizona,Contract Signed,2026-02-02,90,David Kim,Vestas V150,230kV Transmission,Pending EIS,1027286028
+BrightEnergy Co,Wind Farm,228,Utah,Negotiation,2026-04-16,74,Lisa Anderson,Bifacial Modules,230kV Transmission,Conditional Approval,288097836
+Acme Energy,Wind Farm,243,New Mexico,Pre-Qualification,2026-12-06,12,,GE Haliade-X,500kV Backbone,Conditional Approval,419336109
+,Battery Storage,86,Washington,Contract Signed,2026-01-26,89,David Kim,Monocrystalline Si,138kV Substation,Under Review,36958070
+GreenPower Corp,Offshore Wind,621,New Mexico,Proposal,2026-05-13,49,Sarah Chen,Vestas V150,138kV Substation,Approved,1875875814
+SolarTech Inc,Battery Storage,182,Florida,Negotiation,2026-04-02,71,Emily Watson,Monocrystalline Si,230kV Transmission,Under Review,106672384
+Acme Energy,Solar PV,426,Florida,Proposal,2026-04-10,57,James Wilson,Monocrystalline Si,69kV Distribution,Pending EIS,467167362
+FutureGen Energy,Hybrid Solar+Storage,101,New Mexico,Proposal,2026-04-11,46,Emily Watson,Siemens Gamesa 5.X,500kV Backbone,Under Review,122134351
+Acme Energy,Hybrid Solar+Storage,195,Washington,Pre-Qualification,2026-08-28,21,Jessica Martinez,Vestas V150,138kV Substation,Conditional Approval,234367575
+,Solar PV,218,Oregon,Proposal,2026-04-25,43,Jessica Martinez,Vestas V150,500kV Backbone,Conditional Approval,175263934
+RenewableFirst,Wind Farm,230,New Mexico,Pre-Qualification,2027-01-13,20,Lisa Anderson,Siemens Gamesa 5.X,69kV Distribution,Conditional Approval,396141880
+,Solar PV,132,Arizona,Contract Signed,2026-02-17,98,Emily Watson,Monocrystalline Si,500kV Backbone,Applied,126052080
+Acme Energy,Hybrid Solar+Storage,127,Utah,Qualification,2026-05-27,43,Lisa Anderson,Monocrystalline Si,500kV Backbone,Approved,161141283
+GreenPower Corp,Battery Storage,183,Arizona,Qualification,2026-08-08,26,Lisa Anderson,GE Haliade-X,230kV Transmission,Pending EIS,91689954
+PowerNow Industries,Solar PV,142,Arizona,Contract Signed,2026-01-28,96,Jessica Martinez,Monocrystalline Si,500kV Backbone,Applied,124444256
+SolarTech Inc,Offshore Wind,492,Texas,Negotiation,2026-04-11,56,David Kim,Vestas V150,230kV Transmission,Conditional Approval,2317262436
+Acme Energy,Battery Storage,28,Washington,Proposal,2026-04-02,56,Sarah Chen,Tesla Megapack,69kV Distribution,Under Review,16666972
+PowerNow Industries,Offshore Wind,786,Nevada,Proposal,2026-03-26,43,Lisa Anderson,Tesla Megapack,69kV Distribution,Applied,3779350524
+EcoWatt Systems,Hybrid Solar+Storage,222,Texas,Pre-Qualification,2026-10-18,26,Jessica Martinez,Siemens Gamesa 5.X,500kV Backbone,Under Review,292082958
+BrightEnergy Co,Offshore Wind,312,Florida,Qualification,2026-07-26,43,Robert Thompson,GE Haliade-X,500kV Backbone,Approved,1477032024
+CleanGrid Solutions,Offshore Wind,672,Colorado,Qualification,2026-08-29,39,James Wilson,Vestas V150,500kV Backbone,Approved,2400228768
+Acme Energy,Offshore Wind,716,Utah,Contract Signed,2026-01-29,89,Emily Watson,Monocrystalline Si,230kV Transmission,Approved,2877177980
+GreenPower Corp,Solar PV,136,Washington,Negotiation,2026-03-23,65,Emily Watson,Vestas V150,500kV Backbone,Applied,142188408
+Acme Energy,Offshore Wind,433,Colorado,Negotiation,2026-03-17,75,James Wilson,Bifacial Modules,138kV Substation,Applied,1968770462
+EcoWatt Systems,Hybrid Solar+Storage,316,Texas,Pre-Qualification,,19,Michael Rodriguez,GE Haliade-X,230kV Transmission,Applied,419487472
+RenewableFirst,Battery Storage,116,Arizona,Proposal,,54,Robert Thompson,Tesla Megapack,69kV Distribution,Under Review,69524252
+BrightEnergy Co,Solar PV,197,Texas,Qualification,2026-09-12,29,Michael Rodriguez,Siemens Gamesa 5.X,69kV Distribution,Approved,202588496
+PowerNow Industries,Wind Farm,463,Arizona,Contract Signed,2026-02-01,89,James Wilson,Bifacial Modules,69kV Distribution,Under Review,613794933
+CleanGrid Solutions,Hybrid Solar+Storage,393,Washington,Qualification,2026-07-29,34,Jessica Martinez,Vestas V150,69kV Distribution,Applied,536501985
+FutureGen Energy,Wind Farm,330,Colorado,Pre-Qualification,2026-08-21,17,James Wilson,Monocrystalline Si,69kV Distribution,Applied,501590100
+BrightEnergy Co,Hybrid Solar+Storage,383,Oregon,Proposal,2026-04-08,49,Emily Watson,Monocrystalline Si,138kV Substation,Conditional Approval,537188140
+GreenPower Corp,Solar PV,354,California,Contract Signed,2026-01-24,87,Jessica Martinez,Tesla Megapack,230kV Transmission,Pending EIS,320459208
+SolarTech Inc,Battery Storage,106,Nevada,Proposal,2026-06-01,47,Emily Watson,Monocrystalline Si,500kV Backbone,Approved,62829168
+RenewableFirst,Hybrid Solar+Storage,168,Nevada,Proposal,2026-03-31,55,Lisa Anderson,GE Haliade-X,69kV Distribution,Pending EIS,209163024
+SolarTech Inc,Solar PV,415,Utah,Qualification,2026-06-02,44,Emily Watson,Bifacial Modules,69kV Distribution,Under Review,346039865
+,Offshore Wind,317,New Mexico,Qualification,,40,James Wilson,Bifacial Modules,500kV Backbone,Applied,1151980536
+FutureGen Energy,Offshore Wind,555,Washington,Contract Signed,2026-01-20,96,Lisa Anderson,Siemens Gamesa 5.X,69kV Distribution,Under Review,1939568490
+GreenPower Corp,Battery Storage,92,Arizona,Pre-Qualification,2026-12-31,18,Lisa Anderson,Bifacial Modules,230kV Transmission,Applied,69056028
+Acme Energy,Hybrid Solar+Storage,111,Nevada,Pre-Qualification,2026-10-29,17,Robert Thompson,Tesla Megapack,230kV Transmission,Under Review,135213318
+RenewableFirst,Offshore Wind,322,Nevada,Proposal,2026-04-05,41,Sarah Chen,Tesla Megapack,138kV Substation,Pending EIS,1379976724
+EcoWatt Systems,Wind Farm,298,Washington,Qualification,2026-08-18,33,Michael Rodriguez,Siemens Gamesa 5.X,69kV Distribution,Conditional Approval,370825240
+SolarTech Inc,Wind Farm,531,California,Proposal,2026-04-27,42,David Kim,Tesla Megapack,138kV Substation,Conditional Approval,784539756
+CleanGrid Solutions,Offshore Wind,661,Texas,Pre-Qualification,2026-09-30,12,James Wilson,Monocrystalline Si,230kV Transmission,Conditional Approval,2201814135
+BrightEnergy Co,Solar PV,484,Florida,Qualification,2026-06-04,28,Jessica Martinez,GE Haliade-X,138kV Substation,Approved,447267788
+RenewableFirst,Offshore Wind,342,Nevada,,2026-03-22,71,Emily Watson,Tesla Megapack,500kV Backbone,Approved,1382031234
+RenewableFirst,Offshore Wind,280,Arizona,Contract Signed,2026-01-29,88,Jessica Martinez,Bifacial Modules,230kV Transmission,Applied,1103287920
+BrightEnergy Co,Wind Farm,592,California,Contract Signed,2026-01-27,97,Michael Rodriguez,Vestas V150,500kV Backbone,Approved,735641104
+Acme Energy,Offshore Wind,258,Washington,Pre-Qualification,2026-08-05,11,Michael Rodriguez,Tesla Megapack,230kV Transmission,Pending EIS,1226485560
+GreenPower Corp,Offshore Wind,635,Texas,Pre-Qualification,2026-11-07,14,Lisa Anderson,Tesla Megapack,230kV Transmission,Under Review,2118518750
+RenewableFirst,Solar PV,76,Utah,Pre-Qualification,2026-07-18,17,Lisa Anderson,Tesla Megapack,230kV Transmission,Applied,83768796
+PowerNow Industries,Battery Storage,38,Oregon,Contract Signed,,88,Michael Rodriguez,Tesla Megapack,230kV Transmission,Conditional Approval,29845960
+FutureGen Energy,Hybrid Solar+Storage,78,New Mexico,Contract Signed,2026-01-23,90,David Kim,GE Haliade-X,500kV Backbone,Approved,92364480
+SolarTech Inc,Solar PV,464,Colorado,Proposal,2026-05-27,53,Robert Thompson,Bifacial Modules,138kV Substation,Pending EIS,471710288
+Acme Energy,Solar PV,231,New Mexico,Negotiation,2026-04-12,77,Emily Watson,GE Haliade-X,500kV Backbone,Applied,199584231
+Acme Energy,Battery Storage,116,Washington,Qualification,2026-08-08,35,,Vestas V150,69kV Distribution,Approved,46428304
+CleanGrid Solutions,Offshore Wind,341,Arizona,,2026-02-10,89,Lisa Anderson,Monocrystalline Si,138kV Substation,Applied,1287469711
+,Solar PV,169,Florida,Negotiation,2026-03-25,55,Lisa Anderson,Monocrystalline Si,138kV Substation,Applied,190648224
+EcoWatt Systems,Offshore Wind,667,Utah,Contract Signed,2026-01-27,87,Robert Thompson,Bifacial Modules,138kV Substation,Applied,2983617730
+BrightEnergy Co,Wind Farm,157,Colorado,Proposal,,58,Sarah Chen,Monocrystalline Si,230kV Transmission,Conditional Approval,202562185
+,Offshore Wind,628,Colorado,Qualification,2026-07-16,36,James Wilson,GE Haliade-X,138kV Substation,Conditional Approval,2671315436
+FutureGen Energy,Battery Storage,132,Texas,Pre-Qualification,2026-10-29,18,David Kim,Monocrystalline Si,500kV Backbone,Conditional Approval,76080840
+CleanGrid Solutions,Solar PV,321,Arizona,Qualification,2026-09-08,33,Jessica Martinez,Siemens Gamesa 5.X,138kV Substation,Approved,384233148
+GreenPower Corp,Battery Storage,196,Colorado,Negotiation,2026-04-10,70,Sarah Chen,Vestas V150,230kV Transmission,Pending EIS,116533760
+Acme Energy,Hybrid Solar+Storage,317,Arizona,Proposal,,44,Jessica Martinez,Monocrystalline Si,500kV Backbone,Approved,415586683
+RenewableFirst,Offshore Wind,450,California,Qualification,2026-06-08,37,Emily Watson,Bifacial Modules,230kV Transmission,Approved,1976522400
+CleanGrid Solutions,Wind Farm,158,Washington,Pre-Qualification,,21,David Kim,Bifacial Modules,500kV Backbone,Pending EIS,230111358
+,Battery Storage,196,Nevada,Contract Signed,2026-02-11,88,David Kim,Tesla Megapack,500kV Backbone,Conditional Approval,91857360
+RenewableFirst,Solar PV,231,Arizona,Qualification,2026-08-11,40,Jessica Martinez,Bifacial Modules,138kV Substation,Approved,228255258
+SolarTech Inc,Wind Farm,345,Washington,Proposal,2026-06-11,53,David Kim,Tesla Megapack,69kV Distribution,Applied,601662060
+CleanGrid Solutions,Wind Farm,349,Utah,Qualification,2026-06-29,42,David Kim,Siemens Gamesa 5.X,138kV Substation,Applied,618746288
+BrightEnergy Co,Battery Storage,121,Arizona,Proposal,2026-05-17,59,Sarah Chen,Bifacial Modules,69kV Distribution,Pending EIS,74078136
+WindForce LLC,Battery Storage,34,Texas,Negotiation,2026-03-12,74,Jessica Martinez,GE Haliade-X,230kV Transmission,Pending EIS,24810616
+PowerNow Industries,Wind Farm,445,California,Negotiation,2026-03-19,78,Lisa Anderson,Vestas V150,230kV Transmission,Applied,723771585
+SolarTech Inc,Offshore Wind,625,Oregon,Proposal,2026-03-23,45,Jessica Martinez,Monocrystalline Si,500kV Backbone,Conditional Approval,2820168750
+,Solar PV,377,Oregon,Proposal,2026-05-26,47,Emily Watson,Monocrystalline Si,138kV Substation,Approved,446903717
+SolarTech Inc,Hybrid Solar+Storage,96,Washington,Pre-Qualification,2026-11-15,11,Michael Rodriguez,Tesla Megapack,69kV Distribution,Approved,117652512
+PowerNow Industries,Wind Farm,507,Colorado,Pre-Qualification,2026-09-05,13,Lisa Anderson,Bifacial Modules,138kV Substation,Pending EIS,803943816
+SolarTech Inc,Battery Storage,112,Florida,Proposal,2026-04-07,51,Emily Watson,GE Haliade-X,230kV Transmission,Applied,62064352
+GreenPower Corp,Offshore Wind,590,Florida,Proposal,2026-06-02,57,Jessica Martinez,Tesla Megapack,69kV Distribution,Conditional Approval,2589530060
+EcoWatt Systems,Battery Storage,177,Nevada,Proposal,,52,Jessica Martinez,GE Haliade-X,500kV Backbone,Under Review,132041115
+,Wind Farm,177,Washington,Pre-Qualification,2026-08-18,28,David Kim,GE Haliade-X,500kV Backbone,Applied,221494614
+BrightEnergy Co,Solar PV,302,Florida,Pre-Qualification,2026-07-18,12,David Kim,Bifacial Modules,230kV Transmission,Approved,325537276
+PowerNow Industries,Wind Farm,277,Texas,Negotiation,2026-03-11,57,Michael Rodriguez,GE Haliade-X,500kV Backbone,Conditional Approval,378872013
+WindForce LLC,Hybrid Solar+Storage,393,California,Pre-Qualification,2026-11-23,16,Lisa Anderson,Bifacial Modules,500kV Backbone,Approved,408101811
+Acme Energy,Solar PV,393,Colorado,Proposal,2026-05-30,56,David Kim,Tesla Megapack,138kV Substation,Approved,357507777
+FutureGen Energy,Hybrid Solar+Storage,112,Florida,Pre-Qualification,2026-12-23,23,Sarah Chen,Vestas V150,500kV Backbone,Pending EIS,166214384
+EcoWatt Systems,Battery Storage,178,California,Qualification,2026-05-30,26,Robert Thompson,Tesla Megapack,138kV Substation,Under Review,77107998
+WindForce LLC,Hybrid Solar+Storage,363,Colorado,Negotiation,2026-04-14,55,Robert Thompson,GE Haliade-X,69kV Distribution,Approved,441602568
+WindForce LLC,Hybrid Solar+Storage,198,Florida,Qualification,2026-07-11,39,Sarah Chen,Bifacial Modules,230kV Transmission,Approved,276744006
+GreenPower Corp,Solar PV,193,Utah,Negotiation,2026-03-21,56,Sarah Chen,Bifacial Modules,138kV Substation,Approved,164827018
+EcoWatt Systems,Solar PV,295,New Mexico,Negotiation,2026-03-05,79,Michael Rodriguez,Siemens Gamesa 5.X,138kV Substation,Applied,316923220
+RenewableFirst,Wind Farm,139,New Mexico,Negotiation,2026-03-03,71,Robert Thompson,Tesla Megapack,138kV Substation,Under Review,232249540
+CleanGrid Solutions,Battery Storage,52,Florida,Qualification,2026-07-23,26,Lisa Anderson,Vestas V150,138kV Substation,Under Review,28107716
+SolarTech Inc,Battery Storage,109,Oregon,Proposal,2026-05-07,42,David Kim,Monocrystalline Si,230kV Transmission,Pending EIS,60406928
+FutureGen Energy,Solar PV,73,California,Qualification,2026-08-29,33,Robert Thompson,Siemens Gamesa 5.X,69kV Distribution,Pending EIS,84521882
+PowerNow Industries,Wind Farm,379,Washington,Pre-Qualification,2026-12-28,10,Sarah Chen,Siemens Gamesa 5.X,69kV Distribution,Approved,539957889
+,Battery Storage,111,Nevada,Proposal,2026-04-12,43,Emily Watson,Tesla Megapack,138kV Substation,Approved,83346237
+GreenPower Corp,Solar PV,260,Texas,,2026-03-27,51,Jessica Martinez,Monocrystalline Si,138kV Substation,Conditional Approval,219914240
+EcoWatt Systems,Hybrid Solar+Storage,326,New Mexico,Proposal,2026-04-01,40,James Wilson,Tesla Megapack,69kV Distribution,Under Review,483417902
+FutureGen Energy,Wind Farm,336,Florida,Proposal,2026-03-28,56,Emily Watson,Siemens Gamesa 5.X,138kV Substation,Under Review,469885920
+BrightEnergy Co,Wind Farm,175,Utah,Proposal,,49,Robert Thompson,Bifacial Modules,230kV Transmission,Pending EIS,291900700
+RenewableFirst,Solar PV,483,Texas,Qualification,2026-06-23,37,Sarah Chen,GE Haliade-X,500kV Backbone,Approved,510012258
+SolarTech Inc,Hybrid Solar+Storage,333,Colorado,Pre-Qualification,2027-01-11,18,Jessica Martinez,Bifacial Modules,230kV Transmission,Under Review,474966225
+EcoWatt Systems,Wind Farm,121,Oregon,Pre-Qualification,,24,Robert Thompson,GE Haliade-X,230kV Transmission,Conditional Approval,202244240
+CleanGrid Solutions,Offshore Wind,382,Colorado,Qualification,2026-08-07,34,Jessica Martinez,Monocrystalline Si,230kV Transmission,Conditional Approval,1186790342
+RenewableFirst,Offshore Wind,542,Nevada,Negotiation,2026-03-28,61,James Wilson,Monocrystalline Si,500kV Backbone,Applied,2395923466
+BrightEnergy Co,Battery Storage,90,New Mexico,Negotiation,2026-02-19,72,Michael Rodriguez,Tesla Megapack,138kV Substation,Under Review,60146730
+SolarTech Inc,Wind Farm,103,Arizona,Pre-Qualification,2026-08-08,20,Sarah Chen,Siemens Gamesa 5.X,69kV Distribution,Approved,185282477
+RenewableFirst,Offshore Wind,660,Washington,Pre-Qualification,,24,Emily Watson,Siemens Gamesa 5.X,500kV Backbone,Pending EIS,2679494400
+GreenPower Corp,Solar PV,499,Colorado,Pre-Qualification,2026-11-23,24,Robert Thompson,Tesla Megapack,500kV Backbone,Under Review,449475747
+EcoWatt Systems,Offshore Wind,323,Washington,Negotiation,2026-03-14,57,Lisa Anderson,Bifacial Modules,138kV Substation,Conditional Approval,1522695644
+RenewableFirst,Wind Farm,114,Washington,Proposal,2026-05-29,51,,Monocrystalline Si,500kV Backbone,Pending EIS,142848726
+PowerNow Industries,Wind Farm,459,Colorado,Pre-Qualification,,22,Michael Rodriguez,Siemens Gamesa 5.X,230kV Transmission,Under Review,706414311
+PowerNow Industries,Hybrid Solar+Storage,375,Florida,Contract Signed,2026-02-14,91,Jessica Martinez,Bifacial Modules,69kV Distribution,Applied,446449125
+CleanGrid Solutions,Wind Farm,521,Washington,Qualification,2026-06-17,25,David Kim,GE Haliade-X,500kV Backbone,Under Review,749070355
+RenewableFirst,Solar PV,199,Nevada,Proposal,2026-03-23,40,Emily Watson,Bifacial Modules,230kV Transmission,Approved,215498493
+GreenPower Corp,Wind Farm,265,Utah,Qualification,2026-08-20,37,James Wilson,GE Haliade-X,138kV Substation,Under Review,452994710
+FutureGen Energy,Solar PV,101,Oregon,Pre-Qualification,2026-10-17,18,Emily Watson,Siemens Gamesa 5.X,230kV Transmission,Under Review,112065358
+FutureGen Energy,Offshore Wind,740,Florida,Contract Signed,2026-01-22,92,Lisa Anderson,Monocrystalline Si,230kV Transmission,Under Review,2282091920
+EcoWatt Systems,Hybrid Solar+Storage,374,Colorado,,2026-11-16,19,Robert Thompson,GE Haliade-X,138kV Substation,Applied,559636022
+Acme Energy,Solar PV,165,Colorado,Proposal,2026-03-24,47,Robert Thompson,Vestas V150,230kV Transmission,Applied,176825055
+EcoWatt Systems,Offshore Wind,243,Utah,Contract Signed,2026-01-29,92,Emily Watson,Siemens Gamesa 5.X,230kV Transmission,Conditional Approval,1144794870
+Acme Energy,Wind Farm,456,Utah,Contract Signed,2026-02-08,94,Lisa Anderson,Tesla Megapack,69kV Distribution,Applied,656928648
+EcoWatt Systems,Offshore Wind,751,California,Negotiation,2026-03-07,79,David Kim,Tesla Megapack,500kV Backbone,Pending EIS,2957311081
+Acme Energy,Wind Farm,306,Oregon,Contract Signed,2026-01-27,87,Lisa Anderson,Monocrystalline Si,500kV Backbone,Pending EIS,367842600
+CleanGrid Solutions,Battery Storage,133,Utah,Pre-Qualification,2026-07-30,10,,Monocrystalline Si,138kV Substation,Conditional Approval,78832425
+SolarTech Inc,Battery Storage,172,Utah,Proposal,2026-04-12,51,Robert Thompson,GE Haliade-X,500kV Backbone,Pending EIS,71957404
+WindForce LLC,Wind Farm,262,California,Pre-Qualification,2027-01-02,21,Sarah Chen,Bifacial Modules,69kV Distribution,Under Review,327174858
+CleanGrid Solutions,Offshore Wind,634,Colorado,Qualification,2026-09-02,32,David Kim,Tesla Megapack,69kV Distribution,Approved,2476189708
+PowerNow Industries,Battery Storage,35,Oregon,,2026-07-01,33,Lisa Anderson,Vestas V150,138kV Substation,Applied,18177985
+RenewableFirst,Battery Storage,118,Nevada,Proposal,2026-05-24,52,,Siemens Gamesa 5.X,500kV Backbone,Applied,86248088
+SolarTech Inc,Wind Farm,379,Arizona,Qualification,2026-08-08,27,Emily Watson,Monocrystalline Si,69kV Distribution,Under Review,550450883
+FutureGen Energy,Solar PV,317,Colorado,,2027-01-06,26,James Wilson,GE Haliade-X,230kV Transmission,Pending EIS,376432111
+WindForce LLC,Hybrid Solar+Storage,99,Arizona,Qualification,2026-07-29,31,Lisa Anderson,Monocrystalline Si,69kV Distribution,Under Review,123932754
+PowerNow Industries,Solar PV,65,Arizona,Contract Signed,2026-02-02,98,David Kim,Monocrystalline Si,69kV Distribution,Conditional Approval,71771830
+GreenPower Corp,Offshore Wind,366,Washington,Qualification,2026-07-02,42,Emily Watson,GE Haliade-X,138kV Substation,Applied,1155353298
+BrightEnergy Co,Solar PV,96,Utah,Proposal,2026-06-17,45,Lisa Anderson,Monocrystalline Si,500kV Backbone,Applied,102212736
+PowerNow Industries,Hybrid Solar+Storage,256,Nevada,Contract Signed,2026-01-29,91,Michael Rodriguez,Vestas V150,500kV Backbone,Pending EIS,308593152
+EcoWatt Systems,Hybrid Solar+Storage,286,Florida,Contract Signed,2026-02-16,87,Emily Watson,GE Haliade-X,138kV Substation,Under Review,361194262
+RenewableFirst,Hybrid Solar+Storage,288,Florida,Negotiation,2026-02-19,60,Sarah Chen,Tesla Megapack,500kV Backbone,Applied,399957696
+PowerNow Industries,Wind Farm,221,Colorado,Negotiation,2026-03-01,62,Robert Thompson,Siemens Gamesa 5.X,69kV Distribution,Under Review,299786721
+RenewableFirst,Solar PV,410,Florida,Proposal,,50,Jessica Martinez,Monocrystalline Si,69kV Distribution,Pending EIS,369573590
+RenewableFirst,Wind Farm,186,Arizona,Contract Signed,2026-01-26,96,Sarah Chen,GE Haliade-X,138kV Substation,Under Review,259546260
+,Offshore Wind,618,Utah,Contract Signed,2026-02-02,96,Lisa Anderson,Monocrystalline Si,138kV Substation,Conditional Approval,2887537020
+EcoWatt Systems,Hybrid Solar+Storage,121,Oregon,Qualification,2026-06-24,33,Michael Rodriguez,Siemens Gamesa 5.X,500kV Backbone,Conditional Approval,124339963
+EcoWatt Systems,Wind Farm,500,Washington,Qualification,2026-08-25,26,Sarah Chen,Siemens Gamesa 5.X,230kV Transmission,Conditional Approval,828070500
+Acme Energy,Battery Storage,198,California,Qualification,2026-08-25,27,Robert Thompson,Vestas V150,138kV Substation,Pending EIS,140998572
+BrightEnergy Co,Solar PV,198,Arizona,Proposal,,43,Lisa Anderson,Siemens Gamesa 5.X,500kV Backbone,Pending EIS,169626996
+Acme Energy,Offshore Wind,697,California,Proposal,2026-05-27,59,Emily Watson,Monocrystalline Si,230kV Transmission,Approved,2338796743
+FutureGen Energy,Wind Farm,538,Colorado,Proposal,2026-03-25,53,Jessica Martinez,Monocrystalline Si,500kV Backbone,Applied,689394814
+WindForce LLC,Battery Storage,111,California,Pre-Qualification,2026-09-05,23,Sarah Chen,Tesla Megapack,69kV Distribution,Applied,53886837
+WindForce LLC,Battery Storage,147,Oregon,Proposal,2026-05-31,55,Jessica Martinez,Bifacial Modules,230kV Transmission,Pending EIS,112100583
+FutureGen Energy,Hybrid Solar+Storage,243,Colorado,Contract Signed,2026-01-31,95,Sarah Chen,GE Haliade-X,138kV Substation,Approved,252907596
+BrightEnergy Co,Wind Farm,587,Oregon,Proposal,2026-05-07,58,Emily Watson,Monocrystalline Si,230kV Transmission,Conditional Approval,840515908
+,Offshore Wind,722,Utah,Negotiation,2026-03-09,56,Lisa Anderson,Monocrystalline Si,500kV Backbone,Conditional Approval,2536228604
+RenewableFirst,Wind Farm,459,Oregon,Contract Signed,2026-02-01,86,Emily Watson,Vestas V150,69kV Distribution,Conditional Approval,735539697
+Acme Energy,Offshore Wind,666,New Mexico,Negotiation,2026-03-12,57,Jessica Martinez,Tesla Megapack,69kV Distribution,Pending EIS,2187540936
+FutureGen Energy,Solar PV,65,Nevada,Proposal,2026-06-17,43,Jessica Martinez,Bifacial Modules,230kV Transmission,Conditional Approval,71863545
+,Solar PV,217,Washington,Pre-Qualification,2026-11-10,26,Robert Thompson,Tesla Megapack,69kV Distribution,Pending EIS,240105726
+,Wind Farm,339,New Mexico,,2026-02-04,92,Jessica Martinez,Monocrystalline Si,69kV Distribution,Approved,462840090
+SolarTech Inc,Offshore Wind,512,Oregon,Contract Signed,2026-02-02,86,Robert Thompson,Tesla Megapack,230kV Transmission,Approved,2257224192
+EcoWatt Systems,Hybrid Solar+Storage,263,Washington,Pre-Qualification,2026-09-20,17,Sarah Chen,Siemens Gamesa 5.X,500kV Backbone,Approved,369470553
+EcoWatt Systems,Offshore Wind,425,Arizona,Qualification,2026-08-08,42,Jessica Martinez,GE Haliade-X,138kV Substation,Pending EIS,1496510850
+Acme Energy,Offshore Wind,523,Florida,Contract Signed,2026-01-23,89,Jessica Martinez,Monocrystalline Si,69kV Distribution,Applied,2036404577
+,Offshore Wind,692,Texas,Pre-Qualification,2026-08-01,11,Emily Watson,Siemens Gamesa 5.X,230kV Transmission,Applied,3384665420
+EcoWatt Systems,Wind Farm,160,Texas,Pre-Qualification,2026-11-09,12,David Kim,GE Haliade-X,500kV Backbone,Approved,271864320
+CleanGrid Solutions,Hybrid Solar+Storage,216,Oregon,Proposal,2026-03-30,50,James Wilson,GE Haliade-X,138kV Substation,Applied,271780488
+WindForce LLC,Hybrid Solar+Storage,346,Arizona,Qualification,2026-08-20,31,James Wilson,Bifacial Modules,500kV Backbone,Pending EIS,408481372
+BrightEnergy Co,Offshore Wind,591,New Mexico,Qualification,2026-07-12,27,Robert Thompson,Siemens Gamesa 5.X,138kV Substation,Under Review,1808436360
+Acme Energy,Hybrid Solar+Storage,175,California,Proposal,,53,Sarah Chen,GE Haliade-X,138kV Substation,Applied,224893900
+EcoWatt Systems,Offshore Wind,725,Arizona,Contract Signed,2026-02-08,87,Michael Rodriguez,Tesla Megapack,500kV Backbone,Pending EIS,3198654325
+GreenPower Corp,Battery Storage,185,Florida,Qualification,2026-06-12,25,James Wilson,Vestas V150,230kV Transmission,Conditional Approval,100411710
+EcoWatt Systems,Hybrid Solar+Storage,325,Washington,Negotiation,2026-04-01,63,Sarah Chen,Siemens Gamesa 5.X,138kV Substation,Under Review,398945300
+FutureGen Energy,Hybrid Solar+Storage,327,Texas,Contract Signed,2026-02-02,96,Sarah Chen,Monocrystalline Si,138kV Substation,Applied,392558922
+FutureGen Energy,Offshore Wind,771,Utah,Qualification,2026-08-01,26,Robert Thompson,GE Haliade-X,138kV Substation,Pending EIS,3220635078
+GreenPower Corp,Solar PV,333,Oregon,Negotiation,2026-03-24,71,David Kim,GE Haliade-X,69kV Distribution,Under Review,337788207
+PowerNow Industries,Battery Storage,186,New Mexico,Contract Signed,2026-02-03,88,Lisa Anderson,Bifacial Modules,138kV Substation,Applied,127312722
+SolarTech Inc,Wind Farm,248,Oregon,Qualification,2026-08-12,27,Robert Thompson,Siemens Gamesa 5.X,69kV Distribution,Applied,382378304
+BrightEnergy Co,Battery Storage,151,New Mexico,Negotiation,2026-03-13,77,Michael Rodriguez,Monocrystalline Si,138kV Substation,Approved,67632447
+SolarTech Inc,Wind Farm,434,Arizona,Contract Signed,2026-02-07,97,Robert Thompson,Tesla Megapack,230kV Transmission,Pending EIS,728863072
+CleanGrid Solutions,Hybrid Solar+Storage,271,Texas,Proposal,2026-05-27,57,Robert Thompson,Siemens Gamesa 5.X,69kV Distribution,Approved,352247968
+WindForce LLC,Battery Storage,106,Florida,Qualification,2026-06-19,30,Emily Watson,GE Haliade-X,500kV Backbone,Approved,49337912
+Acme Energy,Solar PV,474,Utah,Contract Signed,2026-02-09,86,James Wilson,Vestas V150,138kV Substation,Applied,513290334
+CleanGrid Solutions,Battery Storage,185,Arizona,,2026-12-09,20,Lisa Anderson,GE Haliade-X,69kV Distribution,Conditional Approval,86334135
+PowerNow Industries,Solar PV,378,Oregon,Proposal,2026-06-14,52,Sarah Chen,GE Haliade-X,230kV Transmission,Pending EIS,303211188
+CleanGrid Solutions,Solar PV,293,Florida,Contract Signed,2026-01-19,86,David Kim,Vestas V150,500kV Backbone,Under Review,306460420
+EcoWatt Systems,Solar PV,169,Colorado,Negotiation,2026-04-13,64,Jessica Martinez,Siemens Gamesa 5.X,500kV Backbone,Under Review,192971129
+SolarTech Inc,Battery Storage,156,Arizona,Qualification,2026-07-18,33,Robert Thompson,Vestas V150,138kV Substation,Applied,91327548
+CleanGrid Solutions,Wind Farm,225,Colorado,Negotiation,2026-03-19,65,James Wilson,Siemens Gamesa 5.X,230kV Transmission,Applied,369731025
+Acme Energy,Solar PV,303,Colorado,Pre-Qualification,2026-12-05,14,Jessica Martinez,Bifacial Modules,69kV Distribution,Approved,354958137
+CleanGrid Solutions,Solar PV,95,Florida,Qualification,2026-09-02,26,Sarah Chen,GE Haliade-X,500kV Backbone,Approved,102097640
+GreenPower Corp,Solar PV,357,Nevada,Proposal,2026-05-26,43,Robert Thompson,Vestas V150,69kV Distribution,Conditional Approval,318123057
+,Battery Storage,176,California,,2026-08-14,39,Jessica Martinez,Tesla Megapack,138kV Substation,Approved,125182288
+EcoWatt Systems,Offshore Wind,331,New Mexico,Qualification,2026-06-16,33,James Wilson,Vestas V150,230kV Transmission,Pending EIS,1089113132
+RenewableFirst,Hybrid Solar+Storage,377,Arizona,Pre-Qualification,2026-08-07,28,Lisa Anderson,Tesla Megapack,230kV Transmission,Approved,466879062
+PowerNow Industries,Solar PV,322,Florida,Negotiation,2026-04-05,63,Jessica Martinez,Monocrystalline Si,500kV Backbone,Conditional Approval,299349876
+WindForce LLC,Wind Farm,102,Washington,Pre-Qualification,2026-11-28,27,Michael Rodriguez,Tesla Megapack,500kV Backbone,Pending EIS,141859254
+CleanGrid Solutions,Offshore Wind,382,Oregon,,2026-03-10,78,Robert Thompson,Tesla Megapack,69kV Distribution,Conditional Approval,1411783758

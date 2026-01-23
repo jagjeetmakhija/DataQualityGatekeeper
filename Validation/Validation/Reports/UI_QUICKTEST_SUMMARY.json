@@ -1,0 +1,21 @@
+﻿{
+    "Server":  {
+                   "Url":  "http://localhost:5173",
+                   "Online":  true
+               },
+    "Timestamp":  "2026-01-09 20:27:30",
+    "Signals":  {
+                    "ResultFile":  "C:\\MyCode\\Local-AIAgent\\Validation\\Reports\\UI_SIGNALS_RESULT.json"
+                },
+    "Report":  {
+                   "ResultFile":  "C:\\MyCode\\Local-AIAgent\\Validation\\Reports\\UI_REPORT_SNAPSHOT.json"
+               },
+    "Convert":  {
+                    "Reused":  true,
+                    "ResultFile":  null,
+                    "OutputPath":  "C:\\MyCode\\Local-AIAgent\\outputs\\converted_data.csv"
+                },
+    "Validate":  {
+                     "ResultFile":  "C:\\MyCode\\Local-AIAgent\\Validation\\Reports\\UI_VALIDATE_RESULT.json"
+                 }
+}

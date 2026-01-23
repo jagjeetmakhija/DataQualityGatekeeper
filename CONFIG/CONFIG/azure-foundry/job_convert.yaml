@@ -1,0 +1,32 @@
+# Azure ML / Azure AI Foundry command job for Phase 1 conversion (CPU-only)
+# Upload this YAML in Foundry (Jobs) and set inputs/outputs to your data assets.
+
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+
+type: command
+name: phase1-convert
+experiment_name: phase1-min-cost
+
+code: ..
+
+command: >-
+  python azure-foundry/foundry_min_cost_pipeline.py
+  --input ${{inputs.input_file}}
+  --output ${{outputs.output_csv}}
+
+inputs:
+  input_file:
+    type: uri_file
+
+outputs:
+  output_csv:
+    type: uri_file
+
+environment:
+  conda_file: azure-foundry/environment-conda.yml
+  # An official CPU image keeps cost low
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+
+compute: azureml:cpu-cluster
+resources:
+  instance_count: 1

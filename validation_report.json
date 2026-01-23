@@ -1,0 +1,42 @@
+{
+  "Status": "REVIEW",
+  "Rows": 250,
+  "Columns": 12,
+  "Missing Values": 57,
+  "Anomalies": 0,
+  "Quality Score": 98,
+  "Per Column Missing Values": {
+    "CompanyName": 18,
+    "ProjectType": 0,
+    "PowerCapacity_MW": 0,
+    "ProjectLocation": 0,
+    "DevelopmentPhase": 14,
+    "EstimatedCloseDate": 20,
+    "ProbabilityPercent": 0,
+    "LeadEngineer": 5,
+    "TechnologyType": 0,
+    "GridConnection": 0,
+    "PermitStatus": 0,
+    "InvestmentValue_USD": 0
+  },
+  "Column Data Types": {
+    "CompanyName": "object",
+    "ProjectType": "object",
+    "PowerCapacity_MW": "int64",
+    "ProjectLocation": "object",
+    "DevelopmentPhase": "object",
+    "EstimatedCloseDate": "object",
+    "ProbabilityPercent": "int64",
+    "LeadEngineer": "object",
+    "TechnologyType": "object",
+    "GridConnection": "object",
+    "PermitStatus": "object",
+    "InvestmentValue_USD": "int64"
+  },
+  "Run Metadata": {
+    "timestamp": "2026-01-23T15:39:36.060097",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "device": "cpu"
+  }
+}

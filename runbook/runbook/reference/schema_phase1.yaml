@@ -1,0 +1,38 @@
+# Phase-1 schema (example) — adjust to your dataset
+version: 1
+dataset_name: phase1_stakeholder_intake
+required_columns:
+  - AccountId
+  - AccountName
+  - Stage
+  - LastActivityDate
+  - Value
+types:
+  AccountId: string
+  AccountName: string
+  Stage: categorical
+  LastActivityDate: date_iso
+  Value: number
+allowed_values:
+  Stage:
+    - Prospect
+    - Discovery
+    - Qualification
+    - Proposal
+    - Negotiation
+    - ClosedWon
+    - ClosedLost
+null_thresholds:          # max allowed null % per column (0-100)
+  AccountId: 0
+  AccountName: 0
+  Stage: 5
+  LastActivityDate: 20
+  Value: 20
+date_formats:
+  LastActivityDate:
+    - YYYY-MM-DD
+    - MM/DD/YYYY
+    - DD-MMM-YYYY
+notes:
+  - Auto-fix may normalize Stage synonyms ONLY via controlled mappings.
+  - Validation FAIL must stop pipeline and produce an actionable report.

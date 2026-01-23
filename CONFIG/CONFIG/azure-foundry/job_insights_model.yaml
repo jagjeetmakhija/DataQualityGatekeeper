@@ -1,0 +1,41 @@
+# Azure ML / Azure AI Foundry command job for Phase 1 model-enabled insights (still CPU)
+# Configure either Azure OpenAI env vars or an OpenAI-compatible base URL before running.
+
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+
+type: command
+name: phase1-insights-model
+experiment_name: phase1-min-cost
+
+code: ..
+
+command: >-
+  python azure-foundry/local_insights_optional.py
+  --input ${{inputs.converted_csv}}
+  --mode model
+  --output ${{outputs.insights_csv}}
+
+inputs:
+  converted_csv:
+    type: uri_file
+
+outputs:
+  insights_csv:
+    type: uri_file
+
+environment:
+  conda_file: azure-foundry/environment-conda.yml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+  environment_variables:
+    # Option A: Azure OpenAI
+    # AZURE_OPENAI_ENDPOINT: "https://<your-endpoint>.openai.azure.com/"
+    # AZURE_OPENAI_API_KEY: "<your-key>"
+    # AZURE_OPENAI_DEPLOYMENT: "<your-deployment>"
+
+    # Option B: OpenAI-compatible local endpoint (e.g., Foundry Local)
+    # OPENAI_API_BASE: "https://<your-local-endpoint>"
+    # OPENAI_API_KEY: "not-needed-or-your-key"
+
+compute: azureml:cpu-cluster
+resources:
+  instance_count: 1

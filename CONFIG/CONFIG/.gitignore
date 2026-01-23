@@ -1,0 +1,79 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.pytype/
+.pyre/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if present)
+node_modules/
+# Binaries
+*.dll
+*.exe
+*.pdb
+
+# Build outputs
+bin/
+obj/
+out/
+
+# Validation Reports (regenerated)
+Validation/Reports/*.json
+Validation/Reports/*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Original data file (using sample_data.csv instead)
+converted_data.csv
+
+# Old documentation
+00_START_HERE.md
+E2E_APPROACH.md
+E2E_INTEGRATION_GUIDE.md
+DELIVERABLES_SUMMARY.md
+VERIFICATION_REPORT.md
+INDEX.md
+
+# Word documents
+*.docx
+*.doc

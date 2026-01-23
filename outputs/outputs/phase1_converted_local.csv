@@ -1,0 +1,8 @@
+PursuitId,Account,PursuitName,Owner,Stage,Amount,Currency,CloseDate,Region
+,Hyper Dynamics 12,SVY02A,,PQ1,,,2026-02-16,Silicon Valley
+,Iron Analytics 07,PHX02 Skyway,,PQ1,,,,Phoenix
+,Cascade Cloud 10,SVY02A,,PQ2,,,2026-02-03,Silicon Valley
+,Nebula Logics 09,NVA05E Stoneview,,PQ2,,,,Northern Virginia
+,Kinetic Labs 13,DFW01C,,PQ2,,,2026-05-29,Dallas
+,Summit DataWorks 01,NVA02K/L Bristow 1/2,,PQ2,,,,Northern Virginia
+,Nebula Logics 09,DFW01C,,PQ1,,,2026-05-31,Dallas

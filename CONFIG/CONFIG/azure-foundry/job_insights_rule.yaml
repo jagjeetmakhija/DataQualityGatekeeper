@@ -1,0 +1,32 @@
+# Azure ML / Azure AI Foundry command job for Phase 1 rule-based insights (CPU-only)
+# Upload this YAML in Foundry (Jobs) and set inputs/outputs to your data assets.
+
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+
+type: command
+name: phase1-insights-rule
+experiment_name: phase1-min-cost
+
+code: ..
+
+command: >-
+  python azure-foundry/local_insights_optional.py
+  --input ${{inputs.converted_csv}}
+  --mode rule
+  --output ${{outputs.insights_csv}}
+
+inputs:
+  converted_csv:
+    type: uri_file
+
+outputs:
+  insights_csv:
+    type: uri_file
+
+environment:
+  conda_file: azure-foundry/environment-conda.yml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+
+compute: azureml:cpu-cluster
+resources:
+  instance_count: 1
