@@ -72,8 +72,8 @@ def run_e2e_pipeline(input_file):
 
     summary = (
         f"Validation Complete\nStatus: {report['Status']}\nQuality Score: {report['Quality Score']}%\n"
-        f"Rows: {num_rows}\nColumns: {num_cols}\nMissing: {missing}\nAnomalies: {anomalies}\nReport: {report_path}\n"
-        f"Timestamp: {report['Run Metadata']['timestamp']}\nDevice: {report['Run Metadata']['device']}\nPython: {report['Run Metadata']['python_version'].split()[0]}\n"
+        f"Rows: {num_rows}\nColumns: {num_cols}\nMissing Values: {missing}\nAnomalies: {anomalies}\nReport: {report_path}\n"
+        f"Timestamp: {report['Run Metadata']['timestamp']}\n"
         f"Checked Perform: Data loaded, missing values checked, anomalies checked, per-column missing values and types checked, device and environment info captured." + cause_str
     )
 
@@ -87,7 +87,7 @@ with gr.Blocks() as demo:
     <img src='https://img.icons8.com/color/96/verified-account--v1.png' style='height:70px;margin-right:22px;filter:drop-shadow(0 0 12px #f5ba57);'>
     <div style='text-align:left;'>
         <h1 style='font-size:2.7em;margin:0;color:#fff;letter-spacing:2.5px;font-family:Montserrat,sans-serif;text-shadow:0 2px 12px #0f202799;'>
-            <span style='font-size:1.2em;'>📊</span> <span style='color:#f5ba57;'>AI Data Validation</span> <span style='font-size:1.2em;'>🛡️</span>
+            <span style='font-size:1.2em;'>📊</span> <span style='color:#f5ba57;'>Data Quality Gatekeeper</span> <span style='font-size:1.2em;'>🛡️</span>
         </h1>
         <div style='font-size:1.2em;color:#fff;opacity:0.96;text-shadow:0 2px 8px #0f202777;'>
             <b>Upload your CSV, run the pipeline, and download insights!</b> <span style='color:#f5ba57;'>Professional. Private. Powerful.</span>
